@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 )
+
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/{$}", home)
@@ -27,10 +28,18 @@ func listSongs(w http.ResponseWriter, r *http.Request) {
 
 func showSong(w http.ResponseWriter, r *http.Request) {
 	song := r.PathValue("song")
+
+	availableSongs := map[string]bool{
+		"englishman-in-new-york": true,
+	}
+
+	if !availableSongs[song] {
+		http.NotFound(w, r)
+	}
+
 	w.Write([]byte("Requested Song " + song))
 }
 
 func addSong(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Display a form to create a new song"))
 }
-
