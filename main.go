@@ -8,10 +8,10 @@ import (
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /{$}", home)
-	mux.HandleFunc("GET /songbook", listSongs)
-	mux.HandleFunc("GET /songbook/{song}", showSong)
-	mux.HandleFunc("GET /songbook/add", addSong)
-	mux.HandleFunc("POST /songbook/add", addSongPost)
+	mux.HandleFunc("GET /songbook", getSongbook)
+	mux.HandleFunc("GET /songbook/{song}", getSongbookSong)
+	mux.HandleFunc("GET /songbook/add", getSongbookAdd)
+	mux.HandleFunc("POST /songbook/add", postSongbookAdd)
 
 	log.Print("Starting web server, listening on port 8873")
 
@@ -23,11 +23,11 @@ func home(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Hello from kudaai"))
 }
 
-func listSongs(w http.ResponseWriter, r *http.Request) {
+func getSongbook(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Display all songs"))
 }
 
-func showSong(w http.ResponseWriter, r *http.Request) {
+func getSongbookSong(w http.ResponseWriter, r *http.Request) {
 	song := r.PathValue("song")
 
 	availableSongs := map[string]bool{
@@ -41,10 +41,10 @@ func showSong(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Requested Song " + song))
 }
 
-func addSong(w http.ResponseWriter, r *http.Request) {
+func getSongbookAdd(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Display a form to create a new song"))
 }
 
-func addSongPost(w http.ResponseWriter, r *http.Request) {
+func postSongbookAdd(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Add a new song to the songbook ..."))
 }
