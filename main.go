@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -40,7 +41,7 @@ func getSongbookSong(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 	}
 
-	w.Write([]byte("Requested Song " + song))
+	fmt.Fprintf(w, "Requested Song: %s", song)
 }
 
 func getSongbookAdd(w http.ResponseWriter, r *http.Request) {
