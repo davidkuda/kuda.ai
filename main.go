@@ -7,10 +7,11 @@ import (
 
 func main() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/{$}", home)
-	mux.HandleFunc("/songbook", listSongs)
-	mux.HandleFunc("/songbook/{song}", showSong)
-	mux.HandleFunc("/songbook/add", addSong)
+	mux.HandleFunc("GET /{$}", home)
+	mux.HandleFunc("GET /songbook", listSongs)
+	mux.HandleFunc("GET /songbook/{song}", showSong)
+	mux.HandleFunc("GET /songbook/add", addSong)
+	mux.HandleFunc("POST /songbook/add", addSongPost)
 
 	log.Print("Starting web server, listening on port 8873")
 
@@ -42,4 +43,8 @@ func showSong(w http.ResponseWriter, r *http.Request) {
 
 func addSong(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Display a form to create a new song"))
+}
+
+func addSongPost(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Add a new song to the songbook ..."))
 }
