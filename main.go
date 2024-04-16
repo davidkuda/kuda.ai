@@ -20,6 +20,8 @@ func main() {
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Server", "Go")
+	w.Header().Add("Creation-Month-Year", "April-2024")
 	w.Write([]byte("Hello from kudaai"))
 }
 
@@ -46,5 +48,6 @@ func getSongbookAdd(w http.ResponseWriter, r *http.Request) {
 }
 
 func postSongbookAdd(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("Add a new song to the songbook ..."))
 }
