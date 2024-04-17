@@ -11,14 +11,20 @@ func home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "April-2024")
 
-	t, err := template.ParseFiles("./ui/html/pages/home.tmpl.html")
+	tmplFiles := []string{
+		"./ui/html/pages/base.tmpl.html",
+		"./ui/html/pages/home.tmpl.html",
+	}
+
+	t, err := template.ParseFiles(tmplFiles...)
+
 	if err != nil {
 		log.Printf("Error parsing home.tmpl.html: %s", err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 
-	err = t.Execute(w, nil)
+	err = t.ExecuteTemplate(w, "base", nil)
 	if err != nil {
 		log.Printf("Error executing home.tmpl.html: %s", err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
