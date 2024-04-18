@@ -8,6 +8,10 @@ import (
 
 func main() {
 	mux := http.NewServeMux()
+
+	fs := http.FileServer(http.Dir("./ui/static"))
+	mux.Handle("GET /static/", http.StripPrefix("/static", fs))
+
 	mux.HandleFunc("GET /{$}", home)
 	mux.HandleFunc("GET /songbook", getSongbook)
 	mux.HandleFunc("GET /songbook/{song}", getSongbookSong)
