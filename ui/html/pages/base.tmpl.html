@@ -3,19 +3,23 @@
 <html lang='en'>
 
 <head>
-    <meta charset='utf-8'>
     <title>kuda.ai | {{ template "title" . }}</title>
+    <meta charset='utf-8'>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel='shortcut icon' href='/static/img/favicon.ico' type='image/x-icon'>
 </head>
 
 <body>
     <header>
-        <h1><a href='/'>Kuda.ai</a></h1>
-    </header>
+        <div id="heading"><a href='/'>kuda.ai</a></div>
+        <div id="sub-heading">Thoughts On Programming And Guitar.</div>
         {{ template "nav" . }}
+    </header>
     <main>
         {{ template "main" . }}
     </main>
-    <footer>Powered by <a href='https://golang.org/'>Go</a></footer>
+    <footer>Powered by <a href="https://golang.org/">Go</a></footer>
+    <script src="/static/js/main.js" type="text/javascript"></script>
 </body>
 
 </html>
