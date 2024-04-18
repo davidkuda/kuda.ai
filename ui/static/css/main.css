@@ -1,0 +1,78 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+body,
+html {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 1em;
+}
+
+header {
+    background: silver;
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+nav {
+    margin-top: 1em;
+    text-decoration: underline;
+    display: flex;
+}
+
+nav a {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+footer {
+    height: 10wh;
+    background: silver;
+    position: absolute;
+    bottom: 1em;
+    width: auto;
+}
+
+#heading {
+    font-size: 2em;
+}
+
+#sub-heading {
+    font-size: 1.2em;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+
+h2 {
+    font-size: 3.375em;
+}
+
+h3 {
+    font-size: 2.25em;
+}
+
+h4 {
+    font-size: 1.5em;
+}
+
+p {
+    font-size: 100%;
+}
