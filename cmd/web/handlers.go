@@ -5,6 +5,9 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
+
+	"github.com/russross/blackfriday/v2"
 )
 
 func home(w http.ResponseWriter, r *http.Request) {
@@ -33,7 +36,13 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func getSongbook(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Display all songs"))
+	lyrics, err := os.ReadFile("./data/songs/englishman-in-new-york.md")
+	if err != nil {
+		log.Printf("Error reading file: %s", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+	html := blackfriday.Run(lyrics)
+	w.Write(html)
 }
 
 func getSongbookSong(w http.ResponseWriter, r *http.Request) {
