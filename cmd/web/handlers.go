@@ -80,6 +80,24 @@ func getPageBookshelf(w http.ResponseWriter, r *http.Request) {
 	getSimplePage(w, &pageData)
 }
 
+func getPageCV(w http.ResponseWriter, r *http.Request) {
+	// TODO: wouldn't it be nice to generate a beautiful PDF from this site?
+	md, err := os.ReadFile("./data/pages/CV.md")
+
+	if err != nil {
+		log.Printf("Error reading file: %s", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+
+	htmlBytes := blackfriday.Run(md)
+	pageData := Page{
+		Title:   "CV",
+		Content: template.HTML(htmlBytes),
+	}
+
+	getSimplePage(w, &pageData)
+}
+
 func getTitleFromRequestPath(r *http.Request) string {
 	// TODO: use "golang.org/x/text/cases" instead of strings
 	return strings.Title(r.URL.Path[1:])
