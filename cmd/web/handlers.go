@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/russross/blackfriday/v2"
 )
@@ -53,7 +54,7 @@ func getPageAbout(w http.ResponseWriter, r *http.Request) {
 
 	htmlBytes := blackfriday.Run(md)
 	pageData := Page{
-		Title:   "About",
+		Title:   getTitleFromRequestPath(r),
 		Content: template.HTML(htmlBytes),
 	}
 
@@ -68,16 +69,20 @@ func getPageBookshelf(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 
-	// TODO: get Title from path
 	// TODO: How to highlight the nav element that is currently on?
 
 	htmlBytes := blackfriday.Run(md)
 	pageData := Page{
-		Title:   "Bookshelf",
+		Title:   getTitleFromRequestPath(r),
 		Content: template.HTML(htmlBytes),
 	}
 
 	getSimplePage(w, &pageData)
+}
+
+func getTitleFromRequestPath(r *http.Request) string {
+	// TODO: use "golang.org/x/text/cases" instead of strings
+	return strings.Title(r.URL.Path[1:])
 }
 
 func getSimplePage(w http.ResponseWriter, p *Page) {
