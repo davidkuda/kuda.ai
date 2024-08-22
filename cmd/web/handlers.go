@@ -38,6 +38,44 @@ type Song struct {
 	Lyrics template.HTML
 }
 
+type Page struct {
+	Content template.HTML
+}
+
+func getAboutPage(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Server", "Go")
+	w.Header().Add("Creation-Month-Year", "August-2024")
+
+	tmplFiles := []string{
+		"./ui/html/pages/base.tmpl.html",
+		"./ui/html/partials/nav.tmpl.html",
+		"./ui/html/pages/about.tmpl.html",
+	}
+
+	t, err := template.ParseFiles(tmplFiles...)
+	if err != nil {
+		log.Printf("Error parsing home.tmpl.html: %s", err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	content, err := os.ReadFile("./data/pages/about.md")
+
+	if err != nil {
+		log.Printf("Error reading file: %s", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+	html := blackfriday.Run(content)
+	s := Page{template.HTML(html)}
+
+	err = t.ExecuteTemplate(w, "base", s)
+	if err != nil {
+		log.Printf("Error executing home.tmpl.html: %s", err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+}
+
 func getSongbook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "April-2024")
