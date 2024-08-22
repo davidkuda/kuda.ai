@@ -60,6 +60,27 @@ func getAboutPage(w http.ResponseWriter, r *http.Request) {
 	getSimplePage(w, &pageData)
 }
 
+func getBookshelfPage(w http.ResponseWriter, r *http.Request) {
+	md, err := os.ReadFile("./data/pages/bookshelf.md")
+
+	if err != nil {
+		log.Printf("Error reading file: %s", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+
+	// TODO: get Title from path
+	// TODO: rename to getPage{Page}
+	// TODO: How to highlight the nav element that is currently on?
+
+	htmlBytes := blackfriday.Run(md)
+	pageData := Page{
+		Title:   "Bookshelf",
+		Content: template.HTML(htmlBytes),
+	}
+
+	getSimplePage(w, &pageData)
+}
+
 func getSimplePage(w http.ResponseWriter, p *Page) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "August-2024")
