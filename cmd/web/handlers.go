@@ -39,17 +39,35 @@ type Song struct {
 }
 
 type Page struct {
+	Title   string
 	Content template.HTML
 }
 
 func getAboutPage(w http.ResponseWriter, r *http.Request) {
+	md, err := os.ReadFile("./data/pages/about.md")
+
+	if err != nil {
+		log.Printf("Error reading file: %s", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+
+	htmlBytes := blackfriday.Run(md)
+	pageData := Page{
+		Title:   "About",
+		Content: template.HTML(htmlBytes),
+	}
+
+	getSimplePage(w, &pageData)
+}
+
+func getSimplePage(w http.ResponseWriter, p *Page) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "August-2024")
 
 	tmplFiles := []string{
 		"./ui/html/pages/base.tmpl.html",
 		"./ui/html/partials/nav.tmpl.html",
-		"./ui/html/pages/about.tmpl.html",
+		"./ui/html/pages/simplePage.tmpl.html",
 	}
 
 	t, err := template.ParseFiles(tmplFiles...)
@@ -59,16 +77,7 @@ func getAboutPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	content, err := os.ReadFile("./data/pages/about.md")
-
-	if err != nil {
-		log.Printf("Error reading file: %s", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-	}
-	html := blackfriday.Run(content)
-	s := Page{template.HTML(html)}
-
-	err = t.ExecuteTemplate(w, "base", s)
+	err = t.ExecuteTemplate(w, "base", p)
 	if err != nil {
 		log.Printf("Error executing home.tmpl.html: %s", err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
