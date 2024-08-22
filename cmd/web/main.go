@@ -9,8 +9,8 @@ import (
 func main() {
 	mux := http.NewServeMux()
 
-	fs := http.FileServer(http.Dir("./ui/static"))
-	mux.Handle("GET /static/", http.StripPrefix("/static", fs))
+    fileServer := http.FileServer(http.Dir("./ui/static/"))
+    mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
 
 	mux.HandleFunc("GET /{$}", home)
 	mux.HandleFunc("GET /about", getAboutPage)
