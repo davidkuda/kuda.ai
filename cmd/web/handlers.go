@@ -43,7 +43,7 @@ type Page struct {
 	Content template.HTML
 }
 
-func getAboutPage(w http.ResponseWriter, r *http.Request) {
+func getPageAbout(w http.ResponseWriter, r *http.Request) {
 	md, err := os.ReadFile("./data/pages/about.md")
 
 	if err != nil {
@@ -60,7 +60,7 @@ func getAboutPage(w http.ResponseWriter, r *http.Request) {
 	getSimplePage(w, &pageData)
 }
 
-func getBookshelfPage(w http.ResponseWriter, r *http.Request) {
+func getPageBookshelf(w http.ResponseWriter, r *http.Request) {
 	md, err := os.ReadFile("./data/pages/bookshelf.md")
 
 	if err != nil {
@@ -69,7 +69,6 @@ func getBookshelfPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO: get Title from path
-	// TODO: rename to getPage{Page}
 	// TODO: How to highlight the nav element that is currently on?
 
 	htmlBytes := blackfriday.Run(md)

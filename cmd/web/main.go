@@ -13,8 +13,8 @@ func main() {
     mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
 
 	mux.HandleFunc("GET /{$}", home)
-	mux.HandleFunc("GET /about", getAboutPage)
-	mux.HandleFunc("GET /bookshelf", getBookshelfPage)
+	mux.HandleFunc("GET /about", getPageAbout)
+	mux.HandleFunc("GET /bookshelf", getPageBookshelf)
 	mux.HandleFunc("GET /songbook", getSongbook)
 	mux.HandleFunc("GET /songbook/{song}", getSongbookSong)
 	mux.HandleFunc("GET /songbook/add", getSongbookAdd)
