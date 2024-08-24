@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -10,13 +9,66 @@ import (
 	"github.com/russross/blackfriday/v2"
 )
 
+type Songs []Song
+
 type Song struct {
+	ID     string
+	Name   string
+	Artist string
 	Lyrics template.HTML
 }
 
 func getSongbook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "April-2024")
+
+	allSongs := Songs{
+		Song{
+			ID:     "englishman-in-new-york",
+			Name:   "Englishman In New York",
+			Artist: "Sting",
+		},
+		Song{
+			ID:     "englishman-in-new-york",
+			Name:   "Englishman In New York",
+			Artist: "Sting",
+		},
+	}
+
+	tmplFiles := []string{
+		"./ui/html/pages/base.tmpl.html",
+		"./ui/html/partials/nav.tmpl.html",
+		"./ui/html/pages/songbook.tmpl.html",
+	}
+
+	t, err := template.ParseFiles(tmplFiles...)
+	if err != nil {
+		log.Printf("Error parsing home.tmpl.html: %s", err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	err = t.ExecuteTemplate(w, "base", allSongs)
+	if err != nil {
+		log.Printf("Error executing home.tmpl.html: %s", err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+}
+
+func getSongbookSong(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Server", "Go")
+	w.Header().Add("Creation-Month-Year", "August-2024")
+
+	song := r.PathValue("song")
+
+	availableSongs := map[string]bool{
+		"englishman-in-new-york": true,
+	}
+
+	if !availableSongs[song] {
+		http.NotFound(w, r)
+	}
 
 	lyrics, err := os.ReadFile("./data/songs/englishman-in-new-york.md")
 
@@ -25,7 +77,12 @@ func getSongbook(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 	html := blackfriday.Run(lyrics)
-	s := Song{template.HTML(html)}
+	s := Song{
+		ID:     song,
+		Artist: "Sting",
+		Name:   "Englishman In New York",
+		Lyrics: template.HTML(html),
+	}
 
 	tmplFiles := []string{
 		"./ui/html/pages/base.tmpl.html",
@@ -46,20 +103,7 @@ func getSongbook(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-}
 
-func getSongbookSong(w http.ResponseWriter, r *http.Request) {
-	song := r.PathValue("song")
-
-	availableSongs := map[string]bool{
-		"englishman-in-new-york": true,
-	}
-
-	if !availableSongs[song] {
-		http.NotFound(w, r)
-	}
-
-	fmt.Fprintf(w, "Requested Song: %s", song)
 }
 
 func getSongbookAdd(w http.ResponseWriter, r *http.Request) {

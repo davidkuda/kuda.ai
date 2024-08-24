@@ -1,20 +1,15 @@
-<!doctype html>
-<html lang='en'>
+{{ define "title" }}Songbook{{ end }}
 
-<head>
-    <meta charset='utf-8'>
-    <title>Home - Snippetbox</title>
-</head>
+{{ define "main" }}
+<p>I have learned a lot by covering songs and figuring out their chords by by ear. Here I publish my transcriptions.</p>
 
-<body>
-    <header>
-        <h1><a href='/'>Snippetbox</a></h1>
-    </header>
-    <main>
-        <h2>Latest Snippets</h2>
-        <p>There's nothing to see here yet!</p>
-    </main>
-    <footer>Powered by <a href='https://golang.org/'>Go</a></footer>
-</body>
+<p>Occasionally, I find myself with a guitar in front of a group or among other musicians. Then we think about songs. This list is going to help future me in such situations. :)</p>
 
-</html>
+<ul>
+{{ range . }}
+    <li>
+        <a href="/songbook/{{ .ID }}">{{ .Artist }} | {{ .Name }}</a>
+    </li>
+{{ end }}
+</ul>
+{{ end }}

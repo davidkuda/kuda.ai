@@ -1,6 +1,6 @@
-{{ define "title" }}Songbook: Song: Song{{ end }}
+{{ define "title" }}Songbook: {{ .Name }} ({{ .Artist }}){{ end }}
 
 {{ define "main" }}
-<p>Englishman In New York</p>
+<h3>{{ .Name }} ({{ .Artist }})</h3>
 {{ .Lyrics }}
 {{ end }}
