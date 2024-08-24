@@ -56,6 +56,23 @@ func getPageAbout(w http.ResponseWriter, r *http.Request) {
 	getSimplePage(w, &pageData)
 }
 
+func getPageBlog(w http.ResponseWriter, r *http.Request) {
+	md, err := os.ReadFile("./data/pages/blog.md")
+
+	if err != nil {
+		log.Printf("Error reading file: %s", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+
+	htmlBytes := blackfriday.Run(md)
+	pageData := Page{
+		Title:   getTitleFromRequestPath(r),
+		Content: template.HTML(htmlBytes),
+	}
+
+	getSimplePage(w, &pageData)
+}
+
 func getPageBookshelf(w http.ResponseWriter, r *http.Request) {
 	md, err := os.ReadFile("./data/pages/bookshelf.md")
 

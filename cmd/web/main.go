@@ -14,6 +14,7 @@ func main() {
 
 	mux.HandleFunc("GET /{$}", home)
 	mux.HandleFunc("GET /about", getPageAbout)
+	mux.HandleFunc("GET /blog", getPageBlog)
 	mux.HandleFunc("GET /bookshelf", getPageBookshelf)
 	mux.HandleFunc("GET /cv", getPageCV)
 	mux.HandleFunc("GET /songbook", getSongbook)
