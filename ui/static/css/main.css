@@ -7,11 +7,6 @@
     vertical-align: baseline;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
 body,
 html {
     font-family: 'Courier New', Courier, monospace;
@@ -28,13 +23,9 @@ header {
     flex-direction: column;
 }
 
-header #heading {
-    text-decoration: underline;
-}
-
 nav {
     margin-top: 1em;
-    text-decoration: underline;
+    /* text-decoration: underline; */
     display: flex;
 }
 
@@ -43,12 +34,34 @@ nav a {
     margin-right: 1em;
 }
 
+a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+#heading a {
+    text-decoration: none;
+    color: green;
+}
+
+#heading a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 5%;
+}
+
+a:hover {
+    /* Change color on hover */
+    color: coral;
+}
+
+
 main {
     display: flex;
     justify-content: center;
     flex-direction: column;
     /* Restricts the line length to about 65 characters */
-    max-width: 65ch;
+    max-width: 56ch;
+    color: red;
     /* Ensures it takes the full width on smaller screens */
     width: 100%;
     /* Padding for breathing space */
@@ -69,6 +82,7 @@ p {
 }
 
 footer {
+    font-size: 0.5em;
     height: 10wh;
     /* background: silver; */
     /* position: sticky; */
@@ -144,14 +158,9 @@ ol {
     padding-left: 2em;
 }
 
-a {
-    /* Underline links */
-    text-decoration: underline;
-}
-
-a:hover {
-    color: #d93025;
-    /* Change color on hover */
+li {
+    margin-top: 0.2em;
+    margin-bottom: 1em;
 }
 
 strong {
