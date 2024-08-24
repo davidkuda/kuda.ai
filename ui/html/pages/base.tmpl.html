@@ -5,20 +5,20 @@
 <head>
     <title>kuda.ai | {{ template "title" . }}</title>
     <meta charset='utf-8'>
-    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <link rel='shortcut icon' href='/static/img/favicon.ico' type='image/x-icon'>
 </head>
 
 <body>
     <header>
-        <div id="heading"><a href='/'>kuda.ai</a></div>
+            <div id="heading"><a href="/">kuda.ai</a></div>
         <div id="sub-heading">Thoughts on programming and music theory.</div>
         {{ template "nav" . }}
     </header>
     <main>
         {{ template "main" . }}
     </main>
-    <footer>Powered by <a href="https://golang.org/">Go</a></footer>
+    <footer>Made with ❤️  in Berlin and Amden since 2021 | Powered by <a href="https://golang.org/">Go</a></footer>
     <script src="/static/js/main.js" type="text/javascript"></script>
 </body>
 
