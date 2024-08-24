@@ -1,30 +1,23 @@
 ## Bookshelf
 
-I do a lot of reading. Mainly in three categories:
+My reading is mainly in three categories: Computer Science, Novels, Music Theory. Here, I'd like to record my reading in chronological order, give recommendations, and share thoughts.
 
-1. Computer Science
-2. Novels
-3. Music Theory
+## Recommendations
 
-Here, I want to share my thoughts on my reading here.
+### A Philosophy Of Software Design
 
-### Computer Science
-
-#### A Philosophy Of Software Design
-
-Modules should be narrow and deep.
+Modules should be narrow (small interface) deep (a lot of funcitonality).
 
 
-### Novels
+## Chronology
 
-#### Harry Potter
+### 2024
 
-I read all the books in 2023 and I had so much fun. My wife read all the books with me, although she had already read them a few times.
+- **Dune 1** | Frank Herbert | 5/5.
+- **Artemis** | (Andy Weir) | 5/5.
+- **Prometheus: Up And Running (2nd Edition)** | Brian Brazil, Julien Pivotto | 3.5/5. I have spent many hours with that book. I have got good at Prometheus, Grafana and PromQL, but I have found the book to difficult at times, lacking details on a few places, and I was annoyed by all the footnotes. The section on PromQL read more like a dictionary than a course. I wish it would have been more course-like. Although I found it rather inaccessible, I became a better engineer by working through it, and I gained the ability to help my team with monitoring and alerting.
 
+### 2023
 
-### Music Theory
-
-#### Frank Sikora: Jazz-Harmonielehre
-
-I bought this book when I was 17. It was waaaaay too hard for me to understand, especially as a self-taught guitarist without a teacher. I worked with it again in my mid 20s, and many things started clicking.
+**Harry Potter.** 5/5. I read all seven Harry Potter books in 2023 and I had so much fun. My wife read all the books with me, although she had already read them a few times.
 
