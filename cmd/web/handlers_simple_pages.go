@@ -110,6 +110,24 @@ func getPageCV(w http.ResponseWriter, r *http.Request) {
 	getSimplePage(w, &pageData)
 }
 
+func getPageTIL(w http.ResponseWriter, r *http.Request) {
+	md, err := os.ReadFile("./data/pages/til.md")
+
+	if err != nil {
+		log.Printf("Error reading file: %s", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+
+	htmlBytes := blackfriday.Run(md)
+	pageData := Page{
+		Title:   "Today I Learned",
+		Content: template.HTML(htmlBytes),
+	}
+
+	getSimplePage(w, &pageData)
+}
+
+
 func getTitleFromRequestPath(r *http.Request) string {
 	// TODO: use "golang.org/x/text/cases" instead of strings
 	return strings.Title(r.URL.Path[1:])

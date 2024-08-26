@@ -20,6 +20,8 @@ func main() {
 	mux.HandleFunc("GET /songbook/{song}", getSongbookSong)
 	mux.HandleFunc("GET /songbook/add", getSongbookAdd)
 	mux.HandleFunc("POST /songbook/add", postSongbookAdd)
+	mux.HandleFunc("GET /til", getPageTIL)
+	mux.HandleFunc("GET /today-i-learned", getPageTIL)
 
 	log.Print("Starting web server, listening on port 8873")
 
