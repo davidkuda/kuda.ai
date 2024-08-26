@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -9,8 +8,8 @@ import (
 func main() {
 	mux := http.NewServeMux()
 
-    fileServer := http.FileServer(http.Dir("./ui/static/"))
-    mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
+	fileServer := http.FileServer(http.Dir("./ui/static/"))
+	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
 
 	mux.HandleFunc("GET /{$}", home)
 	mux.HandleFunc("GET /about", getPageAbout)
@@ -27,4 +26,3 @@ func main() {
 	err := http.ListenAndServe(":8873", mux)
 	log.Fatal(err)
 }
-
