@@ -7,9 +7,14 @@ import (
 	"net/url"
 	"os"
 
-	_ "github.com/jackc/pgx/v5/stdlib"
+	"github.com/davidkuda/kudaai/internal/models"
 
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
+
+type application struct {
+	songs *models.SongModel
+}
 
 type ConfigFromEnv struct {
 	ListenAddress string
@@ -31,8 +36,12 @@ func main() {
 	}
 	defer db.Close()
 
+	app := &application{
+		songs: &models.SongModel{DB: db},
+	}
+
 	log.Print("Starting web server, listening on port 8873")
-	err = http.ListenAndServe(":8873", routes())
+	err = http.ListenAndServe(":8873", app.routes())
 	log.Fatal(err)
 }
 
