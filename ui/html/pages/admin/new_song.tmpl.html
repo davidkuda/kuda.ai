@@ -1,15 +1,15 @@
 {{ define "title" }}Admin: New Song{{ end }}
 {{ define "main" }}
 <h3>New Song:</h3>
-<form action="" method="post">
+<form action="/songbook" method="post">
   <fieldset>
+
     <div class="grid">
       <label>Song ID:
         <input type="text" name="song-id" placeholder="ID" required />
       </label>
-
-      <label>Artist:
-        <input type="text" name="song-artist" placeholder="Artist" required />
+      <label>Copyright:
+        <input type="text" name="song-copyright" placeholder="Copyright" />
       </label>
     </div>
 
@@ -17,7 +17,6 @@
       <label>Artist:
         <input type="text" name="song-artist" placeholder="Artist" required />
       </label>
-
       <label>Name:
         <input type="text" name="song-name" placeholder="SongName" required />
       </label>
@@ -29,10 +28,6 @@
 
     <label>Lyrics:
       <textarea name="song-lyrics" rows="12" placeholder="Lyrics" aria-label="lyrics"></textarea>
-    </label>
-
-    <label>Copyright:
-      <input type="text" name="song-copyright" placeholder="Copyright" />
     </label>
 
   </fieldset>

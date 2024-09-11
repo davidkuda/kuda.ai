@@ -7,32 +7,19 @@ import (
 	"os"
 
 	"github.com/russross/blackfriday/v2"
+
+	"github.com/davidkuda/kudaai/internal/models"
 )
 
-type Songs []Song
-
-type Song struct {
-	ID     string
-	Name   string
-	Artist string
-	Lyrics template.HTML
-}
-
-func getSongbook(w http.ResponseWriter, r *http.Request) {
+func (app *application) getSongbook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "April-2024")
 
-	allSongs := Songs{
-		Song{
-			ID:     "englishman-in-new-york",
-			Name:   "Englishman In New York",
-			Artist: "Sting",
-		},
-		Song{
-			ID:     "englishman-in-new-york",
-			Name:   "Englishman In New York",
-			Artist: "Sting",
-		},
+	allSongs, err := app.songs.GetAllSongs()
+	if err != nil {
+		log.Printf("Failed getting all songs: %v\n", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
 	}
 
 	tmplFiles := []string{
@@ -77,11 +64,12 @@ func getSongbookSong(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 	html := blackfriday.Run(lyrics)
-	s := Song{
+	s := models.Song{
 		ID:     song,
 		Artist: "Sting",
 		Name:   "Englishman In New York",
-		Lyrics: template.HTML(html),
+		// Lyrics: template.HTML(html),
+		Lyrics: string(html),
 	}
 
 	tmplFiles := []string{
@@ -110,7 +98,31 @@ func getSongbookAdd(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Display a form to create a new song"))
 }
 
-func postSongbookAdd(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusCreated)
+func (app *application) songbookPost(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Add a new song to the songbook ..."))
+
+	err := r.ParseForm()
+	if err != nil {
+		log.Printf("Failed parsing form: %v", err)
+		// TODO: send status 400 Bad Request to the client
+		return
+	}
+
+	f := r.PostForm
+	s := models.Song{
+		ID:        f.Get("song-id"),
+		Artist:    f.Get("song-artist"),
+		Name:      f.Get("song-name"),
+		Lyrics:    f.Get("song-lyrics"),
+		Chords:    f.Get("song-chords"),
+		Copyright: f.Get("song-copyright"),
+		MyCover:   f.Get("song-my-cover"),
+	}
+
+	log.Printf("%+v\n", s)
+
+	app.songs.Insert(&s)
+
+	w.WriteHeader(http.StatusCreated)
+	return
 }

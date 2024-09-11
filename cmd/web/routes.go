@@ -2,7 +2,7 @@ package main
 
 import "net/http"
 
-func routes() *http.ServeMux {
+func (app *application) routes() *http.ServeMux {
 	mux := http.NewServeMux()
 
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
@@ -13,9 +13,9 @@ func routes() *http.ServeMux {
 	mux.HandleFunc("GET /blog", getPageBlog)
 	mux.HandleFunc("GET /bookshelf", getPageBookshelf)
 	mux.HandleFunc("GET /cv", getPageCV)
-	mux.HandleFunc("GET /songbook", getSongbook)
+	mux.HandleFunc("GET /songbook", app.getSongbook)
 	mux.HandleFunc("GET /songbook/{song}", getSongbookSong)
-	mux.HandleFunc("POST /songbook/add", postSongbookAdd)
+	mux.HandleFunc("POST /songbook", app.songbookPost)
 	mux.HandleFunc("GET /til", getPageTIL)
 	mux.HandleFunc("GET /today-i-learned", getPageTIL)
 
