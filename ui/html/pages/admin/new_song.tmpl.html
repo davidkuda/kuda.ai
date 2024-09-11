@@ -1,0 +1,41 @@
+{{ define "title" }}Admin: New Song{{ end }}
+{{ define "main" }}
+<h3>New Song:</h3>
+<form action="" method="post">
+  <fieldset>
+    <div class="grid">
+      <label>Song ID:
+        <input type="text" name="song-id" placeholder="ID" required />
+      </label>
+
+      <label>Artist:
+        <input type="text" name="song-artist" placeholder="Artist" required />
+      </label>
+    </div>
+
+    <div class="grid">
+      <label>Artist:
+        <input type="text" name="song-artist" placeholder="Artist" required />
+      </label>
+
+      <label>Name:
+        <input type="text" name="song-name" placeholder="SongName" required />
+      </label>
+    </div>
+
+    <label>Chords:
+      <textarea name="song-chords" rows="4" placeholder="Chords"></textarea>
+    </label>
+
+    <label>Lyrics:
+      <textarea name="song-lyrics" rows="12" placeholder="Lyrics" aria-label="lyrics"></textarea>
+    </label>
+
+    <label>Copyright:
+      <input type="text" name="song-copyright" placeholder="Copyright" />
+    </label>
+
+  </fieldset>
+  <input type="submit" value="Create" />
+</form>
+{{ end }}

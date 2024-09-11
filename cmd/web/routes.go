@@ -15,10 +15,11 @@ func routes() *http.ServeMux {
 	mux.HandleFunc("GET /cv", getPageCV)
 	mux.HandleFunc("GET /songbook", getSongbook)
 	mux.HandleFunc("GET /songbook/{song}", getSongbookSong)
-	mux.HandleFunc("GET /songbook/add", getSongbookAdd)
 	mux.HandleFunc("POST /songbook/add", postSongbookAdd)
 	mux.HandleFunc("GET /til", getPageTIL)
 	mux.HandleFunc("GET /today-i-learned", getPageTIL)
+
+	mux.HandleFunc("GET /admin/new-song", app.getAdminNewSong)
 
 	return mux
 }
