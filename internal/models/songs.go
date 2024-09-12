@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"html/template"
 	"log"
 )
 
@@ -16,6 +17,11 @@ type Song struct {
 	Copyright string
 	MyCover   string
 	Covers    []string
+
+	HTML struct {
+		Lyrics template.HTML
+		Chords template.HTML
+	}
 }
 
 type SongModel struct {
@@ -39,8 +45,21 @@ func (m *SongModel) Insert(s *Song) error {
 	return nil
 }
 
-func (m *SongModel) Get(id int) (Song, error) {
-	return Song{}, nil
+func (m *SongModel) Get(songID string) (Song, error) {
+	stmt := `select artist, name, lyrics, chords
+	from songbook.songs
+	where id = $1;`
+
+	row := m.DB.QueryRow(stmt, songID)
+
+	s := Song{}
+
+	err := row.Scan(&s.Artist, &s.Name, &s.Lyrics, &s.Chords)
+	if err != nil {
+		return Song{}, err
+	}
+
+	return s, nil
 }
 
 func (m *SongModel) Latest() ([]Song, error) {

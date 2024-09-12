@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"os"
+	"strings"
 
 	"github.com/russross/blackfriday/v2"
 
@@ -44,34 +44,22 @@ func (app *application) getSongbook(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getSongbookSong(w http.ResponseWriter, r *http.Request) {
+func (app *application) songbookSong(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "August-2024")
 
-	song := r.PathValue("song")
+	songName := r.PathValue("song")
 
-	availableSongs := map[string]bool{
-		"englishman-in-new-york": true,
-	}
-
-	if !availableSongs[song] {
-		http.NotFound(w, r)
-	}
-
-	lyrics, err := os.ReadFile("./data/songs/englishman-in-new-york.md")
-
+	song, err := app.songs.Get(songName)
 	if err != nil {
-		log.Printf("Error reading file: %s", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		log.Printf("could not get song \"%v\": %v", songName, err)
+		// TODO: Show a nice 404 page.
+		http.NotFound(w, r)
+		return
 	}
-	html := blackfriday.Run(lyrics)
-	s := models.Song{
-		ID:     song,
-		Artist: "Sting",
-		Name:   "Englishman In New York",
-		// Lyrics: template.HTML(html),
-		Lyrics: string(html),
-	}
+
+	song.HTML.Lyrics = template.HTML(blackfriday.Run([]byte(song.Lyrics)))
+	song.HTML.Chords = template.HTML(blackfriday.Run([]byte(song.Chords)))
 
 	tmplFiles := []string{
 		"./ui/html/pages/base.tmpl.html",
@@ -81,18 +69,17 @@ func getSongbookSong(w http.ResponseWriter, r *http.Request) {
 
 	t, err := template.ParseFiles(tmplFiles...)
 	if err != nil {
-		log.Printf("Error parsing home.tmpl.html: %s", err.Error())
+		log.Printf("Error parsing templates: %s", err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 
-	err = t.ExecuteTemplate(w, "base", s)
+	err = t.ExecuteTemplate(w, "base", song)
 	if err != nil {
-		log.Printf("Error executing home.tmpl.html: %s", err.Error())
+		log.Printf("Error executing templates: %s", err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-
 }
 
 func (app *application) songbookPost(w http.ResponseWriter, r *http.Request) {
@@ -108,8 +95,8 @@ func (app *application) songbookPost(w http.ResponseWriter, r *http.Request) {
 		ID:        f.Get("song-id"),
 		Artist:    f.Get("song-artist"),
 		Name:      f.Get("song-name"),
-		Lyrics:    f.Get("song-lyrics"),
-		Chords:    f.Get("song-chords"),
+		Lyrics:    strings.ReplaceAll(f.Get("song-lyrics"), "\r\n", "\n"),
+		Chords:    strings.ReplaceAll(f.Get("song-chords"), "\r\n", "\n"),
 		Copyright: f.Get("song-copyright"),
 		MyCover:   f.Get("song-my-cover"),
 	}
