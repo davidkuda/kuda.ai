@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -94,13 +95,7 @@ func getSongbookSong(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func getSongbookAdd(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Display a form to create a new song"))
-}
-
 func (app *application) songbookPost(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Add a new song to the songbook ..."))
-
 	err := r.ParseForm()
 	if err != nil {
 		log.Printf("Failed parsing form: %v", err)
@@ -119,10 +114,8 @@ func (app *application) songbookPost(w http.ResponseWriter, r *http.Request) {
 		MyCover:   f.Get("song-my-cover"),
 	}
 
-	log.Printf("%+v\n", s)
-
 	app.songs.Insert(&s)
-
-	w.WriteHeader(http.StatusCreated)
+	// w.WriteHeader(http.StatusCreated)
+	http.Redirect(w, r, fmt.Sprintf("/songbook/%v", s.ID), http.StatusSeeOther)
 	return
 }

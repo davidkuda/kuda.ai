@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"log"
 )
 
 type Songs []Song
@@ -25,8 +26,17 @@ func (m *SongModel) GetAllSongs() (Songs, error) {
 	return nil, nil
 }
 
-func (m *SongModel) Insert(s *Song) (int, error) {
-	return 0, nil
+func (m *SongModel) Insert(s *Song) error {
+	stmt := `insert into songbook.songs (
+				id, artist, name, lyrics, chords, copyright
+			) VALUES ($1, $2, $3, $4, $5, $6);`
+
+	_, err := m.DB.Exec(stmt, s.ID, s.Artist, s.Name, s.Lyrics, s.Chords, s.Copyright)
+	if err != nil {
+		log.Printf("failed executing insert sql: %v", err)
+	}
+
+	return nil
 }
 
 func (m *SongModel) Get(id int) (Song, error) {
