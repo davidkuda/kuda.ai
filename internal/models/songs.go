@@ -29,7 +29,31 @@ type SongModel struct {
 }
 
 func (m *SongModel) GetAllSongs() (Songs, error) {
-	return nil, nil
+	stmt := "select id, artist, name from songbook.songs order by artist"
+
+	rows, err := m.DB.Query(stmt)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var songs Songs
+
+	for rows.Next() {
+		var song Song
+		err = rows.Scan(&song.ID, &song.Artist, &song.Name)
+		if err != nil {
+			return nil, err
+		}
+		songs = append(songs, song)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return songs, nil
 }
 
 func (m *SongModel) Insert(s *Song) error {
