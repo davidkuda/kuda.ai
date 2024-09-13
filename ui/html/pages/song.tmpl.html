@@ -2,9 +2,10 @@
 
 {{ define "main" }}
 <h3>{{ .Name }} ({{ .Artist }})</h3>
-<details>
-    <summary role="button" class="secondary">Chords</summary>
-    <p>{{ .HTML.Chords }}</p>
-</details>
-{{ .HTML.Lyrics }}
-{{ end }}
+
+<pre><code><details>
+<summary>Chords</summary>
+{{ .HTML.Chords }}
+</details></code></pre>
+
+{{ .HTML.Lyrics }}{{ end }}
