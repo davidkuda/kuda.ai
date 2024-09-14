@@ -17,6 +17,7 @@ type UserModel struct {
 	DB *sql.DB
 }
 
+// Creates a new user in the database
 func (m *UserModel) Insert(email, password string) error {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), 15)
 	if err != nil {
