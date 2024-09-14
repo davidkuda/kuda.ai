@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func (app *application) getAdminNewSong(w http.ResponseWriter, r *http.Request) {
+func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
 
 	tmplFiles := []string{
 		"./ui/html/pages/base.tmpl.html",

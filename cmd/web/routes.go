@@ -19,7 +19,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("GET /til", getPageTIL)
 	mux.HandleFunc("GET /today-i-learned", getPageTIL)
 
-	mux.HandleFunc("GET /admin/new-song", app.getAdminNewSong)
+	mux.HandleFunc("GET /admin/new-song", app.adminNewSong)
 
 	return mux
 }
