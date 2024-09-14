@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"errors"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -36,7 +37,29 @@ func (m *UserModel) Insert(email, password string) error {
 }
 
 func (m *UserModel) Authenticate(email, password string) error {
-	return nil
+    var hashedPassword []byte
+
+    stmt := "SELECT email, hashed_password FROM users WHERE email = $1;"
+
+    err := m.DB.QueryRow(stmt, email).Scan(&hashedPassword)
+    if err != nil {
+        if errors.Is(err, sql.ErrNoRows) {
+            return ErrInvalidCredentials
+        } else {
+            return err
+        }
+    }
+
+    err = bcrypt.CompareHashAndPassword(hashedPassword, []byte(password))
+    if err != nil {
+        if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+            return ErrInvalidCredentials
+        } else {
+            return err
+        }
+    }
+
+    return nil
 }
 
 func (m *UserModel) Exists(email string) (bool, error) {

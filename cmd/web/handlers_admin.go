@@ -4,6 +4,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/davidkuda/kudaai/internal/models"
 )
 
 func (app *application) adminLogin(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +30,28 @@ func (app *application) adminLogin(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {}
+func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
+	type userLoginForm struct {
+		email    string
+		password string
+	}
+	err := r.ParseForm()
+	if err != nil {
+		log.Printf("Failed parsing form: %v", err)
+		return
+	}
+	form := userLoginForm{
+		email:    r.PostForm.Get("email"),
+		password: r.PostForm.Get("password"),
+	}
+
+	err = app.users.Authenticate(form.email, form.password)
+	if err != nil {
+		log.Printf("error authenticating user: %v\n", err)
+	}
+
+	// TODO: Now what? :)
+}
 
 func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
 
