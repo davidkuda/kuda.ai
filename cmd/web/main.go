@@ -14,6 +14,7 @@ import (
 
 type application struct {
 	songs *models.SongModel
+	users *models.UserModel
 }
 
 type ConfigFromEnv struct {
@@ -38,6 +39,7 @@ func main() {
 
 	app := &application{
 		songs: &models.SongModel{DB: db},
+		users: &models.UserModel{DB: db},
 	}
 
 	log.Print("Starting web server, listening on port 8873")

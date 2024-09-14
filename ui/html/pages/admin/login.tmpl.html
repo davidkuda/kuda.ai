@@ -1,0 +1,16 @@
+{{ define "title" }}Admin: New Song{{ end }}
+{{ define "main" }}
+<h3>Login:</h3>
+<form action="/admin/login" method="post">
+  <fieldset>
+    <label>email:
+      <input type="email" name="email" placeholder="email@me.ch" autocomplete="email" requiredaria-label="Email" />
+    </label>
+    <label>password:
+      <input type="password" name="password" placeholder="Password" aria-label="Password"
+        autocomplete="current-password">
+    </label>
+  </fieldset>
+  <input type="submit" value="Login" />
+</form>
+{{ end }}
