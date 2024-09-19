@@ -9,6 +9,8 @@ import (
 )
 
 func main() {
+	var err error
+
 	email := flag.String("email", "", "email address of the new user")
 	password := flag.String("password", "", "email address of the new user")
 	flag.Parse()
@@ -27,6 +29,11 @@ func main() {
 	}
 	defer db.Close()
 	m := models.UserModel{DB: db}
-	m.Insert(*email, *password)
+
+	err = m.Insert(*email, *password)
+	if err != nil {
+		log.Fatalf("m.Insert(): failed to create new user: %v\n", err)
+	}
+	log.Println("Inserted new user to DB!")
 }
 
