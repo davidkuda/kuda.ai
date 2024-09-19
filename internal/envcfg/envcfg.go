@@ -2,6 +2,8 @@ package envcfg
 
 import (
 	"database/sql"
+	"encoding/base64"
+	"fmt"
 	"log"
 	"net/url"
 	"os"
@@ -10,45 +12,73 @@ import (
 )
 
 type envcfg struct {
-	DBScheme   string
-	DBAddress  string
-	DBName     string
-	DBUser     string
-	DBPassword string
+	JWT
+}
+
+type JWT struct {
+	Secret []byte
+}
+
+type db struct {
+	Scheme   string
+	Address  string
+	Name     string
+	User     string
+	Password string
+}
+
+func Get() (*envcfg, error) {
+	cfg := envcfg{}
+
+	// JWT:
+	jwt := JWT{
+		Secret: make([]byte, 0, 64),
+	}
+	jwtSecretBase64 := os.Getenv("JWT_SECRET_KEY")
+	if jwtSecretBase64 == "" {
+		return nil, fmt.Errorf("make sure to define JWT_SECRET_KEY in the environment.")
+	}
+	_, err := base64.RawStdEncoding.Decode(jwt.Secret, []byte(jwtSecretBase64))
+	if err != nil {
+		return nil, fmt.Errorf("could not decode base64 env var JWT_SECRET_KEY: %v\n", err)
+	}
+	cfg.JWT = jwt
+
+	return &cfg, nil
 }
 
 func DB() (*sql.DB, error) {
-	c := envcfg{
-		DBScheme:   os.Getenv("DB_SCHEME"),
-		DBAddress:  os.Getenv("DB_ADDRESS"),
-		DBName:     os.Getenv("DB_NAME"),
-		DBUser:     os.Getenv("DB_USER"),
-		DBPassword: os.Getenv("DB_PASSWORD"),
+	c := db{
+		Scheme:   os.Getenv("DB_SCHEME"),
+		Address:  os.Getenv("DB_ADDRESS"),
+		Name:     os.Getenv("DB_NAME"),
+		User:     os.Getenv("DB_USER"),
+		Password: os.Getenv("DB_PASSWORD"),
 	}
 
 	var fail bool
 
-	if c.DBScheme == "" {
+	if c.Scheme == "" {
 		fail = true
 		log.Print("Could not parse env var DB_SCHEME (e.g. postgres or mysql)")
 	}
 
-	if c.DBAddress == "" {
+	if c.Address == "" {
 		fail = true
 		log.Print("Could not parse env var DB_ADDRESS")
 	}
 
-	if c.DBName == "" {
+	if c.Name == "" {
 		fail = true
 		log.Print("Could not parse env var DB_NAME")
 	}
 
-	if c.DBUser == "" {
+	if c.User == "" {
 		fail = true
 		log.Print("Could not parse env var DB_USER")
 	}
 
-	if c.DBPassword == "" {
+	if c.Password == "" {
 		log.Print("Warning: DB_PASSWORD not set")
 	}
 
@@ -57,10 +87,10 @@ func DB() (*sql.DB, error) {
 	}
 
 	dsn := url.URL{
-		Scheme: c.DBScheme,
-		Host:   c.DBAddress,
-		User:   url.UserPassword(c.DBUser, c.DBPassword),
-		Path:   c.DBName,
+		Scheme: c.Scheme,
+		Host:   c.Address,
+		User:   url.UserPassword(c.User, c.Password),
+		Path:   c.Name,
 	}
 
 	db, err := sql.Open("pgx", dsn.String())

@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 
+	"github.com/davidkuda/kudaai/internal/envcfg"
 	"github.com/davidkuda/kudaai/internal/models"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
@@ -15,6 +16,10 @@ import (
 type application struct {
 	songs *models.SongModel
 	users *models.UserModel
+
+	JWT struct {
+		Secret []byte
+	}
 }
 
 type ConfigFromEnv struct {
@@ -28,18 +33,21 @@ type ConfigFromEnv struct {
 }
 
 func main() {
-	c := getConfigFromEnv()
-
-	db, err := openDB(c)
+	c, err := envcfg.Get()
 	if err != nil {
-		log.Fatal(err.Error())
-		os.Exit(1)
+		log.Fatalf("failed parsing conf from env: %v\n", err)
+	}
+
+	db, err := envcfg.DB()
+	if err != nil {
+		log.Fatalf("could not open DB: %v\n", err)
 	}
 	defer db.Close()
 
 	app := &application{
 		songs: &models.SongModel{DB: db},
 		users: &models.UserModel{DB: db},
+		JWT: c.JWT,
 	}
 
 	log.Print("Starting web server, listening on port 8873")
