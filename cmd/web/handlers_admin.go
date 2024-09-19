@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -70,19 +71,28 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.SetCookie(w, &http.Cookie{
-		Name:     "session",
-		Value:    string(jwtBytes),
-		Domain:   "lyricsapi.kuda.ai",
+		Name:  "session",
+		Value: string(jwtBytes),
+		// Domain:   "lyricsapi.kuda.ai",
+		Domain:   "localhost",
 		Expires:  time.Now().Add(24 * time.Hour),
 		Secure:   true,
 		HttpOnly: true,
-		SameSite: http.SameSiteNoneMode,
+		// SameSite: http.SameSiteNoneMode,
 	})
 
 	http.Redirect(w, r, "/admin/new-song", http.StatusSeeOther)
 }
 
 func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
+
+	err := app.checkJWTCookie(r)
+	if err != nil {
+		log.Printf("could not authenticate client: %v", err)
+		http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+	} else {
+		log.Println("Could authenticate client :)")
+	}
 
 	tmplFiles := []string{
 		"./ui/html/pages/base.tmpl.html",
@@ -103,4 +113,30 @@ func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
+}
+
+func (app *application) checkJWTCookie(r *http.Request) error {
+	token, err := r.Cookie("session")
+	if err != nil {
+		return fmt.Errorf("couldn't find cookie: %v", err)
+	}
+
+	claims, err := jwt.HMACCheck([]byte(token.Value), []byte(app.JWT.Secret))
+	if err != nil {
+		return fmt.Errorf("detected invalid signature in jwtCookie: %v", err)
+	}
+
+	if !claims.Valid(time.Now()) {
+		return fmt.Errorf("token no longer valid")
+	}
+
+	if claims.Issuer != "kuda.ai" {
+		return fmt.Errorf("token has invalid issuer: %v", err)
+	}
+
+	if !claims.AcceptAudience("kuda.ai") {
+		return fmt.Errorf("token is not in accepted audience: %v", err)
+	}
+
+	return nil
 }
