@@ -3,7 +3,6 @@ package envcfg
 import (
 	"database/sql"
 	"encoding/base64"
-	"fmt"
 	"log"
 	"net/url"
 	"os"
@@ -27,24 +26,30 @@ type db struct {
 	Password string
 }
 
-func Get() (*envcfg, error) {
+func Get() *envcfg {
 	cfg := envcfg{}
+	cfg.JWT = parseJWT()
+	return &cfg
+}
 
-	// JWT:
-	jwt := JWT{
-		Secret: make([]byte, 0, 64),
-	}
+func parseJWT() JWT {
+	jwt := JWT{}
+
 	jwtSecretBase64 := os.Getenv("JWT_SECRET_KEY")
 	if jwtSecretBase64 == "" {
-		return nil, fmt.Errorf("make sure to define JWT_SECRET_KEY in the environment.")
+		log.Fatal("make sure to define JWT_SECRET_KEY in the environment.")
 	}
-	_, err := base64.RawStdEncoding.Decode(jwt.Secret, []byte(jwtSecretBase64))
-	if err != nil {
-		return nil, fmt.Errorf("could not decode base64 env var JWT_SECRET_KEY: %v\n", err)
-	}
-	cfg.JWT = jwt
 
-	return &cfg, nil
+	log.Println("works")
+
+	s, err := base64.StdEncoding.DecodeString(jwtSecretBase64)
+	if err != nil {
+		log.Fatalf("could not decode base64 env var JWT_SECRET_KEY: %v\n", err)
+	}
+
+	jwt.Secret = s
+
+	return jwt
 }
 
 func DB() (*sql.DB, error) {
