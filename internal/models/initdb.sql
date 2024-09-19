@@ -12,5 +12,5 @@ create table if not exists songbook.songs (
 CREATE TABLE users (
     email VARCHAR(255) PRIMARY KEY,
     hashed_password CHAR(60) NOT NULL,
-    created DATETIME NOT NULL
+    created_at timestamp(0) with time zone NOT NULL DEFAULT NOW()
 );

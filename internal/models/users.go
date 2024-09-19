@@ -25,13 +25,13 @@ func (m *UserModel) Insert(email, password string) error {
 		return err
 	}
 
-	stmt := `INSERT INTO users (email, hashed_password, created)
-    VALUES($1, $2, UTC_TIMESTAMP());`
+	stmt := `INSERT INTO users (email, hashed_password) VALUES($1, $2);`
 
-	_, err = m.DB.Exec(stmt, email, string(hashedPassword))
+	result, err := m.DB.Exec(stmt, email, string(hashedPassword))
 	if err != nil {
 		return err
 	}
+	result.RowsAffected()
 
 	return nil
 }
