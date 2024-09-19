@@ -4,8 +4,9 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 
-	"github.com/davidkuda/kudaai/internal/models"
+	"github.com/pascaldekloe/jwt"
 )
 
 func (app *application) adminLogin(w http.ResponseWriter, r *http.Request) {
@@ -48,9 +49,26 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 	err = app.users.Authenticate(form.email, form.password)
 	if err != nil {
 		log.Printf("error authenticating user: %v\n", err)
+		return
 	}
 
-	// TODO: Now what? :)
+	var claims jwt.Claims
+	claims.Subject = form.email
+	claims.Issued = jwt.NewNumericTime(time.Now())
+	claims.NotBefore = jwt.NewNumericTime(time.Now())
+	claims.Expires = jwt.NewNumericTime(time.Now().Add(24 * time.Hour))
+	claims.Issuer = "kuda.ai"
+	claims.Audiences = []string{"kuda.ai"}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     "session",
+		Value:    "jwt",
+		Domain:   "lyricsapi.kuda.ai",
+		Expires:  time.Now().Add(24 * time.Hour),
+		Secure:   true,
+		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode,
+	})
 }
 
 func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
