@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -37,29 +38,29 @@ func (m *UserModel) Insert(email, password string) error {
 }
 
 func (m *UserModel) Authenticate(email, password string) error {
-    var hashedPassword []byte
+	var hashedPassword []byte
 
-    stmt := "SELECT email, hashed_password FROM users WHERE email = $1;"
+	stmt := "SELECT hashed_password FROM users WHERE email = $1;"
 
-    err := m.DB.QueryRow(stmt, email).Scan(&hashedPassword)
-    if err != nil {
-        if errors.Is(err, sql.ErrNoRows) {
-            return ErrInvalidCredentials
-        } else {
-            return err
-        }
-    }
+	err := m.DB.QueryRow(stmt, email).Scan(&hashedPassword)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return ErrInvalidCredentials
+		} else {
+			return fmt.Errorf("DB.QueryRow(): %v", err)
+		}
+	}
 
-    err = bcrypt.CompareHashAndPassword(hashedPassword, []byte(password))
-    if err != nil {
-        if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
-            return ErrInvalidCredentials
-        } else {
-            return err
-        }
-    }
+	err = bcrypt.CompareHashAndPassword(hashedPassword, []byte(password))
+	if err != nil {
+		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+			return ErrInvalidCredentials
+		} else {
+			return fmt.Errorf("failed to compare password: %v", err)
+		}
+	}
 
-    return nil
+	return nil
 }
 
 func (m *UserModel) Exists(email string) (bool, error) {

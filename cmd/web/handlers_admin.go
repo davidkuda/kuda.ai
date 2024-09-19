@@ -39,6 +39,7 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		log.Printf("Failed parsing form: %v", err)
+		http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
 		return
 	}
 	form := userLoginForm{
@@ -49,6 +50,7 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 	err = app.users.Authenticate(form.email, form.password)
 	if err != nil {
 		log.Printf("error authenticating user: %v\n", err)
+		http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
 		return
 	}
 
@@ -60,15 +62,24 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 	claims.Issuer = "kuda.ai"
 	claims.Audiences = []string{"kuda.ai"}
 
+	jwtBytes, err := claims.HMACSign(jwt.HS256, []byte(app.JWT.Secret))
+	if err != nil {
+		log.Printf("error signing jwt: %v\n", err)
+		http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		return
+	}
+
 	http.SetCookie(w, &http.Cookie{
 		Name:     "session",
-		Value:    "jwt",
+		Value:    string(jwtBytes),
 		Domain:   "lyricsapi.kuda.ai",
 		Expires:  time.Now().Add(24 * time.Hour),
 		Secure:   true,
 		HttpOnly: true,
 		SameSite: http.SameSiteNoneMode,
 	})
+
+	http.Redirect(w, r, "/admin/new-song", http.StatusSeeOther)
 }
 
 func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
