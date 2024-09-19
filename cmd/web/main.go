@@ -22,10 +22,7 @@ type application struct {
 func main() {
 	app := &application{}
 
-	c, err := envcfg.Get()
-	if err != nil {
-		log.Fatalf("failed parsing conf from env: %v\n", err)
-	}
+	c := envcfg.Get()
 
 	app.JWT = c.JWT
 
