@@ -1,12 +1,36 @@
 {{ define "nav" }}
 <nav>
 	<ul>
-		<li><a href="/about">About</a></li>
-		<li><a href="/blog">Blog</a></li>
-		<li><a href="/bookshelf">Bookshelf</a></li>
-		<li><a href="/cv">CV</a></li>
-		<li><a href="/songbook">Songbook</a></li>
-		<li><a href="/today-i-learned">TIL</a></li>
+		<li>
+			<a href="/about" {{if eq .CurrentPath "/about" }}class="active" {{end}}>
+				About
+			</a>
+		</li>
+		<li>
+			<a href="/blog" {{if eq .CurrentPath "/blog" }}class="active" {{end}}>
+				Blog
+			</a>
+		</li>
+		<li>
+			<a href="/bookshelf" {{if eq .CurrentPath "/bookshelf" }}class="active" {{end}}>
+				Bookshelf
+			</a>
+		</li>
+		<li>
+			<a href="/cv" {{if eq .CurrentPath "/cv" }}class="active" {{end}}>
+				CV
+			</a>
+		</li>
+		<li>
+			<a href="/songbook" {{if eq .CurrentPath "/songbook" }}class="active" {{end}}>
+				Songbook
+			</a>
+		</li>
+		<li>
+			<a href="/today-i-learned" {{if eq .CurrentPath "/today-i-learned" }}class="active" {{end}}>
+				TIL
+			</a>
+		</li>
 	</ul>
 </nav>
 {{ end }}

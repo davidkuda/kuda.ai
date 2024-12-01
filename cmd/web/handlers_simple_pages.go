@@ -10,6 +10,12 @@ import (
 	"github.com/russross/blackfriday/v2"
 )
 
+type Page struct {
+	Title       string
+	Content     template.HTML
+	CurrentPath string
+}
+
 func home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "April-2024")
@@ -27,16 +33,27 @@ func home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = t.ExecuteTemplate(w, "base", nil)
+	p := Page{
+		Title:       "kuda.ai | home",
+		Content:     "hello world",
+		CurrentPath: getRootPath(r.URL.Path),
+	}
+
+	err = t.ExecuteTemplate(w, "base", p)
 	if err != nil {
 		log.Printf("Error executing home.tmpl.html: %s", err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 }
 
-type Page struct {
-	Title   string
-	Content template.HTML
+func getRootPath(path string) string {
+	var i int
+	for i = 1; i < len(path); i++ {
+		if path[i] == '/' {
+			break
+		}
+	}
+	return path[0:i]
 }
 
 func getPageAbout(w http.ResponseWriter, r *http.Request) {
@@ -47,10 +64,14 @@ func getPageAbout(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 
+	log.Println(r.URL.Path)
+	log.Println(getRootPath(r.URL.Path))
+
 	htmlBytes := blackfriday.Run(md)
 	pageData := Page{
-		Title:   getTitleFromRequestPath(r),
-		Content: template.HTML(htmlBytes),
+		Title:       getTitleFromRequestPath(r),
+		Content:     template.HTML(htmlBytes),
+		CurrentPath: getRootPath(r.URL.Path),
 	}
 
 	getSimplePage(w, &pageData)
@@ -66,8 +87,9 @@ func getPageBlog(w http.ResponseWriter, r *http.Request) {
 
 	htmlBytes := blackfriday.Run(md)
 	pageData := Page{
-		Title:   getTitleFromRequestPath(r),
-		Content: template.HTML(htmlBytes),
+		Title:       getTitleFromRequestPath(r),
+		Content:     template.HTML(htmlBytes),
+		CurrentPath: getRootPath(r.URL.Path),
 	}
 
 	getSimplePage(w, &pageData)
@@ -85,8 +107,9 @@ func getPageBookshelf(w http.ResponseWriter, r *http.Request) {
 
 	htmlBytes := blackfriday.Run(md)
 	pageData := Page{
-		Title:   getTitleFromRequestPath(r),
-		Content: template.HTML(htmlBytes),
+		Title:       getTitleFromRequestPath(r),
+		Content:     template.HTML(htmlBytes),
+		CurrentPath: getRootPath(r.URL.Path),
 	}
 
 	getSimplePage(w, &pageData)
@@ -103,8 +126,9 @@ func getPageCV(w http.ResponseWriter, r *http.Request) {
 
 	htmlBytes := blackfriday.Run(md)
 	pageData := Page{
-		Title:   "CV",
-		Content: template.HTML(htmlBytes),
+		Title:       "CV",
+		Content:     template.HTML(htmlBytes),
+		CurrentPath: getRootPath(r.URL.Path),
 	}
 
 	getSimplePage(w, &pageData)
@@ -120,13 +144,13 @@ func getPageTIL(w http.ResponseWriter, r *http.Request) {
 
 	htmlBytes := blackfriday.Run(md)
 	pageData := Page{
-		Title:   "Today I Learned",
-		Content: template.HTML(htmlBytes),
+		Title:       "Today I Learned",
+		Content:     template.HTML(htmlBytes),
+		CurrentPath: getRootPath(r.URL.Path),
 	}
 
 	getSimplePage(w, &pageData)
 }
-
 
 func getTitleFromRequestPath(r *http.Request) string {
 	// TODO: use "golang.org/x/text/cases" instead of strings
