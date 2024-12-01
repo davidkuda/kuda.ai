@@ -16,36 +16,6 @@ type Page struct {
 	CurrentPath string
 }
 
-func newPageFromMarkdown(markdown []byte, r *http.Request) *Page {
-	htmlBytes := blackfriday.Run(markdown)
-	content := template.HTML(htmlBytes)
-	pageData := newPage(content, r)
-	return &pageData
-}
-
-func newPage(content template.HTML, r *http.Request) Page {
-	return Page{
-		Title:       getTitleFromRequestPath(r),
-		Content:     content,
-		CurrentPath: getRootPath(r.URL.Path),
-	}
-}
-
-func getTitleFromRequestPath(r *http.Request) string {
-	// TODO: use "golang.org/x/text/cases" instead of strings
-	return strings.Title(r.URL.Path[1:])
-}
-
-func getRootPath(path string) string {
-	var i int
-	for i = 1; i < len(path); i++ {
-		if path[i] == '/' {
-			break
-		}
-	}
-	return path[0:i]
-}
-
 func home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "April-2024")
@@ -132,6 +102,37 @@ func getPageTIL(w http.ResponseWriter, r *http.Request) {
 	pageData := newPageFromMarkdown(md, r)
 	pageData.Title = "Today I Learned"
 	renderSimplePage(w, pageData)
+}
+
+
+func newPageFromMarkdown(markdown []byte, r *http.Request) *Page {
+	htmlBytes := blackfriday.Run(markdown)
+	content := template.HTML(htmlBytes)
+	pageData := newPage(content, r)
+	return &pageData
+}
+
+func newPage(content template.HTML, r *http.Request) Page {
+	return Page{
+		Title:       getTitleFromRequestPath(r),
+		Content:     content,
+		CurrentPath: getRootPath(r.URL.Path),
+	}
+}
+
+func getTitleFromRequestPath(r *http.Request) string {
+	// TODO: use "golang.org/x/text/cases" instead of strings
+	return strings.Title(r.URL.Path[1:])
+}
+
+func getRootPath(path string) string {
+	var i int
+	for i = 1; i < len(path); i++ {
+		if path[i] == '/' {
+			break
+		}
+	}
+	return path[0:i]
 }
 
 func renderSimplePage(w http.ResponseWriter, p *Page) {
