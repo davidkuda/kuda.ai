@@ -24,6 +24,21 @@ func newPage(content template.HTML, r *http.Request) Page {
 	}
 }
 
+func getTitleFromRequestPath(r *http.Request) string {
+	// TODO: use "golang.org/x/text/cases" instead of strings
+	return strings.Title(r.URL.Path[1:])
+}
+
+func getRootPath(path string) string {
+	var i int
+	for i = 1; i < len(path); i++ {
+		if path[i] == '/' {
+			break
+		}
+	}
+	return path[0:i]
+}
+
 func home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "April-2024")
@@ -52,16 +67,6 @@ func home(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Error executing home.tmpl.html: %s", err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
-}
-
-func getRootPath(path string) string {
-	var i int
-	for i = 1; i < len(path); i++ {
-		if path[i] == '/' {
-			break
-		}
-	}
-	return path[0:i]
 }
 
 func getPageAbout(w http.ResponseWriter, r *http.Request) {
@@ -140,11 +145,6 @@ func getPageTIL(w http.ResponseWriter, r *http.Request) {
 	pageData.Title = "Today I Learned"
 
 	getSimplePage(w, &pageData)
-}
-
-func getTitleFromRequestPath(r *http.Request) string {
-	// TODO: use "golang.org/x/text/cases" instead of strings
-	return strings.Title(r.URL.Path[1:])
 }
 
 func getSimplePage(w http.ResponseWriter, p *Page) {
