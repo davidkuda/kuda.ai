@@ -84,7 +84,7 @@ func getPageAbout(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pageData := newPageFromMarkdown(md, r)
-	getSimplePage(w, pageData)
+	renderSimplePage(w, pageData)
 }
 
 func getPageBlog(w http.ResponseWriter, r *http.Request) {
@@ -95,7 +95,7 @@ func getPageBlog(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pageData := newPageFromMarkdown(md, r)
-	getSimplePage(w, pageData)
+	renderSimplePage(w, pageData)
 }
 
 func getPageBookshelf(w http.ResponseWriter, r *http.Request) {
@@ -106,7 +106,7 @@ func getPageBookshelf(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pageData := newPageFromMarkdown(md, r)
-	getSimplePage(w, pageData)
+	renderSimplePage(w, pageData)
 }
 
 func getPageCV(w http.ResponseWriter, r *http.Request) {
@@ -119,7 +119,7 @@ func getPageCV(w http.ResponseWriter, r *http.Request) {
 
 	pageData := newPageFromMarkdown(md, r)
 	pageData.Title = "CV"
-	getSimplePage(w, pageData)
+	renderSimplePage(w, pageData)
 }
 
 func getPageTIL(w http.ResponseWriter, r *http.Request) {
@@ -131,10 +131,10 @@ func getPageTIL(w http.ResponseWriter, r *http.Request) {
 
 	pageData := newPageFromMarkdown(md, r)
 	pageData.Title = "Today I Learned"
-	getSimplePage(w, pageData)
+	renderSimplePage(w, pageData)
 }
 
-func getSimplePage(w http.ResponseWriter, p *Page) {
+func renderSimplePage(w http.ResponseWriter, p *Page) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "August-2024")
 
