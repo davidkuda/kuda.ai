@@ -16,6 +16,14 @@ type Page struct {
 	CurrentPath string
 }
 
+func newPage(content template.HTML, r *http.Request) Page {
+	return Page{
+		Title:       getTitleFromRequestPath(r),
+		Content:     content,
+		CurrentPath: getRootPath(r.URL.Path),
+	}
+}
+
 func home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "April-2024")
@@ -64,15 +72,9 @@ func getPageAbout(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 
-	log.Println(r.URL.Path)
-	log.Println(getRootPath(r.URL.Path))
-
 	htmlBytes := blackfriday.Run(md)
-	pageData := Page{
-		Title:       getTitleFromRequestPath(r),
-		Content:     template.HTML(htmlBytes),
-		CurrentPath: getRootPath(r.URL.Path),
-	}
+	content := template.HTML(htmlBytes)
+	pageData := newPage(content, r)
 
 	getSimplePage(w, &pageData)
 }
@@ -86,11 +88,8 @@ func getPageBlog(w http.ResponseWriter, r *http.Request) {
 	}
 
 	htmlBytes := blackfriday.Run(md)
-	pageData := Page{
-		Title:       getTitleFromRequestPath(r),
-		Content:     template.HTML(htmlBytes),
-		CurrentPath: getRootPath(r.URL.Path),
-	}
+	content := template.HTML(htmlBytes)
+	pageData := newPage(content, r)
 
 	getSimplePage(w, &pageData)
 }
@@ -103,14 +102,9 @@ func getPageBookshelf(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 
-	// TODO: How to highlight the nav element that is currently on?
-
 	htmlBytes := blackfriday.Run(md)
-	pageData := Page{
-		Title:       getTitleFromRequestPath(r),
-		Content:     template.HTML(htmlBytes),
-		CurrentPath: getRootPath(r.URL.Path),
-	}
+	content := template.HTML(htmlBytes)
+	pageData := newPage(content, r)
 
 	getSimplePage(w, &pageData)
 }
@@ -125,11 +119,9 @@ func getPageCV(w http.ResponseWriter, r *http.Request) {
 	}
 
 	htmlBytes := blackfriday.Run(md)
-	pageData := Page{
-		Title:       "CV",
-		Content:     template.HTML(htmlBytes),
-		CurrentPath: getRootPath(r.URL.Path),
-	}
+	content := template.HTML(htmlBytes)
+	pageData := newPage(content, r)
+	pageData.Title = "CV"
 
 	getSimplePage(w, &pageData)
 }
@@ -143,11 +135,9 @@ func getPageTIL(w http.ResponseWriter, r *http.Request) {
 	}
 
 	htmlBytes := blackfriday.Run(md)
-	pageData := Page{
-		Title:       "Today I Learned",
-		Content:     template.HTML(htmlBytes),
-		CurrentPath: getRootPath(r.URL.Path),
-	}
+	content := template.HTML(htmlBytes)
+	pageData := newPage(content, r)
+	pageData.Title = "Today I Learned"
 
 	getSimplePage(w, &pageData)
 }
