@@ -1,36 +1,79 @@
 {{ define "nav" }}
 <nav>
 	<ul>
+
+		{{ if eq .CurrentPath "/about" }}
+		<li class="active">
+			About
+		</li>
+		{{ else }}
 		<li>
-			<a href="/about" {{if eq .CurrentPath "/about" }}class="active" {{end}}>
+			<a href="/about">
 				About
 			</a>
 		</li>
+		{{ end }}
+
+		{{ if eq .CurrentPath "/blog" }}
+		<li class="active">
+			Blog
+		</li>
+		{{ else }}
 		<li>
-			<a href="/blog" {{if eq .CurrentPath "/blog" }}class="active" {{end}}>
+			<a href="/blog">
 				Blog
 			</a>
 		</li>
+		{{ end }}
+
+		{{ if eq .CurrentPath "/bookshelf" }}
+		<li class="active">
+			Bookshelf
+		</li>
+		{{ else }}
 		<li>
-			<a href="/bookshelf" {{if eq .CurrentPath "/bookshelf" }}class="active" {{end}}>
+			<a href="/bookshelf">
 				Bookshelf
 			</a>
 		</li>
+		{{ end }}
+
+		{{ if eq .CurrentPath "/cv" }}
+		<li class="active">
+			CV
+		</li>
+		{{ else }}
 		<li>
-			<a href="/cv" {{if eq .CurrentPath "/cv" }}class="active" {{end}}>
+			<a href="/cv">
 				CV
 			</a>
 		</li>
+		{{ end }}
+
+		{{ if eq .CurrentPath "/songbook" }}
+		<li class="active">
+			Songbook
+		</li>
+		{{ else }}
 		<li>
-			<a href="/songbook" {{if eq .CurrentPath "/songbook" }}class="active" {{end}}>
+			<a href="/songbook">
 				Songbook
 			</a>
 		</li>
+		{{ end }}
+
+		{{ if eq .CurrentPath "/today-i-learned" }}
+		<li class="active">
+			TIL
+		</li>
+		{{ else }}
 		<li>
-			<a href="/today-i-learned" {{if eq .CurrentPath "/today-i-learned" }}class="active" {{end}}>
+			<a href="/today-i-learned">
 				TIL
 			</a>
 		</li>
+		{{ end }}
+
 	</ul>
 </nav>
 {{ end }}
