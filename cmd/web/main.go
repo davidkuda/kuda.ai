@@ -20,6 +20,8 @@ type application struct {
 }
 
 func main() {
+	addr := flag.String("addr", ":8873", "HTTP network address")
+
 	app := &application{}
 
 	c := envcfg.Get()
@@ -36,6 +38,6 @@ func main() {
 	app.users = &models.UserModel{DB: db}
 
 	log.Print("Starting web server, listening on port 8873")
-	err = http.ListenAndServe(":8873", app.routes())
+	err = http.ListenAndServe(*addr, app.routes())
 	log.Fatal(err)
 }
