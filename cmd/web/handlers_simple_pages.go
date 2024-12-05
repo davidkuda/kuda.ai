@@ -15,6 +15,21 @@ type Page struct {
 	CurrentPath string
 }
 
+func newPageFromMarkdown(markdown []byte, r *http.Request) *Page {
+	htmlBytes := blackfriday.Run(markdown)
+	content := template.HTML(htmlBytes)
+	pageData := newPage(content, r)
+	return &pageData
+}
+
+func newPage(content template.HTML, r *http.Request) Page {
+	return Page{
+		Title:       getTitleFromRequestPath(r),
+		Content:     content,
+		CurrentPath: getRootPath(r.URL.Path),
+	}
+}
+
 func home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Creation-Month-Year", "April-2024")
@@ -81,19 +96,4 @@ func getPageTIL(w http.ResponseWriter, r *http.Request) {
 	pageData := newPageFromMarkdown(md, r)
 	pageData.Title = "Today I Learned"
 	renderPageSimple(w, pageData)
-}
-
-func newPageFromMarkdown(markdown []byte, r *http.Request) *Page {
-	htmlBytes := blackfriday.Run(markdown)
-	content := template.HTML(htmlBytes)
-	pageData := newPage(content, r)
-	return &pageData
-}
-
-func newPage(content template.HTML, r *http.Request) Page {
-	return Page{
-		Title:       getTitleFromRequestPath(r),
-		Content:     content,
-		CurrentPath: getRootPath(r.URL.Path),
-	}
 }
