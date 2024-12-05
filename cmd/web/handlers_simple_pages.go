@@ -33,6 +33,10 @@ func getPageAbout(w http.ResponseWriter, r *http.Request) {
 	renderPageSimple(w, pageData)
 }
 
+func (app *application) blog(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, 200, "simplePage.html.tmpl", nil)
+}
+
 func getPageBlog(w http.ResponseWriter, r *http.Request) {
 	md, err := os.ReadFile("./data/pages/blog.md")
 	if err != nil {
