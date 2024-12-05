@@ -24,5 +24,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("POST /admin/login", app.adminLoginPost)
 	mux.HandleFunc("GET /admin/new-song", app.adminNewSong)
 
+	mux.HandleFunc("GET /finances", app.finances)
+
 	return mux
 }
