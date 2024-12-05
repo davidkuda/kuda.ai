@@ -84,7 +84,6 @@ func getPageTIL(w http.ResponseWriter, r *http.Request) {
 	renderPageSimple(w, pageData)
 }
 
-
 func newPageFromMarkdown(markdown []byte, r *http.Request) *Page {
 	htmlBytes := blackfriday.Run(markdown)
 	content := template.HTML(htmlBytes)
@@ -127,7 +126,7 @@ func renderPageSimple(w http.ResponseWriter, p *Page) {
 
 	t, err := template.ParseFiles(tmplFiles...)
 	if err != nil {
-		log.Printf("Error parsing home.tmpl.html: %s", err.Error())
+		log.Printf("Error parsing template files: %s", err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
