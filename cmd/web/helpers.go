@@ -11,15 +11,17 @@ import (
 )
 
 type templateData struct {
-	Songs           models.Songs
-	Song            models.Song
-	CurrentRootPath string
+	Title    string
+	RootPath string
+	HTML     template.HTML
+	Songs    models.Songs
+	Song     *models.Song
 }
 
 func (app *application) render(w http.ResponseWriter, r *http.Request, status int, page string, data *templateData) {
 	ts, ok := app.templateCache[page]
 	if !ok {
-		err := fmt.Errorf("the template %s does not exist", page)
+		err := fmt.Errorf("couldn't find template \"%s\" in app.templateCache", page)
 		app.serverError(w, r, err)
 		return
 	}

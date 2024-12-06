@@ -2,7 +2,7 @@
 <nav>
 	<ul>
 
-		{{ if eq .CurrentPath "/about" }}
+		{{ if eq .RootPath "/about" }}
 		<li class="active">
 			About
 		</li>
@@ -14,7 +14,7 @@
 		</li>
 		{{ end }}
 
-		{{ if eq .CurrentPath "/blog" }}
+		{{ if eq .RootPath "/blog" }}
 		<li class="active">
 			Blog
 		</li>
@@ -26,7 +26,7 @@
 		</li>
 		{{ end }}
 
-		{{ if eq .CurrentPath "/bookshelf" }}
+		{{ if eq .RootPath "/bookshelf" }}
 		<li class="active">
 			Bookshelf
 		</li>
@@ -38,7 +38,7 @@
 		</li>
 		{{ end }}
 
-		{{ if eq .CurrentPath "/cv" }}
+		{{ if eq .RootPath "/cv" }}
 		<li class="active">
 			CV
 		</li>
@@ -50,7 +50,7 @@
 		</li>
 		{{ end }}
 
-		{{ if eq .CurrentPath "/songbook" }}
+		{{ if eq .RootPath "/songbook" }}
 		<li class="active">
 			Songbook
 		</li>
@@ -62,7 +62,7 @@
 		</li>
 		{{ end }}
 
-		{{ if eq .CurrentPath "/today-i-learned" }}
+		{{ if eq .RootPath "/today-i-learned" }}
 		<li class="active">
 			TIL
 		</li>

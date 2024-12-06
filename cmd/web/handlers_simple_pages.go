@@ -48,7 +48,21 @@ func getPageAbout(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) blog(w http.ResponseWriter, r *http.Request) {
-	app.render(w, r, 200, "simplePage.html.tmpl", nil)
+	md, err := os.ReadFile("./data/pages/about.md")
+	if err != nil {
+		log.Printf("Error reading file: %s", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+	htmlBytes := blackfriday.Run(md)
+	content := template.HTML(htmlBytes)
+
+	t := templateData{
+		Title:    "Blog",
+		RootPath: "/blog",
+		HTML:     content,
+	}
+
+	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
 
 func getPageBlog(w http.ResponseWriter, r *http.Request) {

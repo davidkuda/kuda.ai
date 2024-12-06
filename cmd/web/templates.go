@@ -9,7 +9,7 @@ import (
 func newTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
 
-	pages, err := filepath.Glob("./ui/html/pages/*.tmpl")
+	pages, err := filepath.Glob("./ui/html/pages/*.tmpl.html")
 	if err != nil {
 		return nil, err
 	}
@@ -18,8 +18,8 @@ func newTemplateCache() (map[string]*template.Template, error) {
 		name := filepath.Base(page)
 
 		files := []string{
-			"./ui/html/base.tmpl",
-			"./ui/html/partials/nav.tmpl",
+			"./ui/html/pages/base.tmpl.html",
+			"./ui/html/partials/nav.tmpl.html",
 			page,
 		}
 
