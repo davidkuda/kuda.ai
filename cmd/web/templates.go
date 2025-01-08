@@ -3,8 +3,36 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"net/http"
 	"path/filepath"
+
+	"github.com/davidkuda/kudaai/internal/models"
 )
+
+type templateData struct {
+	Title    string
+	RootPath string
+	HTML     template.HTML
+	Songs    models.Songs
+	Song     *models.Song
+}
+
+func (app *application) render(w http.ResponseWriter, r *http.Request, status int, page string, data *templateData) {
+	ts, ok := app.templateCache[page]
+	if !ok {
+		err := fmt.Errorf("couldn't find template \"%s\" in app.templateCache", page)
+		app.serverError(w, r, err)
+		return
+	}
+
+	w.WriteHeader(status)
+
+	err := ts.ExecuteTemplate(w, "base", data)
+	if err != nil {
+		errMsg := fmt.Errorf("error executing templates: %s", err.Error())
+		app.serverError(w, r, errMsg)
+	}
+}
 
 func newTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}

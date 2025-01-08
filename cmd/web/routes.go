@@ -9,21 +9,25 @@ func (app *application) routes() *http.ServeMux {
 	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
 
 	mux.HandleFunc("GET /{$}", home)
-	mux.HandleFunc("GET /about", getPageAbout)
-	mux.HandleFunc("GET /blog-old", getPageBlog)
+
+	// simple pages:
+	mux.HandleFunc("GET /about", app.about)
 	mux.HandleFunc("GET /blog", app.blog)
-	mux.HandleFunc("GET /bookshelf", getPageBookshelf)
-	mux.HandleFunc("GET /cv", getPageCV)
+	mux.HandleFunc("GET /bookshelf", app.bookshelf)
+	mux.HandleFunc("GET /cv", app.cv)
+	mux.HandleFunc("GET /today-i-learned", app.til)
+
+	//songbook:
 	mux.HandleFunc("GET /songbook", app.getSongbook)
 	mux.HandleFunc("GET /songbook/{song}", app.songbookSong)
 	mux.HandleFunc("POST /songbook", app.songbookPost)
-	mux.HandleFunc("GET /til", getPageTIL)
-	mux.HandleFunc("GET /today-i-learned", getPageTIL)
 
+	// admin area:
 	mux.HandleFunc("GET /admin/login", app.adminLogin)
 	mux.HandleFunc("POST /admin/login", app.adminLoginPost)
 	mux.HandleFunc("GET /admin/new-song", app.adminNewSong)
 
+	// finances:
 	mux.HandleFunc("GET /finances", app.finances)
 
 	return mux
