@@ -1,9 +1,14 @@
 package main
 
 import (
+	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"strings"
+	"fmt"
+
+	"github.com/russross/blackfriday/v2"
 )
 
 func (app *application) serverError(w http.ResponseWriter, r *http.Request, err error) {
@@ -32,4 +37,30 @@ func getRootPath(path string) string {
 		}
 	}
 	return path[0:i]
+}
+
+func newMarkdownHTMLCache() (map[string]template.HTML, error) {
+	pages := make(map[string]template.HTML)
+
+	files := []string{
+		"about.md",
+		"blog.md",
+		"bookshelf.md",
+		"cv.md",
+		"til.md",
+	}
+
+	for _, file := range files {
+		md, err := os.ReadFile("./data/pages/" + file)
+		if err != nil {
+			return nil, fmt.Errorf("could not read file: %v", err)
+		}
+
+		htmlBytes := blackfriday.Run(md)
+		content := template.HTML(htmlBytes)
+
+		pages[file] = content
+	}
+
+	return pages, nil
 }
