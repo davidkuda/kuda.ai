@@ -8,6 +8,7 @@ import (
 
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
+	"github.com/russross/blackfriday/v2"
 )
 
 var (
@@ -30,13 +31,15 @@ var (
 
 func (app *application) finances(w http.ResponseWriter, r *http.Request) {
 
-	err := app.checkJWTCookie(r)
-	if err != nil {
-		log.Printf("could not authenticate client: %v", err)
-		http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
-	} else {
-		log.Println("Could authenticate client :)")
-	}
+	var err error
+
+	// err = app.checkJWTCookie(r)
+	// if err != nil {
+	// 	log.Printf("could not authenticate client: %v", err)
+	// 	http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+	// } else {
+	// 	log.Println("Could authenticate client :)")
+	// }
 
 	// TODO: htmlBytes := chart
 	sankey := charts.NewSankey()
@@ -60,4 +63,54 @@ func (app *application) finances(w http.ResponseWriter, r *http.Request) {
 	}
 
 	renderPageSimple(w, &pageData)
+}
+
+type Page struct {
+	Title       string
+	Content     template.HTML
+	HTML        template.HTML
+	CurrentPath string
+	RootPath    string
+}
+
+func newPageFromMarkdown(markdown []byte, r *http.Request) *Page {
+	htmlBytes := blackfriday.Run(markdown)
+	content := template.HTML(htmlBytes)
+	pageData := newPage(content, r)
+	return &pageData
+}
+
+func newPage(content template.HTML, r *http.Request) Page {
+	return Page{
+		Title:       getTitleFromRequestPath(r),
+		Content:     content,
+		HTML:        content,
+		CurrentPath: getRootPath(r.URL.Path),
+		RootPath:    getRootPath(r.URL.Path),
+	}
+}
+
+func renderPageSimple(w http.ResponseWriter, p *Page) {
+	w.Header().Add("Server", "Go")
+	w.Header().Add("Creation-Month-Year", "August-2024")
+
+	tmplFiles := []string{
+		"./ui/html/pages/base.tmpl.html",
+		"./ui/html/partials/nav.tmpl.html",
+		"./ui/html/pages/simplePage.tmpl.html",
+	}
+
+	t, err := template.ParseFiles(tmplFiles...)
+	if err != nil {
+		log.Printf("Error parsing template files: %s", err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	err = t.ExecuteTemplate(w, "base", p)
+	if err != nil {
+		log.Printf("Error executing home.tmpl.html: %s", err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 }
