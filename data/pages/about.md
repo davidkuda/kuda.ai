@@ -9,7 +9,7 @@ I program professionally and in my free time.
 My favourite programming language is Golang.
 I love how the language is minimalistic and simple, how well it performs and is efficient, and how it has you think about concurrency and parallelism (CSP!).
 I also love how it compiles to a small, single binary.
-I love the terminal, commind-line interfaces and vim.
+I love the terminal, command-line interfaces and vim.
 Privately, I use Mac.
 At work, I use linux, sway / Ubuntu.
 In 2020, my programming journey began in Python and JavaScript.
