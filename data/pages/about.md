@@ -6,9 +6,12 @@ I am married and father of two wonderful girls.
 I am a self-taught programmer, and I enjoy learning how computers work.
 [teachyourselfcs.com](www.teachyourselfcs.com) is a fantastic source for CS books.
 I program professionally and in my free time.
-My faviourite programming language is Golang.
+My favourite programming language is Golang.
 I love how the language is minimalistic and simple, how well it performs and is efficient, and how it has you think about concurrency and parallelism (CSP!).
 I also love how it compiles to a small, single binary.
+I love the terminal, commind-line interfaces and vim.
+Privately, I use Mac.
+At work, I use linux, sway / Ubuntu.
 In 2020, my programming journey began in Python and JavaScript.
 I have written a bit of Java and C# in the past.
 In Switzerland, many developers love C#, so I have experience in CI/CD with C#.
