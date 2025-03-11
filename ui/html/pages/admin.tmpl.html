@@ -1,0 +1,30 @@
+{{ define "title" }}{{ .Title }}{{ end }}
+
+{{ define "main" }}
+
+<div class="grid">
+  <div role="button" tabindex="0" class="secondary" onclick="window.location.href='/admin/login'">
+    Login
+  </div>
+</div>
+
+<p></p>
+
+<div class="grid">
+  <div role="button" tabindex="0" class="secondary" onclick="window.location.href='/admin/new-song'">
+    New Song
+  </div>
+  <div role="button" tabindex="0" class="secondary" onclick="window.location.href='/finances'">
+    Finances
+  </div>
+</div>
+
+<p></p>
+
+<div class="grid">
+  <div role="button" tabindex="0" class="secondary disabled">
+    Logout
+  </div>
+</div>
+
+{{ end }}

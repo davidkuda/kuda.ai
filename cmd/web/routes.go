@@ -23,6 +23,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("POST /songbook", app.songbookPost)
 
 	// admin area:
+	mux.HandleFunc("GET /admin", app.admin)
 	mux.HandleFunc("GET /admin/login", app.adminLogin)
 	mux.HandleFunc("POST /admin/login", app.adminLoginPost)
 	mux.HandleFunc("GET /admin/new-song", app.adminNewSong)

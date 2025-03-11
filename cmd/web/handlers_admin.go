@@ -10,11 +10,22 @@ import (
 	"github.com/pascaldekloe/jwt"
 )
 
+func (app *application) admin(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("Do I wanna know?")
+	t := templateData{
+		Title:    "Admin",
+		RootPath: "/admin",
+	}
+
+	app.render(w, r, 200, "admin.tmpl.html", &t)
+}
+
 func (app *application) adminLogin(w http.ResponseWriter, r *http.Request) {
 	tmplFiles := []string{
 		"./ui/html/pages/base.tmpl.html",
 		"./ui/html/partials/nav.tmpl.html",
-		"./ui/html/pages/admin/login.tmpl.html",
+		"./ui/html/pages/admin.login.tmpl.html",
 	}
 
 	t, err := template.ParseFiles(tmplFiles...)
@@ -97,7 +108,7 @@ func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
 	tmplFiles := []string{
 		"./ui/html/pages/base.tmpl.html",
 		"./ui/html/partials/nav.tmpl.html",
-		"./ui/html/pages/admin/new_song.tmpl.html",
+		"./ui/html/pages/admin.new_song.tmpl.html",
 	}
 
 	t, err := template.ParseFiles(tmplFiles...)
