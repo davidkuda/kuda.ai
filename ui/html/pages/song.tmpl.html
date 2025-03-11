@@ -1,7 +1,9 @@
-{{ define "title" }}Songbook: {{ .Name }} ({{ .Artist }}){{ end }}
+{{ define "title" }}{{ .Title }}{{ end }}
 
 {{ define "main" }}
+{{ with .Song }}
 <h3>{{ .Name }} ({{ .Artist }})</h3>
+
 
 <pre><code><details>
 <summary>Chords</summary>
@@ -9,3 +11,4 @@
 </details></code></pre>
 
 {{ .HTML.Lyrics }}{{ end }}
+{{ end }}

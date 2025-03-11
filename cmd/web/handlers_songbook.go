@@ -46,25 +46,13 @@ func (app *application) songbookSong(w http.ResponseWriter, r *http.Request) {
 	song.HTML.Lyrics = template.HTML(blackfriday.Run([]byte(song.Lyrics)))
 	song.HTML.Chords = template.HTML(blackfriday.Run([]byte(song.Chords)))
 
-	tmplFiles := []string{
-		"./ui/html/pages/base.tmpl.html",
-		"./ui/html/partials/nav.tmpl.html",
-		"./ui/html/pages/song.tmpl.html",
+	t := templateData{
+		Title:    "Songbook: " + song.Name + " (" + song.Artist + ")",
+		RootPath: "/songbook",
+		Song:     song,
 	}
 
-	t, err := template.ParseFiles(tmplFiles...)
-	if err != nil {
-		log.Printf("Error parsing templates: %s", err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	err = t.ExecuteTemplate(w, "base", song)
-	if err != nil {
-		log.Printf("Error executing templates: %s", err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
+	app.render(w, r, 200, "song.tmpl.html", &t)
 }
 
 func (app *application) songbookPost(w http.ResponseWriter, r *http.Request) {
