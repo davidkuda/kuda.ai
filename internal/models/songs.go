@@ -69,7 +69,7 @@ func (m *SongModel) Insert(s *Song) error {
 	return nil
 }
 
-func (m *SongModel) Get(songID string) (Song, error) {
+func (m *SongModel) Get(songID string) (*Song, error) {
 	stmt := `select artist, name, lyrics, chords
 	from songbook.songs
 	where id = $1;`
@@ -80,10 +80,10 @@ func (m *SongModel) Get(songID string) (Song, error) {
 
 	err := row.Scan(&s.Artist, &s.Name, &s.Lyrics, &s.Chords)
 	if err != nil {
-		return Song{}, err
+		return nil, err
 	}
 
-	return s, nil
+	return &s, nil
 }
 
 func (m *SongModel) Latest() ([]Song, error) {
