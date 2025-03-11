@@ -40,8 +40,6 @@ func parseJWT() JWT {
 		log.Fatal("make sure to define JWT_SECRET_KEY in the environment.")
 	}
 
-	log.Println("works")
-
 	s, err := base64.StdEncoding.DecodeString(jwtSecretBase64)
 	if err != nil {
 		log.Fatalf("could not decode base64 env var JWT_SECRET_KEY: %v\n", err)
