@@ -6,7 +6,7 @@
 <p>Occasionally, I find myself with a guitar in front of a group or among other musicians. Then we think about songs. This list is going to help future me in such situations. :)</p>
 
 <ul>
-{{ range . }}
+{{ range .Songs }}
     <li>
         <a href="/songbook/{{ .ID }}">{{ .Artist }} | {{ .Name }}</a>
     </li>

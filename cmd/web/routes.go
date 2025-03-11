@@ -18,7 +18,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("GET /today-i-learned", app.til)
 
 	//songbook:
-	mux.HandleFunc("GET /songbook", app.getSongbook)
+	mux.HandleFunc("GET /songbook", app.songbook)
 	mux.HandleFunc("GET /songbook/{song}", app.songbookSong)
 	mux.HandleFunc("POST /songbook", app.songbookPost)
 

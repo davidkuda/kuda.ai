@@ -12,10 +12,7 @@ import (
 	"github.com/davidkuda/kudaai/internal/models"
 )
 
-func (app *application) getSongbook(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Server", "Go")
-	w.Header().Add("Creation-Month-Year", "April-2024")
-
+func (app *application) songbook(w http.ResponseWriter, r *http.Request) {
 	allSongs, err := app.songs.GetAllSongs()
 	if err != nil {
 		log.Printf("Failed getting all songs: %v\n", err)
@@ -23,25 +20,13 @@ func (app *application) getSongbook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmplFiles := []string{
-		"./ui/html/pages/base.tmpl.html",
-		"./ui/html/partials/nav.tmpl.html",
-		"./ui/html/pages/songbook.tmpl.html",
+	t := templateData{
+		Title:    "Songbook",
+		RootPath: "/songbook",
+		Songs:    allSongs,
 	}
 
-	t, err := template.ParseFiles(tmplFiles...)
-	if err != nil {
-		log.Printf("Error parsing home.tmpl.html: %s", err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	err = t.ExecuteTemplate(w, "base", allSongs)
-	if err != nil {
-		log.Printf("Error executing home.tmpl.html: %s", err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
+	app.render(w, r, 200, "songbook.tmpl.html", &t)
 }
 
 func (app *application) songbookSong(w http.ResponseWriter, r *http.Request) {
