@@ -4,10 +4,16 @@ import (
 	"net/http"
 )
 
-func home(w http.ResponseWriter, r *http.Request) {
+func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
-	w.Header().Add("Creation-Month-Year", "April-2024")
-	http.Redirect(w, r, "/about", http.StatusSeeOther)
+	w.Header().Add("Started-Working-On", "April-2024")
+
+	t := templateData{
+		Title:    "kuda.ai",
+		HideNav:  true,
+	}
+
+	app.render(w, r, 200, "home.tmpl.html", &t)
 }
 
 func (app *application) about(w http.ResponseWriter, r *http.Request) {

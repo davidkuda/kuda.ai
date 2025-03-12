@@ -1,5 +1,12 @@
 {{ define "title" }}Welcome | thoughts on programming and guitar.{{ end }}
 
 {{ define "main" }}
-<p>Hello World</p>
+<div class="box-container">
+  <div class="box" role="button" onclick="window.location.href='/about'">About</div>
+  <div class="box" role="button" onclick="window.location.href='/blog'">Blog</div>
+  <div class="box" role="button" onclick="window.location.href='/bookshelf'">Bookshelf</div>
+  <div class="box" role="button" onclick="window.location.href='/cv'">CV</div>
+  <div class="box" role="button" onclick="window.location.href='/songbook'">Songbook</div>
+  <div class="box" role="button" onclick="window.location.href='/today-i-learned'">TIL</div>
+</div>
 {{ end }}

@@ -38,3 +38,20 @@ main {
 footer {
     text-align: center;
 }
+
+
+/* boxes */
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+}
+.box {
+    width: 45%;
+    aspect-ratio: 1 / 1; /* Makes height equal to width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

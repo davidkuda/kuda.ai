@@ -8,7 +8,7 @@ func (app *application) routes() *http.ServeMux {
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
 
-	mux.HandleFunc("GET /{$}", home)
+	mux.HandleFunc("GET /", app.home)
 
 	// simple pages:
 	mux.HandleFunc("GET /about", app.about)
