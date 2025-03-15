@@ -21,9 +21,7 @@ create table if not exists content (
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- SONGBOOK
 
-create schema songbook;
-
-create table if not exists songbook.songs (
+create table if not exists songs (
     id text primary key unique,
     artist text,
     name text,
@@ -35,9 +33,7 @@ create table if not exists songbook.songs (
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- BLOG
 
-create schema blog;
-
-create table if not exists blog.entries (
+create table if not exists entries (
     id text primary key unique,
     category text,
     title text,
@@ -46,7 +42,7 @@ create table if not exists blog.entries (
     modified_at text,
 );
 
-create table if not exists blog.tags (
+create table if not exists blog_tags (
     blog_id foreign key references(content.blog.id),
     tag text
 );
@@ -68,13 +64,12 @@ create table if not exists cv.hobbies ();
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- BOOKSHELF
 
-create schema bookshelf;
+create table if not exists books ();
 
-create table if not exists bookshelf.books ();
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- TIL
 
-create schema til;
-
-create table if not exists til.logs (
+create table if not exists til (
     date date,
     title text,
     teaser text,
@@ -84,9 +79,7 @@ create table if not exists til.logs (
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- AUTH
 
-create schema auth;
-
-CREATE TABLE auth.users (
+CREATE TABLE users (
     email VARCHAR(255) PRIMARY KEY,
     hashed_password CHAR(60) NOT NULL,
     created_at timestamp(0) with time zone NOT NULL DEFAULT NOW()
