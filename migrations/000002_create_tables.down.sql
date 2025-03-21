@@ -1,9 +1,12 @@
-drop table if exists content;
-delete type content_type;
+drop table content;
+drop type content_type;
 
-drop table if exists entries;
-drop table if exists tags;
+drop table blog_tags;
+drop table til_tags;
+drop table blogs cascade;
+drop table til cascade;
+drop table tags cascade;
 
-drop table if exists songs;
+drop table songs;
 
-drop table if exists users;
+drop table users;
