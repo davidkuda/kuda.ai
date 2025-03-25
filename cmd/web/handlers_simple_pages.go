@@ -51,6 +51,7 @@ func (app *application) bookshelf(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
 
+//# TODO: implement? or just link to LinkedIn?
 func (app *application) cv(w http.ResponseWriter, r *http.Request) {
 	// TODO: wouldn't it be nice to generate a beautiful PDF from this site?
 	t := templateData{
