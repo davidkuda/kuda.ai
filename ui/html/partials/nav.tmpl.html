@@ -1,79 +1,23 @@
 {{ define "nav" }}
 <nav>
 	<ul>
+		{{ range .NavItems }}
 
-		{{ if eq .RootPath "/about" }}
+		{{ if eq $.RootPath .Path }}
 		<li class="active">
-			About
+			<kbd>
+				{{ .Name }}
+			</kbd>
 		</li>
 		{{ else }}
 		<li>
-			<a href="/about">
-				About
+			<a href="{{ .Path }}">
+				{{ .Name }}
 			</a>
 		</li>
 		{{ end }}
 
-		{{ if eq .RootPath "/blog" }}
-		<li class="active">
-			Blog
-		</li>
-		{{ else }}
-		<li>
-			<a href="/blog">
-				Blog
-			</a>
-		</li>
 		{{ end }}
-
-		{{ if eq .RootPath "/bookshelf" }}
-		<li class="active">
-			Bookshelf
-		</li>
-		{{ else }}
-		<li>
-			<a href="/bookshelf">
-				Bookshelf
-			</a>
-		</li>
-		{{ end }}
-
-		{{ if eq .RootPath "/cv" }}
-		<li class="active">
-			CV
-		</li>
-		{{ else }}
-		<li>
-			<a href="/cv">
-				CV
-			</a>
-		</li>
-		{{ end }}
-
-		{{ if eq .RootPath "/songbook" }}
-		<li class="active">
-			Songbook
-		</li>
-		{{ else }}
-		<li>
-			<a href="/songbook">
-				Songbook
-			</a>
-		</li>
-		{{ end }}
-
-		{{ if eq .RootPath "/today-i-learned" }}
-		<li class="active">
-			TIL
-		</li>
-		{{ else }}
-		<li>
-			<a href="/today-i-learned">
-				TIL
-			</a>
-		</li>
-		{{ end }}
-
 	</ul>
 </nav>
 {{ end }}
