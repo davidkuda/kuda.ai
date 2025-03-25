@@ -9,12 +9,16 @@ a {
     text-decoration: underline;
 }
 
+nav ul li a {
+    text-decoration: underline !important;
+}
+
 a:hover {
     color: coral;
 }
 
 .active {
-    text-decoration: underline !important;
+    text-decoration: none !important;
 }
 
 hgroup {
