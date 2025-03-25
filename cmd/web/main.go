@@ -42,7 +42,7 @@ func main() {
 		{Name: "Blog", Path: "/blog"},
 		{Name: "Bookshelf", Path: "/bookshelf"},
 		{Name: "Songbook", Path: "/songbook"},
-		{Name: "TIL", Path: "/today-I-learned"},
+		{Name: "TIL", Path: "/today-i-learned"},
 	}
 
 	c := envcfg.Get()
