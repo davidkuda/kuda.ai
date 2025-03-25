@@ -7,15 +7,7 @@ import (
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Started-Working-On", "April-2024")
-
-	t := app.newTemplateData()
-	t = templateData{
-		NavItems: t.NavItems,
-		Title:    "kuda.ai",
-		HideNav:  true,
-	}
-
-	app.render(w, r, 200, "home.tmpl.html", &t)
+	http.Redirect(w, r, "/about", http.StatusSeeOther)
 }
 
 func (app *application) about(w http.ResponseWriter, r *http.Request) {
