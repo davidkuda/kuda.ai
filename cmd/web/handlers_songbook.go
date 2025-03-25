@@ -20,7 +20,9 @@ func (app *application) songbook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	t := templateData{
+	t := app.newTemplateData()
+	t = templateData{
+		NavItems: t.NavItems,
 		Title:    "Songbook",
 		RootPath: "/songbook",
 		Songs:    allSongs,
@@ -46,7 +48,9 @@ func (app *application) songbookSong(w http.ResponseWriter, r *http.Request) {
 	song.HTML.Lyrics = template.HTML(blackfriday.Run([]byte(song.Lyrics)))
 	song.HTML.Chords = template.HTML(blackfriday.Run([]byte(song.Chords)))
 
-	t := templateData{
+	t := app.newTemplateData()
+	t = templateData{
+		NavItems: t.NavItems,
 		Title:    "Songbook: " + song.Name + " (" + song.Artist + ")",
 		RootPath: "/songbook",
 		Song:     song,
