@@ -20,7 +20,7 @@ In Switzerland, many developers love C#, so I have experience in CI/CD with C#.
 Nowadays, I do mostly DevOps and SRE type of work.
 Most of the code I write are yaml files with inline shell scripts.
 
-The book [https://web.stanford.edu/~ouster/cgi-bin/book.php] shaped the way I think about software design.
+The book [A Philosophy Of Software Design](https://web.stanford.edu/~ouster/cgi-bin/book.php) shaped the way I think about software design.
 Although I don't write application code so often at work, I still love applying the software design lens to DevOps systems.
 In my own words:
 I like making systems obvious (i.e. non complex), with an easy interface and deep functionality.
