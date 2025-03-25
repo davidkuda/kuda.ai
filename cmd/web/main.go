@@ -13,10 +13,13 @@ import (
 )
 
 type application struct {
+	navItems []NavItem
+
 	songs *models.SongModel
 	users *models.UserModel
+	til   *models.TILModel
 
-	templateCache map[string]*template.Template
+	templateCache     map[string]*template.Template
 	markdownHTMLCache map[string]template.HTML
 
 	JWT struct {
@@ -24,10 +27,23 @@ type application struct {
 	}
 }
 
+type NavItem struct {
+	Name string
+	Path string
+}
+
 func main() {
 	addr := flag.String("addr", ":8873", "HTTP network address")
 
 	app := &application{}
+
+	app.navItems = []NavItem{
+		{Name: "About", Path: "/about"},
+		{Name: "Blog", Path: "/blog"},
+		{Name: "Bookshelf", Path: "/bookshelf"},
+		{Name: "Songbook", Path: "/songbook"},
+		{Name: "TIL", Path: "/today-I-learned"},
+	}
 
 	c := envcfg.Get()
 

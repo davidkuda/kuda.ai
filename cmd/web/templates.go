@@ -11,12 +11,19 @@ import (
 
 type templateData struct {
 	Title    string
+	NavItems []NavItem
 	RootPath string
 	HTML     template.HTML
 	Songs    models.Songs
 	Song     *models.Song
 	LoggedIn bool
 	HideNav  bool
+}
+
+func (app *application) newTemplateData() templateData {
+	return templateData{
+		NavItems: app.navItems,
+	}
 }
 
 func (app *application) render(w http.ResponseWriter, r *http.Request, status int, page string, data *templateData) {
