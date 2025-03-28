@@ -1,4 +1,8 @@
--- requires createdb kuda_ai
+-- prerequisite: createdb kuda_ai
+
+create schema website;
+create schema auth;
+
 
 SET ROLE NONE;
 
@@ -10,17 +14,18 @@ SET ROLE NONE;
 CREATE ROLE developer WITH nologin;
 
 GRANT SELECT, INSERT, UPDATE, DELETE 
-ON ALL TABLES IN SCHEMA public
+ON ALL TABLES IN SCHEMA website, auth
 TO developer;
 
-GRANT CREATE ON SCHEMA public TO developer;
+-- how developer is different to app:
+GRANT CREATE ON SCHEMA website, auth TO developer;
 
 -- app:
 
 CREATE ROLE app WITH nologin;
 
 GRANT SELECT, INSERT, UPDATE, DELETE 
-ON ALL TABLES IN SCHEMA public
+ON ALL TABLES IN SCHEMA website, auth
 TO app;
 
 
@@ -33,4 +38,4 @@ CREATE ROLE kuda_ai WITH login PASSWORD 'pa55word' INHERIT;
 GRANT app TO kuda_ai;
 
 
-ALTER DATABASE kuda_ai OWNER TO kuda_ai;
+ALTER DATABASE kuda_ai OWNER TO dev;
