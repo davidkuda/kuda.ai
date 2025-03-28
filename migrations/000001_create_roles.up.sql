@@ -13,16 +13,19 @@ SET ROLE NONE;
 
 CREATE ROLE developer WITH nologin;
 
+-- how developer is different to app: CREATE vs USAGE:
+GRANT CREATE ON SCHEMA website, auth TO developer;
+
 GRANT SELECT, INSERT, UPDATE, DELETE 
 ON ALL TABLES IN SCHEMA website, auth
 TO developer;
 
--- how developer is different to app:
-GRANT CREATE ON SCHEMA website, auth TO developer;
-
 -- app:
 
 CREATE ROLE app WITH nologin;
+
+-- how developer is different to app: CREATE vs USAGE:
+GRANT USAGE ON SCHEMA auth TO app;
 
 GRANT SELECT, INSERT, UPDATE, DELETE 
 ON ALL TABLES IN SCHEMA website, auth
