@@ -26,7 +26,7 @@ func (m *UserModel) Insert(email, password string) error {
 		return err
 	}
 
-	stmt := `INSERT INTO users (email, hashed_password) VALUES($1, $2);`
+	stmt := `INSERT INTO auth.users (email, hashed_password) VALUES($1, $2);`
 
 	result, err := m.DB.Exec(stmt, email, string(hashedPassword))
 	if err != nil {
@@ -40,7 +40,7 @@ func (m *UserModel) Insert(email, password string) error {
 func (m *UserModel) Authenticate(email, password string) error {
 	var hashedPassword []byte
 
-	stmt := "SELECT hashed_password FROM users WHERE email = $1;"
+	stmt := "SELECT hashed_password FROM auth.users WHERE email = $1;"
 
 	err := m.DB.QueryRow(stmt, email).Scan(&hashedPassword)
 	if err != nil {
