@@ -22,25 +22,14 @@ func (app *application) admin(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) adminLogin(w http.ResponseWriter, r *http.Request) {
-	tmplFiles := []string{
-		"./ui/html/pages/base.tmpl.html",
-		"./ui/html/partials/nav.tmpl.html",
-		"./ui/html/pages/admin.login.tmpl.html",
+	t := app.newTemplateData()
+	t = templateData{
+		NavItems: t.NavItems,
+		Title:    "Login",
+		RootPath: "/admin",
 	}
 
-	t, err := template.ParseFiles(tmplFiles...)
-	if err != nil {
-		log.Printf("Error parsing template files: %s", err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	err = t.ExecuteTemplate(w, "base", nil)
-	if err != nil {
-		log.Printf("Error executing templates: %s", err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
+	app.render(w, r, 200, "admin.login.tmpl.html", &t)
 }
 
 func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
