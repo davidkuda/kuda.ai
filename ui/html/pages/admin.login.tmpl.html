@@ -1,16 +1,31 @@
-{{ define "title" }}Admin: New Song{{ end }}
+{{ define "title" }}Admin: Login{{ end }}
 {{ define "main" }}
 <h3>Login:</h3>
-<form action="/admin/login" method="post">
+<form id="login-form" action="/admin/login" method="post">
   <fieldset>
     <label>email:
-      <input type="email" name="email" placeholder="email@me.ch" autocomplete="email" requiredaria-label="Email" />
+      <input type="email" name="email" placeholder="email@me.ch" autocomplete="email" required aria-label="Email" />
     </label>
     <label>password:
       <input type="password" name="password" placeholder="Password" aria-label="Password"
-        autocomplete="current-password">
+        autocomplete="current-password" required />
     </label>
   </fieldset>
-  <input type="submit" value="Login" />
+  <button type="submit" id="login-button">
+    Login
+  </button>
 </form>
+
+<!-- the scripts transforms the button to: -->
+<!-- <button aria-busy="true" class="outline">Please wait…</button> -->
+<script>
+  const form = document.getElementById("login-form");
+  const button = document.getElementById("login-button");
+  form.addEventListener("submit", function () {
+    // button.disabled = true;
+    button.setAttribute("aria-busy", "true");
+    button.classList.add("outline");
+    button.textContent = "Authenticating ...";
+  });
+</script>
 {{ end }}
