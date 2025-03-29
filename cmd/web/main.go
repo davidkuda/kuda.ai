@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/davidkuda/kudaai/internal/envcfg"
 	"github.com/davidkuda/kudaai/internal/models"
@@ -23,7 +24,8 @@ type application struct {
 	markdownHTMLCache map[string]template.HTML
 
 	JWT struct {
-		Secret []byte
+		Secret       []byte
+		CookieDomain string
 	}
 }
 
@@ -34,6 +36,11 @@ type NavItem struct {
 
 func main() {
 	addr := flag.String("addr", ":8873", "HTTP network address")
+	// TODO: cookieDomain should be defined in envcfg or envcfg should be dropped. Can't decide now and want to keep focusing on other tasks (:
+	cookieDomain := flag.String("cookie-domain", os.Getenv("COOKIE_DOMAIN"), "localhost or kuda.ai")
+	if *cookieDomain == "" {
+		log.Fatal("fail startup: make sure to either pass -cookie-domain [localhost|kuda.ai] or define env var COOKIE_DOMAIN")
+	}
 
 	app := &application{}
 
@@ -47,7 +54,8 @@ func main() {
 
 	c := envcfg.Get()
 
-	app.JWT = c.JWT
+	app.JWT.Secret = c.JWT.Secret
+	app.JWT.CookieDomain = *cookieDomain
 
 	db, err := envcfg.DB()
 	if err != nil {

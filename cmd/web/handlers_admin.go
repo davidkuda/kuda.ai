@@ -74,7 +74,7 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 		Name:  "session",
 		Value: string(jwtBytes),
 		// Domain:   "lyricsapi.kuda.ai",
-		Domain:   "localhost",
+		Domain:   app.JWT.CookieDomain,
 		Expires:  time.Now().Add(24 * time.Hour),
 		Secure:   true,
 		HttpOnly: true,
