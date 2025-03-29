@@ -13,12 +13,16 @@ nav ul li a {
     text-decoration: underline !important;
 }
 
-a:hover {
-    color: coral;
-}
-
 .active {
     text-decoration: none !important;
+}
+
+nav ul li a .active {
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: coral;
 }
 
 hgroup {
