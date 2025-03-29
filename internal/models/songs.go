@@ -29,7 +29,7 @@ type SongModel struct {
 }
 
 func (m *SongModel) GetAllSongs() (Songs, error) {
-	stmt := "select id, artist, name from songs order by artist"
+	stmt := "select id, artist, name from website.songs order by artist"
 
 	rows, err := m.DB.Query(stmt)
 	if err != nil {
@@ -57,7 +57,7 @@ func (m *SongModel) GetAllSongs() (Songs, error) {
 }
 
 func (m *SongModel) Insert(s *Song) error {
-	stmt := `insert into songs (
+	stmt := `insert into website.songs (
 				id, artist, name, lyrics, chords, copyright
 			) VALUES ($1, $2, $3, $4, $5, $6);`
 
@@ -71,7 +71,7 @@ func (m *SongModel) Insert(s *Song) error {
 
 func (m *SongModel) Get(songID string) (*Song, error) {
 	stmt := `select artist, name, lyrics, chords
-	from songs
+	from website.songs
 	where id = $1;`
 
 	row := m.DB.QueryRow(stmt, songID)
