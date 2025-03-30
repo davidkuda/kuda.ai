@@ -16,6 +16,10 @@ func (app *application) admin(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) adminLogin(w http.ResponseWriter, r *http.Request) {
+	if app.isAuthenticated(r) {
+		http.Redirect(w, r, "/admin", http.StatusSeeOther)
+		return
+	}
 	t := app.newTemplateData(r)
 	t = templateData{
 		Title:    "Login",
