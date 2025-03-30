@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"path/filepath"
+	"strings"
 
 	"github.com/davidkuda/kudaai/internal/models"
 )
@@ -22,16 +23,26 @@ type templateData struct {
 
 func (app *application) newTemplateData(r *http.Request) templateData {
 	var err error
-	var isAuthenticated bool
 
+	var isAuthenticated bool
 	err = app.checkJWTCookie(r)
 	if err == nil {
 		isAuthenticated = true
 	}
 
+	var rootPath, title string
+	i := 1
+	for i < len(r.URL.Path) && r.URL.Path[i] != '/' {
+		i++
+	}
+	rootPath = r.URL.Path[0:i]
+	title = strings.ToTitle(r.URL.Path[1:i])
+
 	return templateData{
 		NavItems: app.navItems,
 		LoggedIn: isAuthenticated,
+		Title:    title,
+		RootPath: rootPath,
 	}
 }
 

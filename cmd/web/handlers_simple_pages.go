@@ -12,38 +12,25 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) about(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
-	t = templateData{
-		NavItems: t.NavItems,
-		Title:    "About",
-		RootPath: "/about",
-		HTML:     app.markdownHTMLCache["about.md"],
-	}
+	t.HTML = app.markdownHTMLCache["about.md"]
+	// Title:    "About",
+	// RootPath: "/about",
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
 
 func (app *application) blog(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
-	t = templateData{
-		NavItems: t.NavItems,
-		Title:    "Blog",
-		RootPath: "/blog",
-		HTML:     app.markdownHTMLCache["blog.md"],
-	}
+	t.HTML = app.markdownHTMLCache["blog.md"]
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
 
 func (app *application) bookshelf(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
-	t = templateData{
-		NavItems: t.NavItems,
-		Title:    "Bookshelf",
-		RootPath: "/bookshelf",
-		HTML:     app.markdownHTMLCache["bookshelf.md"],
-	}
+	t.HTML = app.markdownHTMLCache["bookshelf.md"]
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
 
-//# TODO: implement? or just link to LinkedIn?
+// # TODO: implement? or just link to LinkedIn?
 func (app *application) cv(w http.ResponseWriter, r *http.Request) {
 	// TODO: wouldn't it be nice to generate a beautiful PDF from this site?
 	t := templateData{
@@ -56,11 +43,8 @@ func (app *application) cv(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) todayILearned(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
-	t = templateData{
-		NavItems: t.NavItems,
-		Title:    "Today I Learned",
-		RootPath: "/today-i-learned",
-		HTML:     app.markdownHTMLCache["til.md"],
-	}
+	t.Title = "Today I Learned"
+	t.RootPath = "/today-i-learned"
+	t.HTML = app.markdownHTMLCache["til.md"]
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
