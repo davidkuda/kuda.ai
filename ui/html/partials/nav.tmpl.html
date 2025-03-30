@@ -10,4 +10,20 @@
 		{{ end }}
 	</ul>
 </nav>
+{{ if .LoggedIn }}
+<nav>
+	<ul>
+		<li>
+			<a href="/admin" {{ if eq $.RootPath "/admin" }}class="active" {{ end }}>
+				Admin
+			</a>
+		</li>
+		<li>
+			<a href="/admin/logout">
+				Logout
+			</a>
+		</li>
+	</ul>
+</nav>
+{{ end }}
 {{ end }}
