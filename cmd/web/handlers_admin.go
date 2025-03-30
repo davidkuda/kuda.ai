@@ -94,11 +94,6 @@ func (app *application) adminLogoutPost(w http.ResponseWriter, r *http.Request) 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
-func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
-	t := app.newTemplateData(r)
-	app.render(w, r, http.StatusOK, "admin.new_song.tmpl.html", &t)
-}
-
 func (app *application) isAuthenticated(r *http.Request) bool {
 	err := app.checkJWTCookie(r)
 	if err == nil {

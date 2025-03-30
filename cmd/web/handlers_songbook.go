@@ -50,6 +50,11 @@ func (app *application) songbookSong(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, 200, "song.tmpl.html", &t)
 }
 
+func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
+	t := app.newTemplateData(r)
+	app.render(w, r, http.StatusOK, "admin.new_song.tmpl.html", &t)
+}
+
 func (app *application) songbookPost(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
