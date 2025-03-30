@@ -83,6 +83,8 @@ func (m *SongModel) Get(songID string) (*Song, error) {
 		return nil, err
 	}
 
+	s.ID = songID
+
 	return &s, nil
 }
 
