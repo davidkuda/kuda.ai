@@ -30,17 +30,6 @@ func (app *application) bookshelf(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
 
-// # TODO: implement? or just link to LinkedIn?
-func (app *application) cv(w http.ResponseWriter, r *http.Request) {
-	// TODO: wouldn't it be nice to generate a beautiful PDF from this site?
-	t := templateData{
-		Title:    "CV",
-		RootPath: "/cv",
-		HTML:     app.markdownHTMLCache["cv.md"],
-	}
-	app.render(w, r, 200, "simplePage.tmpl.html", &t)
-}
-
 func (app *application) todayILearned(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
 	t.Title = "Today I Learned"
