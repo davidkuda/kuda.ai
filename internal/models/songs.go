@@ -77,7 +77,7 @@ func (m *SongModel) Insert(s *Song) error {
 }
 
 func (m *SongModel) Get(songID string) (*Song, error) {
-	stmt := `select artist, name, lyrics, chords
+	stmt := `select artist, name, lyrics, chords, copyright
 	from website.songs
 	where id = $1;`
 
@@ -85,7 +85,7 @@ func (m *SongModel) Get(songID string) (*Song, error) {
 
 	s := Song{}
 
-	err := row.Scan(&s.Artist, &s.Name, &s.Lyrics, &s.Chords)
+	err := row.Scan(&s.Artist, &s.Name, &s.Lyrics, &s.Chords, &s.Copyright)
 	if err != nil {
 		return nil, err
 	}
