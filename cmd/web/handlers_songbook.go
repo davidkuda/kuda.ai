@@ -105,7 +105,7 @@ func (app *application) songbookPost(w http.ResponseWriter, r *http.Request) {
 
 	// regex for valid URL path; song.ID will be used in the URL.
 	// Therefore, it should only contain letters and hyphens.
-	var rxPat = regexp.MustCompile(`[^a-z\-]*`)
+	var rxPat = regexp.MustCompile(`[^a-z\-]`)
 	if rxPat.MatchString(form.Song.ID) {
 		form.FieldErrors["id"] = "id may only contain lowercase characters and hyphens"
 	}
