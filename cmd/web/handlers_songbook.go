@@ -124,7 +124,6 @@ func (app *application) songbookPost(w http.ResponseWriter, r *http.Request) {
 		log.Printf("failed inserting song: %v\n", err)
 		return
 	}
-	w.WriteHeader(http.StatusCreated)
 	http.Redirect(w, r, fmt.Sprintf("/songbook/%v", form.Song.ID), http.StatusSeeOther)
 	return
 }
