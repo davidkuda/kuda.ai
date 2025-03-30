@@ -11,20 +11,13 @@ import (
 )
 
 func (app *application) admin(w http.ResponseWriter, r *http.Request) {
-
-	log.Println("Do I wanna know?")
-	t := templateData{
-		Title:    "Admin",
-		RootPath: "/admin",
-	}
-
+	t := app.newTemplateData(r)
 	app.render(w, r, 200, "admin.tmpl.html", &t)
 }
 
 func (app *application) adminLogin(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
 	t = templateData{
-		NavItems: t.NavItems,
 		Title:    "Login",
 		RootPath: "/admin",
 	}
@@ -71,9 +64,17 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.SetCookie(w, &http.Cookie{
-		Name:  "session",
-		Value: string(jwtBytes),
-		// Domain:   "lyricsapi.kuda.ai",
+		Name:     "session",
+		Value:    string(jwtBytes),
+		Domain:   app.JWT.CookieDomain,
+		Expires:  time.Now().Add(24 * time.Hour),
+		Secure:   true,
+		HttpOnly: true,
+		// SameSite: http.SameSiteNoneMode,
+	})
+
+	http.Redirect(w, r, "/admin/new-song", http.StatusSeeOther)
+}
 		Domain:   app.JWT.CookieDomain,
 		Expires:  time.Now().Add(24 * time.Hour),
 		Secure:   true,
