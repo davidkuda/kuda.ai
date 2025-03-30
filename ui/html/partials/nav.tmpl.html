@@ -3,7 +3,7 @@
 	<ul>
 		{{ range .NavItems }}
 		<li>
-			<a href="{{ .Path }}" {{ if eq $.RootPath .Path }}class="active" {{ end }}>
+			<a href="{{ .Path }}" {{ if eq $.Path .Path }}class="active" {{ end }}>
 				{{ .Name }}
 			</a>
 		</li>

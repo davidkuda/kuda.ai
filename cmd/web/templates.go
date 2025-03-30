@@ -13,10 +13,12 @@ import (
 type templateData struct {
 	Title    string
 	NavItems []NavItem
+	Path     string
 	RootPath string
 	HTML     template.HTML
 	Songs    models.Songs
 	Song     *models.Song
+	Form     any
 	LoggedIn bool
 	HideNav  bool
 }
@@ -43,6 +45,7 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 		LoggedIn: isAuthenticated,
 		Title:    title,
 		RootPath: rootPath,
+		Path:     r.URL.Path,
 	}
 }
 
