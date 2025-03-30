@@ -1,12 +1,15 @@
-drop table content;
+drop table website.content;
 drop type content_type;
 
-drop table blog_tags;
-drop table til_tags;
-drop table blogs cascade;
-drop table til cascade;
-drop table tags cascade;
+drop table website.blog_tags;
+drop table website.til_tags;
+drop table website.blogs cascade;
+drop table website.til cascade;
+drop table website.tags cascade;
 
-drop table songs;
+drop table website.songs;
 
-drop table users;
+drop table auth.users;
+
+drop schema auth;
+drop schema website;

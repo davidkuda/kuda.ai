@@ -3,9 +3,6 @@
 create schema website;
 create schema auth;
 
-
-SET ROLE NONE;
-
 -- - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- Roles: Groups:
 
@@ -25,7 +22,7 @@ TO developer;
 CREATE ROLE app WITH nologin;
 
 -- how developer is different to app: CREATE vs USAGE:
-GRANT USAGE ON SCHEMA auth TO app;
+GRANT USAGE ON SCHEMA auth, website TO app;
 
 GRANT SELECT, INSERT, UPDATE, DELETE 
 ON ALL TABLES IN SCHEMA website, auth
@@ -42,3 +39,5 @@ GRANT app TO kuda_ai;
 
 
 ALTER DATABASE kuda_ai OWNER TO dev;
+ALTER SCHEMA auth OWNER TO dev;
+ALTER SCHEMA website OWNER TO dev;

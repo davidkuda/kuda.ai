@@ -1,6 +1,6 @@
 BEGIN;
 
-SET ROLE kuda_ai;
+SET ROLE dev;
 
 
 create schema if not exists website;
@@ -53,8 +53,8 @@ create table website.tags (
 );
 
 create table website.blog_tags (
-  blog_id integer references blogs(id) on delete cascade,
-  tag_id integer references tags(id),
+  blog_id integer references website.blogs(id) on delete cascade,
+  tag_id integer references website.tags(id),
   primary key (blog_id, tag_id)
 );
 
@@ -77,8 +77,8 @@ create table website.til (
 );
 
 CREATE TABLE website.til_tags (
-    til_id integer not null references til(id) on delete cascade,
-    tag_id integer not null references tags(id) on delete cascade,
+    til_id integer not null references website.til(id) on delete cascade,
+    tag_id integer not null references website.tags(id) on delete cascade,
     primary key (til_id, tag_id)
 );
 
@@ -96,5 +96,10 @@ CREATE TABLE auth.users (
     hashed_password CHAR(60) NOT NULL,
     created_at timestamp(0) with time zone NOT NULL DEFAULT NOW()
 );
+
+
+GRANT SELECT, INSERT, UPDATE, DELETE 
+ON ALL TABLES IN SCHEMA website, auth
+TO app;
 
 COMMIT;
