@@ -5,13 +5,13 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"regexp"
 	"strings"
 
 	"github.com/russross/blackfriday/v2"
 
 	"github.com/davidkuda/kudaai/internal/models"
 )
-
 func (app *application) songbook(w http.ResponseWriter, r *http.Request) {
 	allSongs, err := app.songs.GetAllSongs()
 	if err != nil {
@@ -55,6 +55,11 @@ func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, http.StatusOK, "admin.new_song.tmpl.html", &t)
 }
 
+type songbookSongForm struct {
+	Song        models.Song
+	FieldErrors map[string]string
+}
+
 func (app *application) songbookPost(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -64,18 +69,36 @@ func (app *application) songbookPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	f := r.PostForm
-	s := models.Song{
-		ID:        f.Get("song-id"),
-		Artist:    f.Get("song-artist"),
-		Name:      f.Get("song-name"),
-		Lyrics:    strings.ReplaceAll(f.Get("song-lyrics"), "\r\n", "\n"),
-		Chords:    strings.ReplaceAll(f.Get("song-chords"), "\r\n", "\n"),
-		Copyright: f.Get("song-copyright"),
-		MyCover:   f.Get("song-my-cover"),
+
+	form := songbookSongForm{
+		Song: models.Song{
+			ID:        f.Get("song-id"),
+			Artist:    f.Get("song-artist"),
+			Name:      f.Get("song-name"),
+			Lyrics:    strings.ReplaceAll(f.Get("song-lyrics"), "\r\n", "\n"),
+			Chords:    strings.ReplaceAll(f.Get("song-chords"), "\r\n", "\n"),
+			Copyright: f.Get("song-copyright"),
+			MyCover:   f.Get("song-my-cover"),
+		},
+		FieldErrors: map[string]string{},
 	}
 
-	app.songs.Insert(&s)
+	// regex for valid URL path; song.ID will be used in the URL.
+	// Therefore, it should only contain letters and hyphens.
+	var rxPat = regexp.MustCompile(`[^a-z\-]*`)
+	if !rxPat.MatchString(form.Song.ID) {
+		form.FieldErrors["song-id"] = "SongID may only contain lowercase characters and hyphens"
+	}
+
+	 if len(form.FieldErrors) > 0 {
+        t := app.newTemplateData(r)
+        t.Form = form
+        app.render(w, r, http.StatusUnprocessableEntity, "create.tmpl", &t)
+        return
+    }
+
+	app.songs.Insert(&form.Song)
 	// w.WriteHeader(http.StatusCreated)
-	http.Redirect(w, r, fmt.Sprintf("/songbook/%v", s.ID), http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("/songbook/%v", form.Song.ID), http.StatusSeeOther)
 	return
 }
