@@ -44,6 +44,12 @@ func (app *application) routes() *http.ServeMux {
 		)),
 	)
 	mux.Handle(
+		"GET /admin/songbook/{song}",
+		app.requireAuthentication(http.HandlerFunc(
+			app.adminSongbookSong,
+		)),
+	)
+	mux.Handle(
 		"GET /admin/logout",
 		app.requireAuthentication(http.HandlerFunc(
 			app.adminLogoutPost,

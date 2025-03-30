@@ -12,6 +12,7 @@ import (
 
 	"github.com/davidkuda/kudaai/internal/models"
 )
+
 func (app *application) songbook(w http.ResponseWriter, r *http.Request) {
 	allSongs, err := app.songs.GetAllSongs()
 	if err != nil {
@@ -52,6 +53,25 @@ func (app *application) songbookSong(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
+	t.Form = songbookSongForm{Song: models.Song{}}
+	app.render(w, r, http.StatusOK, "admin.new_song.tmpl.html", &t)
+}
+
+func (app *application) adminSongbookSong(w http.ResponseWriter, r *http.Request) {
+	t := app.newTemplateData(r)
+
+	songName := r.PathValue("song")
+
+	song, err := app.songs.Get(songName)
+	if err != nil {
+		log.Printf("could not get song \"%v\": %v", songName, err)
+		// TODO: Show a nice 404 page.
+		http.NotFound(w, r)
+		return
+	}
+
+	t.Form = songbookSongForm{Song: *song}
+	t.Song = song
 	app.render(w, r, http.StatusOK, "admin.new_song.tmpl.html", &t)
 }
 
@@ -86,19 +106,25 @@ func (app *application) songbookPost(w http.ResponseWriter, r *http.Request) {
 	// regex for valid URL path; song.ID will be used in the URL.
 	// Therefore, it should only contain letters and hyphens.
 	var rxPat = regexp.MustCompile(`[^a-z\-]*`)
-	if !rxPat.MatchString(form.Song.ID) {
-		form.FieldErrors["song-id"] = "SongID may only contain lowercase characters and hyphens"
+	if rxPat.MatchString(form.Song.ID) {
+		form.FieldErrors["id"] = "id may only contain lowercase characters and hyphens"
+	}
+	// TODO: validate ID unique
+
+	if len(form.FieldErrors) > 0 {
+		t := app.newTemplateData(r)
+		t.Form = form
+		t.Song = &form.Song
+		app.render(w, r, http.StatusUnprocessableEntity, "admin.new_song.tmpl.html", &t)
+		return
 	}
 
-	 if len(form.FieldErrors) > 0 {
-        t := app.newTemplateData(r)
-        t.Form = form
-        app.render(w, r, http.StatusUnprocessableEntity, "create.tmpl", &t)
-        return
-    }
-
-	app.songs.Insert(&form.Song)
-	// w.WriteHeader(http.StatusCreated)
+	err = app.songs.Insert(&form.Song)
+	if err != nil {
+		log.Printf("failed inserting song: %v\n", err)
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
 	http.Redirect(w, r, fmt.Sprintf("/songbook/%v", form.Song.ID), http.StatusSeeOther)
 	return
 }

@@ -5,32 +5,49 @@
   <fieldset>
 
     <div class="grid">
+
       <label>Song ID:
-        <input type="text" name="song-id" placeholder="ID" required />
+        <input
+          type="text"
+          name="song-id"
+          placeholder="ID"
+          value="{{.Song.ID}}"
+          required
+          {{if .Form.FieldErrors.id}}
+          aria-invalid="true"
+          aria-describedby="invalid-song-id"
+          {{end}}
+        >
+        {{ with .Form.FieldErrors.id }}
+        <small id="invalid-song-id">{{ . }}</small>
+        {{ end }}
       </label>
+
       <label>Copyright:
-        <input type="text" name="song-copyright" placeholder="Copyright" />
+        <input
+          type="text"
+          name="song-copyright"
+          placeholder="Copyright"
+          value="{{.Song.Copyright}}"
+        >
       </label>
+
     </div>
 
     <div class="grid">
+
       <label>Artist:
-        <input type="text" name="song-artist" placeholder="Artist" required />
-      </label>
+        <input type="text" name="song-artist" placeholder="Artist" required value="{{.Song.Artist}}"></label>
       <label>Name:
-        <input type="text" name="song-name" placeholder="SongName" required />
-      </label>
+        <input type="text" name="song-name" placeholder="SongName" required value="{{.Song.Name}}"></label>
+
     </div>
 
     <label>Chords:
-      <textarea name="song-chords" rows="4" placeholder="Chords"></textarea>
-    </label>
-
+      <textarea name="song-chords" rows="8" placeholder="Chords">{{.Song.Chords}}</textarea></label>
     <label>Lyrics:
-      <textarea name="song-lyrics" rows="12" placeholder="Lyrics" aria-label="lyrics"></textarea>
-    </label>
-
+      <textarea name="song-lyrics" rows="16" placeholder="Lyrics" aria-label="lyrics">{{.Song.Lyrics}}</textarea></label>
   </fieldset>
-  <input type="submit" value="Create" />
+  <input type="submit" value="{{if .Form.Song.ID}}Update{{else}}Create{{end}}">
 </form>
 {{ end }}
