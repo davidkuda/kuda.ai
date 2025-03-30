@@ -46,6 +46,7 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 		Title:    title,
 		RootPath: rootPath,
 		Path:     r.URL.Path,
+		Song:     &models.Song{},
 	}
 }
 
