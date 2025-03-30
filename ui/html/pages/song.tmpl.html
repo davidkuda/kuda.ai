@@ -3,12 +3,18 @@
 {{ define "main" }}
 {{ with .Song }}
 <h3>{{ .Name }} ({{ .Artist }})</h3>
-
-
-<pre><code><details>
-<summary>Chords</summary>
-{{ .HTML.Chords }}
-</details></code></pre>
-
+{{ if $.LoggedIn }}
+<p>
+  <a href="/admin/songbook/{{.ID}}">edit this song</a>
+</p>
+{{ end }}
+<details>
+  <summary role="button" class="outline">Chords</summary>
+  <pre>
+    <code>
+      {{ .HTML.Chords }}
+    </code>
+  </pre>
+</details>
 {{ .HTML.Lyrics }}{{ end }}
 {{ end }}
