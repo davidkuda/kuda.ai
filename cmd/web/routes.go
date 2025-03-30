@@ -43,6 +43,12 @@ func (app *application) routes() *http.ServeMux {
 			app.adminNewSong,
 		)),
 	)
+	mux.Handle(
+		"GET /admin/logout",
+		app.requireAuthentication(http.HandlerFunc(
+			app.adminLogoutPost,
+		)),
+	)
 
 	// finances:
 	// protected:
