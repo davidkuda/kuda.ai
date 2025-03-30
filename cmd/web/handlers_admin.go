@@ -115,6 +115,15 @@ func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (app *application) isAuthenticated(r *http.Request) bool {
+	err := app.checkJWTCookie(r)
+	if err == nil {
+		return true
+	} else {
+		return false
+	}
+}
+
 func (app *application) checkJWTCookie(r *http.Request) error {
 	token, err := r.Cookie("session")
 	if err != nil {
