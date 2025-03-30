@@ -20,16 +20,50 @@ func (app *application) routes() *http.ServeMux {
 	//songbook:
 	mux.HandleFunc("GET /songbook", app.songbook)
 	mux.HandleFunc("GET /songbook/{song}", app.songbookSong)
-	mux.HandleFunc("POST /songbook", app.songbookPost)
+	// protected:
+	mux.Handle(
+		"POST /songbook",
+		app.requireAuthentication(http.HandlerFunc(
+			app.songbookPost,
+		)),
+	)
 
-	// admin area:
-	mux.HandleFunc("GET /admin", app.admin)
+	// admin:
 	mux.HandleFunc("GET /admin/login", app.adminLogin)
 	mux.HandleFunc("POST /admin/login", app.adminLoginPost)
-	mux.HandleFunc("GET /admin/new-song", app.adminNewSong)
+	// protected:
+	mux.Handle(
+		"GET /admin",
+		app.requireAuthentication(http.HandlerFunc(
+			app.admin,
+		)),
+	)
+	mux.Handle(
+		"GET /admin/new-song",
+		app.requireAuthentication(http.HandlerFunc(
+			app.adminNewSong,
+		)),
+	)
 
 	// finances:
-	mux.HandleFunc("GET /finances", app.finances)
+	// protected:
+	mux.Handle(
+		"GET /finances",
+		app.requireAuthentication(http.HandlerFunc(
+			app.finances,
+		)),
+	)
 
 	return mux
+}
+
+func (app *application) requireAuthentication(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if !app.isAuthenticated(r) {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+			return
+		}
+		w.Header().Add("Cache-Control", "no-store")
+		next.ServeHTTP(w, r)
+	})
 }
