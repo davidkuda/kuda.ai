@@ -11,7 +11,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) about(w http.ResponseWriter, r *http.Request) {
-	t := app.newTemplateData()
+	t := app.newTemplateData(r)
 	t = templateData{
 		NavItems: t.NavItems,
 		Title:    "About",
@@ -22,7 +22,7 @@ func (app *application) about(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) blog(w http.ResponseWriter, r *http.Request) {
-	t := app.newTemplateData()
+	t := app.newTemplateData(r)
 	t = templateData{
 		NavItems: t.NavItems,
 		Title:    "Blog",
@@ -33,7 +33,7 @@ func (app *application) blog(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) bookshelf(w http.ResponseWriter, r *http.Request) {
-	t := app.newTemplateData()
+	t := app.newTemplateData(r)
 	t = templateData{
 		NavItems: t.NavItems,
 		Title:    "Bookshelf",
@@ -55,7 +55,7 @@ func (app *application) cv(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) todayILearned(w http.ResponseWriter, r *http.Request) {
-	t := app.newTemplateData()
+	t := app.newTemplateData(r)
 	t = templateData{
 		NavItems: t.NavItems,
 		Title:    "Today I Learned",

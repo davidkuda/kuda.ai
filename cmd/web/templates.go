@@ -20,7 +20,7 @@ type templateData struct {
 	HideNav  bool
 }
 
-func (app *application) newTemplateData() templateData {
+func (app *application) newTemplateData(r *http.Request) templateData {
 	return templateData{
 		NavItems: app.navItems,
 	}

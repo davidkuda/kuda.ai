@@ -22,7 +22,7 @@ func (app *application) admin(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) adminLogin(w http.ResponseWriter, r *http.Request) {
-	t := app.newTemplateData()
+	t := app.newTemplateData(r)
 	t = templateData{
 		NavItems: t.NavItems,
 		Title:    "Login",
