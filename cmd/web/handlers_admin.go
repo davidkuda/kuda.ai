@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"time"
@@ -96,34 +95,8 @@ func (app *application) adminLogoutPost(w http.ResponseWriter, r *http.Request) 
 }
 
 func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
-
-	err := app.checkJWTCookie(r)
-	if err != nil {
-		log.Printf("could not authenticate client: %v", err)
-		http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
-	} else {
-		log.Println("Could authenticate client :)")
-	}
-
-	tmplFiles := []string{
-		"./ui/html/pages/base.tmpl.html",
-		"./ui/html/partials/nav.tmpl.html",
-		"./ui/html/pages/admin.new_song.tmpl.html",
-	}
-
-	t, err := template.ParseFiles(tmplFiles...)
-	if err != nil {
-		log.Printf("Error parsing home.tmpl.html: %s", err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	err = t.ExecuteTemplate(w, "base", nil)
-	if err != nil {
-		log.Printf("Error executing home.tmpl.html: %s", err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
+	t := app.newTemplateData(r)
+	app.render(w, r, http.StatusOK, "admin.new_song.tmpl.html", &t)
 }
 
 func (app *application) isAuthenticated(r *http.Request) bool {
