@@ -74,6 +74,8 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 		Expires:  time.Now().Add(24 * time.Hour),
 		Secure:   true,
 		HttpOnly: true,
+		Path:     "/",
+		// TODO: what is SameSite??
 		// SameSite: http.SameSiteNoneMode,
 	})
 
