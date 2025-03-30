@@ -90,6 +90,7 @@ func (app *application) adminLogoutPost(w http.ResponseWriter, r *http.Request) 
 		Expires:  time.Now(),
 		Secure:   true,
 		HttpOnly: true,
+		Path:     "/",
 	})
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
