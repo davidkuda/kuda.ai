@@ -77,7 +77,7 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 		// SameSite: http.SameSiteNoneMode,
 	})
 
-	http.Redirect(w, r, "/admin/new-song", http.StatusSeeOther)
+	http.Redirect(w, r, "/admin", http.StatusSeeOther)
 }
 
 func (app *application) adminLogoutPost(w http.ResponseWriter, r *http.Request) {
