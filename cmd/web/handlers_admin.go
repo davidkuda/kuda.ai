@@ -79,14 +79,17 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/admin/new-song", http.StatusSeeOther)
 }
+
+func (app *application) adminLogoutPost(w http.ResponseWriter, r *http.Request) {
+	http.SetCookie(w, &http.Cookie{
+		Name:     "session",
+		Value:    "",
 		Domain:   app.JWT.CookieDomain,
-		Expires:  time.Now().Add(24 * time.Hour),
+		Expires:  time.Now(),
 		Secure:   true,
 		HttpOnly: true,
-		// SameSite: http.SameSiteNoneMode,
 	})
-
-	http.Redirect(w, r, "/admin/new-song", http.StatusSeeOther)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func (app *application) adminNewSong(w http.ResponseWriter, r *http.Request) {
