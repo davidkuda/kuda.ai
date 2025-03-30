@@ -59,7 +59,14 @@ func (m *SongModel) GetAllSongs() (Songs, error) {
 func (m *SongModel) Insert(s *Song) error {
 	stmt := `insert into website.songs (
 				id, artist, name, lyrics, chords, copyright
-			) VALUES ($1, $2, $3, $4, $5, $6);`
+			) VALUES ($1, $2, $3, $4, $5, $6)
+			ON CONFLICT (id) DO UPDATE SET
+				artist = EXCLUDED.artist,
+				name = EXCLUDED.name,
+				lyrics = EXCLUDED.lyrics,
+				chords = EXCLUDED.chords,
+				copyright = EXCLUDED.copyright;`
+
 
 	_, err := m.DB.Exec(stmt, s.ID, s.Artist, s.Name, s.Lyrics, s.Chords, s.Copyright)
 	if err != nil {
