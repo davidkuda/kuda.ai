@@ -1,10 +1,14 @@
 PG_DSN_ADMIN = postgres://davidkuda:@${DB_ADDRESS}/${DB_NAME}?sslmode=disable
 PG_DSN_APP = postgres://${DB_USER}:${DB_PASSWORD}@${DB_ADDRESS}/${DB_NAME}?sslmode=disable
 
-db/backup/data-only:
+db/backup:
 	pg_dump \
 	--data-only \
-	> ./data/postgres/backup-data-only
+	--column-inserts \
+	--no-privileges \
+	--no-owner \
+	--table=songs \
+	> ./data/postgres/2025-03-28--songs
 
 
 db/init:
@@ -28,3 +32,16 @@ db/migrate/up/roles:
 	-path=./migrations \
 	-database=${PG_DSN_ADMIN} \
 	up
+
+db/migrate/version:
+	migrate \
+	-URL=${PG_DSN_ADMIN} \
+	version
+
+user ?= dev
+psql/dev:
+	psql \
+	--host localhost \
+	--username ${user} \
+	--port 5432 \
+	--dbname kuda_ai
