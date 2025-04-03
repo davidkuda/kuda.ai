@@ -29,11 +29,3 @@ func (app *application) bookshelf(w http.ResponseWriter, r *http.Request) {
 	t.HTML = app.markdownHTMLCache["bookshelf.md"]
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
-
-func (app *application) todayILearned(w http.ResponseWriter, r *http.Request) {
-	t := app.newTemplateData(r)
-	t.Title = "Today I Learned"
-	t.RootPath = "/today-i-learned"
-	t.HTML = app.markdownHTMLCache["til.md"]
-	app.render(w, r, 200, "simplePage.tmpl.html", &t)
-}

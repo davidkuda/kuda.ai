@@ -50,6 +50,12 @@ func (app *application) routes() *http.ServeMux {
 		)),
 	)
 	mux.Handle(
+		"GET /admin/new-til",
+		app.requireAuthentication(http.HandlerFunc(
+			app.adminNewTIL,
+		)),
+	)
+	mux.Handle(
 		"GET /admin/logout",
 		app.requireAuthentication(http.HandlerFunc(
 			app.adminLogoutPost,
