@@ -75,6 +75,34 @@ func (m *TILModel) Insert(t *TIL) error {
 	return nil
 }
 
+func (m *TILModel) UpdateExisting(t *TIL) error {
+	stmt := `
+	UPDATE website.til
+	SET path = $2,
+		title = $3,
+		category = $4
+		summary = $5,
+		text = $6,
+		updated_at = CURRENT_DATE
+	WHERE id = $1;
+	`
+
+	_, err := m.DB.Exec(
+		stmt,
+		t.ID,
+		t.Path,
+		t.Title,
+		t.Category,
+		t.Summary,
+		t.Text,
+	)
+	if err != nil {
+		log.Printf("failed executing insert sql: %v", err)
+	}
+
+	return nil
+}
+
 func (m *TILModel) GetBy(TILPath string) (*TIL, error) {
 	stmt := `
 	SELECT id, path, title, category, summary, text, created_at, updated_at
