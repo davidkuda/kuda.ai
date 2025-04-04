@@ -36,7 +36,7 @@ func (m *TILModel) GetAll() (TILs, error) {
 	var tils TILs
 
 	for rows.Next() {
-		var til *TIL
+		var til TIL
 		err = rows.Scan(
 			&til.ID,
 			&til.Path,
@@ -50,7 +50,7 @@ func (m *TILModel) GetAll() (TILs, error) {
 		if err != nil {
 			return nil, err
 		}
-		tils = append(tils, til)
+		tils = append(tils, &til)
 	}
 
 	if err = rows.Err(); err != nil {
