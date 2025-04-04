@@ -75,21 +75,26 @@ func (m *TILModel) Insert(t *TIL) error {
 	return nil
 }
 
-func (m *TILModel) Get(tilID string) (*TIL, error) {
-	stmt := `select id, date, title, teaser, content
-	from til
-	where id = $1;`
+func (m *TILModel) GetBy(TILPath string) (*TIL, error) {
+	stmt := `
+	SELECT id, path, title, category, summary, text, created_at, updated_at
+	FROM til
+	WHERE path = $1;
+	`
 
-	row := m.DB.QueryRow(stmt, tilID)
+	row := m.DB.QueryRow(stmt, TILPath)
 
 	til := TIL{}
 
 	err := row.Scan(
-		til.ID,
-		til.Date,
-		til.Title,
-		til.Teaser,
-		til.Content,
+		&til.ID,
+		&til.Path,
+		&til.Title,
+		&til.Category,
+		&til.Summary,
+		&til.Text,
+		&til.CreatedAt,
+		&til.UpdatedAt,
 	)
 
 	if err != nil {
