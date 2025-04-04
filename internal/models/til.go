@@ -138,3 +138,29 @@ func (m *TILModel) GetBy(TILPath string) (*TIL, error) {
 
 	return &til, nil
 }
+
+
+func (m *TILModel) PathIsUnique(TILPath string) (bool, error) {
+	stmt := `
+	SELECT count(path)
+	FROM website.til
+	WHERE path = $1;
+	`
+
+	row := m.DB.QueryRow(stmt, TILPath)
+
+	var count int
+	err := row.Scan(
+		count,
+	)
+
+	if err != nil {
+		return false, err
+	}
+
+	if count > 0 {
+		return false, nil
+	}
+
+	return true, nil
+}
