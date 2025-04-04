@@ -2,8 +2,8 @@ package models
 
 import (
 	"database/sql"
-	"time"
 	"log"
+	"time"
 )
 
 type TILs []*TIL
@@ -24,7 +24,7 @@ type TILModel struct {
 }
 
 func (m *TILModel) GetAll() (TILs, error) {
-	stmt := "select id, date, title, teaser, content from til;"
+	stmt := "select id, path, title, category, summary, text, created_at, updated_at from website.til;"
 
 	rows, err := m.DB.Query(stmt)
 	if err != nil {
@@ -38,11 +38,14 @@ func (m *TILModel) GetAll() (TILs, error) {
 	for rows.Next() {
 		var til *TIL
 		err = rows.Scan(
-			til.ID,
-			til.Date,
-			til.Title,
-			til.Teaser,
-			til.Content,
+			&til.ID,
+			&til.Path,
+			&til.Title,
+			&til.Category,
+			&til.Summary,
+			&til.Text,
+			&til.CreatedAt,
+			&til.UpdatedAt,
 		)
 		if err != nil {
 			return nil, err
@@ -77,6 +80,7 @@ func (m *TILModel) Insert(t *TIL) error {
 
 	return nil
 }
+
 
 func (m *TILModel) UpdateExisting(t *TIL) error {
 	stmt := `
