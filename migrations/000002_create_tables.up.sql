@@ -66,20 +66,26 @@ create table website.blog_tags (
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- TIL
+-- path may change, therefore, it's not the ID.
 
-create table website.til (
-    id serial primary key,
-    path text unique not null,
-    title text not null,
-    content text,
-    created_at date default current_date,
-    updated_at date default current_date
+CREATE TABLE website.til (
+	id         SERIAL8 PRIMARY KEY,
+	path       TEXT NOT NULL UNIQUE,
+	title      TEXT NOT NULL,
+    summary    TEXT,
+	text       TEXT,
+	created_at DATE DEFAULT CURRENT_DATE,
+	updated_at DATE DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE website.til_tags (
-    til_id integer not null references website.til(id) on delete cascade,
-    tag_id integer not null references website.tags(id) on delete cascade,
-    primary key (til_id, tag_id)
+	til_id INT8
+	       NOT NULL
+	       REFERENCES website.til (id) ON DELETE CASCADE,
+	tag_id INT8
+	       NOT NULL
+	       REFERENCES website.tags (id) ON DELETE CASCADE,
+	PRIMARY KEY (til_id, tag_id)
 );
 
 
