@@ -9,11 +9,14 @@ import (
 type TILs []*TIL
 
 type TIL struct {
-	ID      string
-	Date    time.Time
-	Title   string
-	Teaser  string
-	Content string
+	ID        int
+	Path      string
+	Title     string
+	Category  string
+	Summary   string
+	Text      string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 type TILModel struct {
