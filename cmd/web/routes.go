@@ -14,7 +14,15 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("GET /about", app.about)
 	mux.HandleFunc("GET /blog", app.blog)
 	mux.HandleFunc("GET /bookshelf", app.bookshelf)
+
+	// til:
 	mux.HandleFunc("GET /today-i-learned", app.todayILearned)
+	mux.Handle(
+		"POST /til",
+		app.requireAuthentication(http.HandlerFunc(
+			app.tilPost,
+		)),
+	)
 
 	//songbook:
 	mux.HandleFunc("GET /songbook", app.songbook)

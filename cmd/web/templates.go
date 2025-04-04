@@ -18,6 +18,8 @@ type templateData struct {
 	HTML     template.HTML
 	Songs    models.Songs
 	Song     *models.Song
+	TILs     models.TILs
+	TIL      *models.TIL
 	Form     any
 	LoggedIn bool
 	HideNav  bool
@@ -47,6 +49,7 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 		RootPath: rootPath,
 		Path:     r.URL.Path,
 		Song:     &models.Song{},
+		TIL:      &models.TIL{},
 	}
 }
 

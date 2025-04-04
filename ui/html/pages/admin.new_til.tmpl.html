@@ -1,0 +1,117 @@
+{{ define "title" }}Admin: New TIL{{ end }}
+{{ define "main" }}
+{{- if eq .TIL.ID 0 -}}
+<h3>New TIL:</h3>
+{{- else -}}
+<h3>Edit TIL (ID {{ .TIL.ID }})</h3>
+{{- end -}}
+<form action="/til" method="post">
+  <fieldset>
+
+    {{- if .TIL.ID}}
+    <div class="grid">
+      <label>
+        Created At:
+        <input type="text" aria-label="created-at" value="{{ .TIL.CreatedAt }}">
+      </label>
+      <label>
+        Updated At:
+        <input type="text" aria-label="updated-at" value="{{ .TIL.UpdatedAt }}">
+      </label>
+      <label>
+        ID:
+        <input type="text" aria-label="til-id" value="{{ .TIL.ID }}">
+      </label>
+      {{end -}}
+
+    </div>
+
+    <label>Path:
+      <input
+        type="text"
+        name="til-path"
+        placeholder="Path"
+        value="{{.TIL.Path}}"
+        required
+      {{if or .Form.FieldErrors.pathfmt .Form.FieldErrors.pathuniq }}
+        aria-invalid="true"
+        aria-describedby="invalid-til-path"
+      {{end}}
+      >
+      {{ with .Form.FieldErrors.pathfmt }}
+      <small id="invalid-til-path">{{ . }}</small>
+      {{ end }}
+      {{ with .Form.FieldErrors.pathuniq }}
+      <small id="invalid-til-path">{{ . }}</small>
+      {{ end }}
+    </label>
+
+    <label>Title:
+      <input
+        type="text"
+        name="til-title"
+        placeholder="Title"
+        value="{{.Form.TIL.Title}}"
+        required
+        {{if .Form.FieldErrors.title}}
+        aria-invalid="true"
+        aria-describedby="invalid-til-title"
+        {{end}}
+      >
+      {{ with .Form.FieldErrors.title }}
+      <small id="invalid-til-title">{{ . }}</small>
+      {{ end }}
+    </label>
+
+    <label>Category:
+      <input
+        type="text"
+        name="til-category"
+        placeholder="Category"
+        value="{{.Form.TIL.Category}}"
+        required
+      >
+      {{ with .Form.FieldErrors.category }}
+      <small id="invalid-til-title">{{ . }}</small>
+      {{ end }}
+    </label>
+
+    <label>Summary (1 Paragraph):
+      <textarea
+        name="til-summary"
+        rows="2"
+        placeholder="Summary ..."
+        aria-label="summary"
+        required
+        {{if .Form.FieldErrors.summary}}
+        aria-invalid="true"
+        aria-describedby="invalid-til-summary"
+        {{end}}
+      >
+        {{- .Form.TIL.Summary -}}
+      </textarea>
+      {{ with .Form.FieldErrors.summary }}
+      <small id="invalid-til-summary">{{ . }}</small>
+      {{ end }}
+    </label>
+
+    <label>Text (Markdown):
+      <textarea
+        name="til-text"
+        rows="7"
+        placeholder="Today I learned ..."
+        aria-label="text"
+        required
+      >
+        {{- .Form.TIL.Text -}}
+      </textarea>
+    </label>
+
+  </fieldset>
+
+  <input
+    type="submit"
+    value="{{if eq .TIL.ID 0}}Create{{else}}Update{{end}}"
+  >
+</form>
+{{ end }}

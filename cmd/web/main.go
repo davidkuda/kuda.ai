@@ -65,6 +65,7 @@ func main() {
 
 	app.songs = &models.SongModel{DB: db}
 	app.users = &models.UserModel{DB: db}
+	app.til = &models.TILModel{DB: db}
 
 	templateCache, err := newTemplateCache()
 	if err != nil {
