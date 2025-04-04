@@ -55,19 +55,18 @@ func (m *TILModel) GetAll() (TILs, error) {
 }
 
 func (m *TILModel) Insert(t *TIL) error {
-	stmt := `insert into til (
-				id, date, title, teaser, content
-			) VALUES (
-				$1, $2, $3, $4, $5
-			);`
+	stmt := `
+	INSERT INTO website.til (path, title, category, summary, text)
+	VALUES ($1, $2, $3, $4, $5);
+	`
 
 	_, err := m.DB.Exec(
 		stmt,
-		t.ID,
-		t.Date,
+		t.Path,
 		t.Title,
-		t.Teaser,
-		t.Content,
+		t.Category,
+		t.Summary,
+		t.Text,
 	)
 	if err != nil {
 		log.Printf("failed executing insert sql: %v", err)
