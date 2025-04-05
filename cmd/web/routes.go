@@ -17,10 +17,23 @@ func (app *application) routes() *http.ServeMux {
 
 	// til:
 	mux.HandleFunc("GET /today-i-learned", app.todayILearned)
+	mux.HandleFunc("GET /today-i-learned/{path}", app.todayILearnedPath)
 	mux.Handle(
 		"POST /til",
 		app.requireAuthentication(http.HandlerFunc(
 			app.tilPost,
+		)),
+	)
+	mux.Handle(
+		"GET /admin/new-til",
+		app.requireAuthentication(http.HandlerFunc(
+			app.adminNewTIL,
+		)),
+	)
+	mux.Handle(
+		"GET /admin/tils/{path}",
+		app.requireAuthentication(http.HandlerFunc(
+			app.adminTILSTIL,
 		)),
 	)
 
@@ -32,17 +45,6 @@ func (app *application) routes() *http.ServeMux {
 		"POST /songbook",
 		app.requireAuthentication(http.HandlerFunc(
 			app.songbookPost,
-		)),
-	)
-
-	// admin:
-	mux.HandleFunc("GET /admin/login", app.adminLogin)
-	mux.HandleFunc("POST /admin/login", app.adminLoginPost)
-	// protected:
-	mux.Handle(
-		"GET /admin",
-		app.requireAuthentication(http.HandlerFunc(
-			app.admin,
 		)),
 	)
 	mux.Handle(
@@ -57,10 +59,15 @@ func (app *application) routes() *http.ServeMux {
 			app.adminSongbookSong,
 		)),
 	)
+
+	// admin:
+	mux.HandleFunc("GET /admin/login", app.adminLogin)
+	mux.HandleFunc("POST /admin/login", app.adminLoginPost)
+	// protected:
 	mux.Handle(
-		"GET /admin/new-til",
+		"GET /admin",
 		app.requireAuthentication(http.HandlerFunc(
-			app.adminNewTIL,
+			app.admin,
 		)),
 	)
 	mux.Handle(

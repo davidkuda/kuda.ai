@@ -9,6 +9,20 @@ a {
     text-decoration: underline;
 }
 
+.tils-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.til {
+    flex: 0 0 200px;
+    background-color: silver;
+    padding: 1em;
+    text-decoration: none !important;
+}
+
 nav ul li a {
     text-decoration: underline !important;
 }

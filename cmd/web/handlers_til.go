@@ -11,7 +11,7 @@ import (
 )
 
 type tilForm struct {
-	TIL         models.TIL
+	TIL         *models.TIL
 	FieldErrors map[string]string
 }
 
@@ -19,13 +19,60 @@ func (app *application) todayILearned(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
 	t.Title = "Today I Learned"
 	t.RootPath = "/today-i-learned"
-	t.HTML = app.markdownHTMLCache["til.md"]
-	app.render(w, r, 200, "simplePage.tmpl.html", &t)
+	tils, err := app.til.GetAll()
+	if err != nil {
+		// TODO: how to handle gracefully?
+		log.Println(err)
+	}
+	t.TILs = tils
+	app.render(w, r, 200, "tils.tmpl.html", &t)
+}
+
+func (app *application) todayILearnedPath(w http.ResponseWriter, r *http.Request) {
+
+	path := r.PathValue("path")
+
+	til, err := app.til.GetBy(path)
+	if err != nil {
+		log.Printf("app.til.GetBy(%v): %v", path, err)
+		// TODO: Show a nice 404 page.
+		http.NotFound(w, r)
+		return
+	}
+
+	t := app.newTemplateData(r)
+	t.Title = "Today I Learned"
+	t.RootPath = "/today-i-learned"
+	t.TIL = til
+
+	app.render(w, r, 200, "tils.til.tmpl.html", &t)
 }
 
 func (app *application) adminNewTIL(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
-	t.Form = tilForm{TIL: models.TIL{}}
+	t.Form = tilForm{TIL: &models.TIL{}}
+	app.render(w, r, http.StatusOK, "admin.new_til.tmpl.html", &t)
+}
+
+func (app *application) adminTILSTIL(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	path := r.PathValue("path")
+	til := &models.TIL{}
+
+	if path != "" {
+		til, err = app.til.GetBy(path)
+		if err != nil {
+			log.Printf("app.til.GetBy(%v): %v", path, err)
+			// TODO: Show a nice 404 page.
+			http.NotFound(w, r)
+			return
+		}
+	}
+
+	t := app.newTemplateData(r)
+	t.TIL = til
+	t.Form = tilForm{TIL: &models.TIL{}}
 	app.render(w, r, http.StatusOK, "admin.new_til.tmpl.html", &t)
 
 }
@@ -51,7 +98,7 @@ func (app *application) tilPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	form := tilForm{
-		TIL: models.TIL{
+		TIL: &models.TIL{
 			ID:       id,
 			Path:     f.Get("til-path"),
 			Title:    f.Get("til-title"),
@@ -91,24 +138,24 @@ func (app *application) tilPost(w http.ResponseWriter, r *http.Request) {
 	if len(form.FieldErrors) > 0 {
 		t := app.newTemplateData(r)
 		t.Form = form
-		t.TIL = &form.TIL
+		t.TIL = form.TIL
 		app.render(w, r, http.StatusUnprocessableEntity, "admin.new_til.tmpl.html", &t)
 		return
 	}
 
 	if id == 0 {
-		err = app.til.Insert(&form.TIL)
+		err = app.til.Insert(form.TIL)
 		if err != nil {
 			log.Printf("app.til.Insert(): %v\n", err)
 			return
 		}
 	} else {
-		err = app.til.UpdateExisting(&form.TIL)
+		err = app.til.UpdateExisting(form.TIL)
 		if err != nil {
 			log.Printf("app.til.UpdateExisting(): %v\n", err)
 			return
 		}
 	}
-	http.Redirect(w, r, fmt.Sprintf("/til/%v", form.TIL.ID), http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("/today-i-learned/%v", form.TIL.Path), http.StatusSeeOther)
 	return
 }

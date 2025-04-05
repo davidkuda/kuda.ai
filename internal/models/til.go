@@ -113,7 +113,7 @@ func (m *TILModel) UpdateExisting(t *TIL) error {
 func (m *TILModel) GetBy(TILPath string) (*TIL, error) {
 	stmt := `
 	SELECT id, path, title, category, summary, text, created_at, updated_at
-	FROM til
+	FROM website.til
 	WHERE path = $1;
 	`
 

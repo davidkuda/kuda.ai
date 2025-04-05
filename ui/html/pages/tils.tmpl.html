@@ -1,0 +1,17 @@
+{{ define "title" }}Today I Learned{{ end }}
+
+{{ define "main" }}
+<div class="tils-container">
+  {{ range .TILs }}
+  <a href="/today-i-learned/{{ .Path }}">
+    <div class="til">
+      <hgroup>
+        <h3>{{ .Title }}</h3><br>
+                <p>{{ .Summary }}</p>
+      </hgroup>
+      <small>{{ .CreatedAt }}; {{ .Category }}</small>
+    </div>
+  </a>
+  {{ end }}
+</div>
+{{ end }}
