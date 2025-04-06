@@ -20,11 +20,10 @@
       </label>
       <label>
         ID:
-        <input type="text" aria-label="til-id" value="{{ .TIL.ID }}" disabled>
+        <input name="til-id" type="text" aria-label="til-id" value="{{ .TIL.ID }}" readonly>
       </label>
-      {{end -}}
-
     </div>
+    {{end -}}
 
     <label>Path:
       <input
