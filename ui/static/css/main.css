@@ -7,24 +7,24 @@ header {
     flex-direction: column;
 }
 
-header > hgroup {
+header>hgroup {
     text-align: center;
 }
 
-header > hgroup > h1 > a {
+header>hgroup>h1>a {
     text-decoration: none;
 }
 
-header > hgroup > h1 > a:hover {
+header>hgroup>h1>a:hover {
     text-decoration: underline;
     text-decoration-thickness: 5%;
 }
 
-header > nav > ul > li > a {
+header>nav>ul>li>a {
     text-decoration: underline !important;
 }
 
-header > nav > ul > li > a.active {
+header>nav>ul>li>a.active {
     text-decoration: none !important;
     font-weight: 600;
 }
@@ -51,7 +51,7 @@ a:hover {
 
 /* TILs */
 
-div.tils-container > a {
+div.tils-container>a {
     text-decoration: none;
 }
 
@@ -63,25 +63,67 @@ div.tils-container {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     justify-content: center;
     gap: 0.2em;
+    /* grid-auto-rows: 1fr; */
 }
 
-.card {
-  display: block;
-  padding: 1rem;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb; /* gray-200 */
-  border-radius: 0.5rem; /* rounded-lg */
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-sm */
-  text-decoration: none;
-  transition: background-color 0.2s ease-in-out;
+div.card {
+    height: 100%;
+    display: block;
+    padding: 1rem;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
 }
 
 .card:hover {
-  background-color: #f3f4f6; /* hover:bg-gray-100 */
+    background-color: #f3f4f6;
 }
 
-.card-text {
-  color: #374151; /* text-gray-700 */
+.card>h3.card-title {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+div.card>small.date {
+    margin-bottom: 1em;
+}
+
+div.card>p.card-text {
+    margin-bottom: 2em;
+    color: #121212;
+}
+
+.card>small.category {
+    margin-top: auto;
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    div.card {
+        background-color: #1f2937;
+        border-color: #374151;
+    }
+
+    .card:hover {
+        background-color: #374151;
+    }
+
+    .card>h3.card-title {
+        color: #ffffff;
+    }
+
+    div.card>small.date {}
+
+    div.card>p.card-text {
+        color: #9ca3af;
+    }
+
+    .card>small.category {}
 }
 
 
