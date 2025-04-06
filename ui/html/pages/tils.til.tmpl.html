@@ -2,7 +2,7 @@
 
 {{ define "main" }}
 {{ with .TIL }}
-<h3>{{ .Title }}</h3>
+<h2>{{ .Title }}</h2>
 {{ if $.LoggedIn }}
 <p>
   <a href="/admin/tils/{{ .Path }}">edit this TIL</a>
@@ -15,6 +15,6 @@
     Category: <code>{{ .Category }}</code>
   </small>
 </p>
-<p>{{ .Text }}</p>
+<p>{{ .TextHTML }}</p>
 {{ end }}
 {{ end }}

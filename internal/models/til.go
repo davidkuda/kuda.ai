@@ -3,8 +3,11 @@ package models
 import (
 	"database/sql"
 	"fmt"
+	"html/template"
 	"log"
 	"time"
+
+	"github.com/russross/blackfriday/v2"
 )
 
 type TILs []*TIL
@@ -16,6 +19,7 @@ type TIL struct {
 	Category  string
 	Summary   string
 	Text      string
+	TextHTML  template.HTML
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -136,6 +140,9 @@ func (m *TILModel) GetBy(TILPath string) (*TIL, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	htmlBytes := blackfriday.Run([]byte(til.Text))
+	til.TextHTML = template.HTML(htmlBytes)
 
 	return &til, nil
 }
