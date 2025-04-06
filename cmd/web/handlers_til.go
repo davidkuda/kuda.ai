@@ -60,14 +60,12 @@ func (app *application) adminTILSTIL(w http.ResponseWriter, r *http.Request) {
 	path := r.PathValue("path")
 	til := &models.TIL{}
 
-	if path != "" {
-		til, err = app.til.GetBy(path)
-		if err != nil {
-			log.Printf("app.til.GetBy(%v): %v", path, err)
-			// TODO: Show a nice 404 page.
-			http.NotFound(w, r)
-			return
-		}
+	til, err = app.til.GetBy(path)
+	if err != nil {
+		log.Printf("app.til.GetBy(%v): %v", path, err)
+		// TODO: Show a nice 404 page.
+		http.NotFound(w, r)
+		return
 	}
 
 	t := app.newTemplateData(r)
@@ -96,6 +94,10 @@ func (app *application) tilPost(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	var isUpdate bool
+	if id > 0 {
+		isUpdate = true
+	}
 
 	form := tilForm{
 		TIL: &models.TIL{
@@ -116,10 +118,10 @@ func (app *application) tilPost(w http.ResponseWriter, r *http.Request) {
 		form.FieldErrors["pathfmt"] = "id may only contain lowercase characters and hyphens"
 	}
 
-	if form.TIL.ID > 0 {
+	if !isUpdate {
 		uniq, err := app.til.PathIsUnique(form.TIL.Path)
 		if err != nil {
-			log.Printf("app.til.PathIsUnique: %v", err)
+			log.Printf("app.til.PathIsUnique(Path): %v", err)
 			// TODO: send status 400 Bad Request to the client
 			return
 		}
@@ -147,13 +149,13 @@ func (app *application) tilPost(w http.ResponseWriter, r *http.Request) {
 		err = app.til.Insert(form.TIL)
 		if err != nil {
 			log.Printf("app.til.Insert(): %v\n", err)
-			return
+			// TODO: send some notification to the UI
 		}
 	} else {
 		err = app.til.UpdateExisting(form.TIL)
 		if err != nil {
 			log.Printf("app.til.UpdateExisting(): %v\n", err)
-			return
+			// TODO: send some notification to the UI
 		}
 	}
 	http.Redirect(w, r, fmt.Sprintf("/today-i-learned/%v", form.TIL.Path), http.StatusSeeOther)
