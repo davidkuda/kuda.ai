@@ -6,9 +6,10 @@
   {{ range .TILs }}
   <a href="/today-i-learned/{{ .Path }}">
     <div class="card">
-      <h4 class="card-title">{{ .Title }}</h4>
+      <h3 class="card-title">{{ .Title }}</h3>
+      <small class="date">{{ .CreatedAt | formatDate }}</small>
       <p class="card-text">{{ .Summary }}</p>
-      <small><code>{{ .Category }}</code><br>{{ .CreatedAt | formatDate }}</small>
+      <small class="category"><code>{{ .Category }}</code></small>
     </div>
   </a>
   {{ end }}
