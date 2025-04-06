@@ -23,17 +23,16 @@ a {
     text-decoration: none !important;
 }
 
-nav ul li a {
+nav > ul > li > a {
     text-decoration: underline !important;
 }
 
-.active {
+nav > ul > li > a.active {
     text-decoration: none !important;
+    font-weight: 600;
 }
 
-nav ul li a .active {
-    text-decoration: none !important;
-}
+.active {}
 
 a:hover {
     color: coral;
@@ -43,18 +42,17 @@ hgroup {
     text-align: center;
 }
 
-hgroup a {
+header > hgroup > h1 > a {
     text-decoration: none;
 }
 
-hgroup a:hover {
+header > hgroup > h1 > a:hover {
     text-decoration: underline;
     text-decoration-thickness: 5%;
 }
 
 main {
     max-width: 56ch !important;
-    /* max-width: 56ch; */
 }
 
 footer {
