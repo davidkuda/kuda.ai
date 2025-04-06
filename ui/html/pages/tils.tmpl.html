@@ -8,7 +8,7 @@
     <div class="card">
       <h4 class="card-title">{{ .Title }}</h4>
       <p class="card-text">{{ .Summary }}</p>
-      <small>{{ .CreatedAt }}; {{ .Category }}</small>
+      <small>{{ .Category }}<br>{{ .CreatedAt | formatDate }}</small>
     </div>
   </a>
   {{ end }}

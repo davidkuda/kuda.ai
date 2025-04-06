@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/davidkuda/kudaai/internal/models"
 )
@@ -73,6 +74,10 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, status in
 func newTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
 
+	funcs := template.FuncMap{
+		"formatDate": formatDate,
+	}
+
 	pages, err := filepath.Glob("./ui/html/pages/*.tmpl.html")
 	if err != nil {
 		return nil, err
@@ -87,7 +92,8 @@ func newTemplateCache() (map[string]*template.Template, error) {
 			page,
 		}
 
-		t, err := template.ParseFiles(files...)
+		tmpl := template.New("base").Funcs(funcs)
+		t, err := tmpl.ParseFiles(files...)
 		if err != nil {
 			return nil, fmt.Errorf("Error parsing template files: %s", err.Error())
 		}
@@ -96,4 +102,8 @@ func newTemplateCache() (map[string]*template.Template, error) {
 	}
 
 	return cache, nil
+}
+
+func formatDate(t time.Time) string {
+	return t.Format("January 2, 2006")
 }
