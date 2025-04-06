@@ -86,7 +86,6 @@ func (m *TILModel) Insert(t *TIL) error {
 	return nil
 }
 
-
 func (m *TILModel) UpdateExisting(t *TIL) error {
 	stmt := `
 	UPDATE website.til
@@ -146,7 +145,6 @@ func (m *TILModel) GetBy(TILPath string) (*TIL, error) {
 
 	return &til, nil
 }
-
 
 func (m *TILModel) PathIsUnique(TILPath string) (bool, error) {
 	stmt := `
