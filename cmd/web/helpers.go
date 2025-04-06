@@ -46,8 +46,6 @@ func newMarkdownHTMLCache() (map[string]template.HTML, error) {
 		"about.md",
 		"blog.md",
 		"bookshelf.md",
-		"cv.md",
-		"til.md",
 	}
 
 	for _, file := range files {
