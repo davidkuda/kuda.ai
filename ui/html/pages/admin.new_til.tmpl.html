@@ -3,7 +3,7 @@
 {{- if eq .TIL.ID 0 -}}
 <h3>New TIL:</h3>
 {{- else -}}
-<h3>Edit TIL (ID {{ .TIL.ID }})</h3>
+<h3>Edit TIL:</h3>
 {{- end -}}
 <form action="/til" method="post">
   <fieldset>
@@ -12,15 +12,15 @@
     <div class="grid">
       <label>
         Created At:
-        <input type="text" aria-label="created-at" value="{{ .TIL.CreatedAt }}">
+        <input type="text" aria-label="created-at" value="{{ .TIL.CreatedAt | formatDate }}" disabled>
       </label>
       <label>
         Updated At:
-        <input type="text" aria-label="updated-at" value="{{ .TIL.UpdatedAt }}">
+        <input type="text" aria-label="updated-at" value="{{ .TIL.UpdatedAt | formatDate }}" disabled>
       </label>
       <label>
         ID:
-        <input type="text" aria-label="til-id" value="{{ .TIL.ID }}">
+        <input type="text" aria-label="til-id" value="{{ .TIL.ID }}" disabled>
       </label>
       {{end -}}
 
@@ -51,7 +51,7 @@
         type="text"
         name="til-title"
         placeholder="Title"
-        value="{{.Form.TIL.Title}}"
+        value="{{.TIL.Title}}"
         required
         {{if .Form.FieldErrors.title}}
         aria-invalid="true"
@@ -68,7 +68,7 @@
         type="text"
         name="til-category"
         placeholder="Category"
-        value="{{.Form.TIL.Category}}"
+        value="{{.TIL.Category}}"
         required
       >
       {{ with .Form.FieldErrors.category }}
@@ -83,12 +83,13 @@
         placeholder="Summary ..."
         aria-label="summary"
         required
+        value="{{.TIL.Summary}}"
         {{if .Form.FieldErrors.summary}}
         aria-invalid="true"
         aria-describedby="invalid-til-summary"
         {{end}}
       >
-        {{- .Form.TIL.Summary -}}
+        {{- .TIL.Summary -}}
       </textarea>
       {{ with .Form.FieldErrors.summary }}
       <small id="invalid-til-summary">{{ . }}</small>
@@ -103,7 +104,7 @@
         aria-label="text"
         required
       >
-        {{- .Form.TIL.Text -}}
+        {{- .TIL.Text -}}
       </textarea>
     </label>
 
