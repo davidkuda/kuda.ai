@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"time"
 )
@@ -75,7 +76,7 @@ func (m *TILModel) Insert(t *TIL) error {
 		t.Text,
 	)
 	if err != nil {
-		log.Printf("failed executing insert sql: %v", err)
+		return fmt.Errorf("failed executing insert sql: %v", err)
 	}
 
 	return nil
@@ -87,7 +88,7 @@ func (m *TILModel) UpdateExisting(t *TIL) error {
 	UPDATE website.til
 	SET path = $2,
 		title = $3,
-		category = $4
+		category = $4,
 		summary = $5,
 		text = $6,
 		updated_at = CURRENT_DATE
@@ -151,7 +152,7 @@ func (m *TILModel) PathIsUnique(TILPath string) (bool, error) {
 
 	var count int
 	err := row.Scan(
-		count,
+		&count,
 	)
 
 	if err != nil {
