@@ -8,8 +8,13 @@
   <a href="/admin/tils/{{ .Path }}">edit this TIL</a>
 </p>
 {{ end }}
-<p>{{ .Category }}</p>
-<p>{{ .Summary }}</p>
+<p>
+  <small>
+    Created on {{ .CreatedAt | formatDate }}<br>
+    Updated on {{ .UpdatedAt | formatDate }}<br>
+    Category: <code>{{ .Category }}</code>
+  </small>
+</p>
 <p>{{ .Text }}</p>
 {{ end }}
 {{ end }}
