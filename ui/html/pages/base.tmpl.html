@@ -1,41 +1,42 @@
 {{define "base"}}
-<!doctype html>
+<!DOCTYPE html>
 <html lang='en'>
-
-<head>
+  <head>
     <title>kuda.ai | {{ template "title" . }}</title>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='shortcut icon' href='/static/img/favicon.ico' type='image/x-icon'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.pumpkin.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/main.css?v=7">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css?v=8">
     <!-- <link rel="stylesheet" type="text/css" href="/static/css/pico.pumpkin.min.css"> -->
-</head>
-
-<body>
+  </head>
+  <body>
     <header>
-        <hgroup>
-            <h1><a href="/">kuda.ai</a></h1>
-            <p>Thoughts on programming and music theory.</p>
-        </hgroup>
-        {{ if not .HideNav }}
+      <hgroup>
+        <h1><a href="/">kuda.ai</a></h1>
+        <p>Thoughts on programming and music theory.</p>
+      </hgroup>
+      {{ if not .HideNav }}
         {{ template "nav" . }}
         {{ end }}
     </header>
     <main class="container">
-        {{ template "main" . }}
+      {{ template "main" . }}
     </main>
     <footer class="container">
-        <small>
-            Made with ❤️ in Berlin and Amden since 2021
-        </small>
-        <br>
-        <small>
-            <a href="/admin">AdminArea</a> | <a href="https://github.com/davidkuda/kuda.ai">GitHub</a> | <a href="https://www.linkedin.com/in/davidkuda/">LinkedIn</a>
-        </small>
+      <small>
+        Made with ❤️ in Berlin and Amden since 2021
+      </small>
+      <br>
+      <small>
+        <a href="/admin">AdminArea</a>
+        |
+        <a href="https://github.com/davidkuda/kuda.ai">GitHub</a>
+        |
+        <a href="https://www.linkedin.com/in/davidkuda/">LinkedIn</a>
+      </small>
     </footer>
     <script src="/static/js/main.js" type="text/javascript"></script>
-</body>
-
+  </body>
 </html>
 {{end}}
