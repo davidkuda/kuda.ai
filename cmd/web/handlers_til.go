@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/davidkuda/kudaai/internal/models"
 )
@@ -106,7 +107,7 @@ func (app *application) tilPost(w http.ResponseWriter, r *http.Request) {
 			Title:    f.Get("til-title"),
 			Category: f.Get("til-category"),
 			Summary:  f.Get("til-summary"),
-			Text:     f.Get("til-text"),
+			Text:     strings.ReplaceAll(f.Get("til-text"), "\r\n", "\n"),
 		},
 		FieldErrors: map[string]string{},
 	}
