@@ -45,6 +45,7 @@ div.left {}
 
 main {
     padding: 0.5em;
+    overflow-x: hidden;
 }
 
 div.right {}
