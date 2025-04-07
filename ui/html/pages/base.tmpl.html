@@ -20,9 +20,15 @@
         {{ template "nav" . }}
         {{ end }}
     </header>
-    <main class="container">
-      {{ template "main" . }}
-    </main>
+    <div class="container main-layout">
+      <div class="left">
+      </div>
+      <main>
+        {{ template "main" . }}
+      </main>
+      <div class="right">
+      </div>
+    </div>
     <footer class="container">
       <small>
         Made with ❤️ in Berlin and Amden since 2021

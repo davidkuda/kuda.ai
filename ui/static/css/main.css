@@ -33,9 +33,28 @@ header>nav>ul>li>a.active {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* MAIN */
 
-main {
-    max-width: 56ch !important;
+div.main-layout {
+    display: grid;
+    grid-template-columns: 1fr minmax(auto, 56ch) 1fr;
+    justify-content: center;
+    gap: 0.3em;
+    align-items: start;
 }
+
+div.left {}
+
+main {
+    padding: 0.5em;
+}
+
+div.right {}
+
+@media (max-width: 60ch) {
+    div.main-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
 
 a {
     color: inherit;
@@ -62,7 +81,7 @@ div.tils-container {
     padding: 0.2em;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     justify-content: center;
-    gap: 0.2em;
+    gap: 0.3em;
     /* grid-auto-rows: 1fr; */
 }
 
