@@ -1,4 +1,73 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* GLOBAL */
+
+/* rose pine palette: https://rosepinetheme.com/palette/ */
+:root {
+    --text-dawn: #575279;
+    --text-moon: #e0def4;
+    --base-dawn: #faf4ed;
+    --base-moon: #232136;
+    --surface-moon: #2a273f;
+    --surface-dawn: #fffaf3;
+    --overlay-moon: #393552;
+    --overlay-dawn: #f2e9e1;
+    --highlight-med-moon: #44415a;
+    --highlight-med-dawn: #dfdad9;
+}
+
+
+*,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-dawn);
+}
+
+html {
+    background-color: var(--base-dawn);
+}
+
+code {
+    background-color: var(--highlight-med-dawn);
+}
+
+pre>code {
+    background-color: var(--surface-dawn);
+}
+
+@media (prefers-color-scheme: dark) {
+
+    *,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    a {
+        color: var(--text-moon);
+    }
+
+    html {
+        background-color: var(--base-moon);
+    }
+
+    code {
+        background-color: var(--highlight-med-moon);
+    }
+
+    pre>code {
+        background-color: var(--surface-moon);
+    }
+}
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* HEADER */
 
 header {
@@ -41,7 +110,7 @@ div.main-layout {
     display: grid;
     grid-template-columns: 1fr minmax(auto, 56ch) 1fr;
     justify-content: center;
-    gap: 0.3em;
+    gap: 0.5em;
     align-items: start;
 }
 
@@ -67,7 +136,7 @@ a {
 }
 
 a:hover {
-    color: coral;
+    color: #907aa9;
 }
 
 .active {}
@@ -86,15 +155,13 @@ div.tils-container {
     padding: 0.2em;
     grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
     justify-content: center;
-    gap: 0.5em;
+    gap: 0.6em;
     /* grid-auto-rows: 1fr; */
 }
 
 div.card {
     height: 100%;
     padding: 1rem;
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
     border-radius: 0.5rem;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     text-decoration: none;
@@ -102,10 +169,11 @@ div.card {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+    background-color: var(--surface-dawn);
 }
 
 .card:hover {
-    background-color: #f3f4f6;
+    background-color: #f2e9e1;
 }
 
 div.card>hgroup>small {
@@ -122,7 +190,6 @@ div.card>small.date {
 
 div.card>p.card-text {
     margin-bottom: 2em;
-    color: #121212;
 }
 
 .card>small.category {
@@ -132,23 +199,18 @@ div.card>p.card-text {
 /* Dark mode styles */
 @media (prefers-color-scheme: dark) {
     div.card {
-        background-color: #1f2937;
-        border-color: #374151;
+        background-color: var(--surface-moon);
     }
 
     .card:hover {
-        background-color: #374151;
+        background-color: var(--overlay-moon);
     }
 
-    .card>h3.card-title {
-        color: #ffffff;
-    }
+    .card>h3.card-title {}
 
     div.card>small.date {}
 
-    div.card>p.card-text {
-        color: #9ca3af;
-    }
+    div.card>p.card-text {}
 
     .card>small.category {}
 }
