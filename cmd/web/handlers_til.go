@@ -26,6 +26,7 @@ func (app *application) todayILearned(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 	t.TILs = tils
+	t.Sidebars = false
 	app.render(w, r, 200, "tils.tmpl.html", &t)
 }
 

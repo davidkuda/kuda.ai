@@ -24,6 +24,7 @@ type templateData struct {
 	Form     any
 	LoggedIn bool
 	HideNav  bool
+	Sidebars bool
 }
 
 func (app *application) newTemplateData(r *http.Request) templateData {
@@ -51,6 +52,7 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 		Path:     r.URL.Path,
 		Song:     &models.Song{},
 		TIL:      &models.TIL{},
+		Sidebars: true,
 	}
 }
 

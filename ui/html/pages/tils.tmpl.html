@@ -1,13 +1,15 @@
 {{ define "title" }}Today I Learned{{ end }}
 
 {{ define "main" }}
-<h2>Today I Learned</h2>
+<h2 class="text-center">Today I Learned</h2>
 <div class="tils-container">
   {{ range .TILs }}
   <a href="/today-i-learned/{{ .Path }}">
     <div class="card">
-      <h3 class="card-title">{{ .Title }}</h3>
+      <hgroup>
+      <p class="card-title"><strong>{{ .Title }}</strong></p>
       <small class="date">{{ .CreatedAt | formatDate }}</small>
+      </hgroup>
       <p class="card-text">{{ .Summary }}</p>
       <small class="category"><code>{{ .Category }}</code></small>
     </div>
