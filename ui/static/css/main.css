@@ -5,14 +5,33 @@
 :root {
     --text-dawn: #575279;
     --text-moon: #e0def4;
+
+    --muted-dawn: #9893a5;
+    --muted-moon: #6e6a86;
+
     --base-dawn: #faf4ed;
     --base-moon: #232136;
-    --surface-moon: #2a273f;
+
     --surface-dawn: #fffaf3;
-    --overlay-moon: #393552;
+    --surface-moon: #2a273f;
+
     --overlay-dawn: #f2e9e1;
-    --highlight-med-moon: #44415a;
+    --overlay-moon: #393552;
+
     --highlight-med-dawn: #dfdad9;
+    --highlight-med-moon: #44415a;
+
+    --highlight-high-dawn: #cecacd;
+    --highlight-high-moon: #56526e;
+
+    --rose-dawn: #d7827e;
+    --rose-moon: #ea9a97;
+
+    --iris-dawn: #907aa9;
+    --iris-moon: #c4a7e7;
+
+    --pine-dawn: #286983;
+    --pine-moon: #3e8fb0;
 }
 
 
@@ -23,7 +42,9 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+a,
+code {
     color: var(--text-dawn);
 }
 
@@ -32,7 +53,7 @@ html {
 }
 
 code {
-    background-color: var(--highlight-med-dawn);
+    background-color: var(--highlight-high-dawn);
 }
 
 pre>code {
@@ -49,7 +70,8 @@ pre>code {
     h4,
     h5,
     h6,
-    a {
+    a,
+    code {
         color: var(--text-moon);
     }
 
@@ -58,7 +80,7 @@ pre>code {
     }
 
     code {
-        background-color: var(--highlight-med-moon);
+        background-color: var(--highlight-high-moon);
     }
 
     pre>code {
@@ -155,7 +177,7 @@ div.tils-container {
     padding: 0.2em;
     grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
     justify-content: center;
-    gap: 0.6em;
+    gap: 0.8em;
     /* grid-auto-rows: 1fr; */
 }
 
@@ -163,7 +185,7 @@ div.card {
     height: 100%;
     padding: 1rem;
     border-radius: 0.5rem;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-decoration: none;
     transition: background-color 0.2s ease-in-out;
     display: flex;
@@ -173,7 +195,7 @@ div.card {
 }
 
 .card:hover {
-    background-color: #f2e9e1;
+    background-color: var(--overlay-dawn);
 }
 
 div.card>hgroup>small {
@@ -188,8 +210,31 @@ div.card>small.date {
     margin-bottom: 1em;
 }
 
-div.card>p.card-text {
+div.card>div.card-text {
     margin-bottom: 2em;
+}
+
+
+div.card div.card-text code {
+    font-size: 0.8em;
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto;
+    vertical-align: bottom;
+    white-space: nowrap;
+}
+
+.card code::-webkit-scrollbar {
+    height: 0.2em;
+}
+
+.card code::-webkit-scrollbar-thumb {
+    background-color: var(--muted-dawn);
+    border-radius: 4px;
+}
+
+.card code::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 .card>small.category {
@@ -211,6 +256,10 @@ div.card>p.card-text {
     div.card>small.date {}
 
     div.card>p.card-text {}
+
+    .card code::-webkit-scrollbar-thumb {
+        background-color: var(--muted-moon);
+    }
 
     .card>small.category {}
 }
