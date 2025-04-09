@@ -59,6 +59,10 @@ code {
     background-color: var(--highlight-high-dawn);
 }
 
+pre {
+    background-color: var(--surface-dawn);
+}
+
 pre>code {
     background-color: var(--surface-dawn);
 }
@@ -84,6 +88,10 @@ pre>code {
 
     code {
         background-color: var(--highlight-high-moon);
+    }
+
+    pre {
+        background-color: var(--surface-moon);
     }
 
     pre>code {
