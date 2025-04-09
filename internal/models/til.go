@@ -13,13 +13,16 @@ import (
 type TILs []*TIL
 
 type TIL struct {
-	ID        int
-	Path      string
-	Title     string
-	Category  string
-	Summary   string
-	Text      string
-	TextHTML  template.HTML
+	ID       int
+	Path     string
+	Title    string
+	Category string
+	Summary  string
+	Text     string
+	HTML     struct {
+		Text    template.HTML
+		Summary template.HTML
+	}
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -141,7 +144,7 @@ func (m *TILModel) GetBy(TILPath string) (*TIL, error) {
 	}
 
 	htmlBytes := blackfriday.Run([]byte(til.Text))
-	til.TextHTML = template.HTML(htmlBytes)
+	til.HTML.Text = template.HTML(htmlBytes)
 
 	return &til, nil
 }
