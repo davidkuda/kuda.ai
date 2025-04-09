@@ -15,7 +15,7 @@
         <p class="card-title"><strong>{{ .Title }}</strong></p>
         <small class="date">{{ .CreatedAt | formatDate }}</small>
       </hgroup>
-      <p class="card-text">{{ .HTML.Summary }}</p>
+      <div class="card-text">{{ .HTML.Summary }}</div>
       <small class="category"><code>{{ .Category }}</code></small>
     </div>
   </a>
