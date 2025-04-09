@@ -32,7 +32,10 @@ type TILModel struct {
 }
 
 func (m *TILModel) GetAll() (TILs, error) {
-	stmt := "select id, path, title, category, summary, text, created_at, updated_at from website.til;"
+	stmt := `
+	SELECT id, path, title, category, summary, text, created_at, updated_at
+	FROM website.til
+	ORDER BY created_at DESC;`
 
 	rows, err := m.DB.Query(stmt)
 	if err != nil {
