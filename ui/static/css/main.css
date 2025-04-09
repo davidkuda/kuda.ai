@@ -9,6 +9,9 @@
     --muted-dawn: #9893a5;
     --muted-moon: #6e6a86;
 
+    --subtle-dawn: #797593;
+    --subtle-moon: #908caa;
+
     --base-dawn: #faf4ed;
     --base-moon: #232136;
 
@@ -102,6 +105,20 @@ header>hgroup {
     text-align: center;
 }
 
+header>hgroup>h1 {}
+
+header>hgroup>p {}
+
+@media (prefers-color-scheme: dark) {
+    header>hgroup>h1 {
+        color: var(--iris-moon);
+    }
+
+    header>hgroup>p {
+        color: var(--iris-moon);
+    }
+}
+
 header>hgroup>h1>a {
     text-decoration: none;
 }
@@ -123,10 +140,6 @@ header>nav>ul>li>a.active {
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* MAIN */
-
-.text-center {
-    text-align: center;
-}
 
 div.main-layout {
     display: grid;
@@ -152,13 +165,31 @@ div.right {}
 }
 
 
+.text-center {
+    text-align: center;
+}
+
+h2 {}
+
+@media (prefers-color-scheme: dark) {
+    h2 {
+        color: var(--iris-moon);
+    }
+}
+
 a {
     color: inherit;
     text-decoration: underline;
 }
 
 a:hover {
-    color: #907aa9;
+    color: var(--rose-dawn);
+}
+
+@media (prefers-color-scheme: dark) {
+    a:hover {
+        color: var(--rose-moon);
+    }
 }
 
 .active {}
@@ -194,34 +225,55 @@ div.card {
     background-color: var(--surface-dawn);
 }
 
+@media (prefers-color-scheme: dark) {
+    div.card {
+        background-color: var(--surface-moon);
+    }
+}
+
 .card:hover {
     background-color: var(--overlay-dawn);
 }
 
-div.card>hgroup>small {
-    font-size: 0.8em !important;
+@media (prefers-color-scheme: dark) {
+    .card:hover {
+        background-color: var(--overlay-moon);
+    }
 }
 
-.card>hgroup>.card-title {
+div.card>hgroup>p.card-title>strong {
     font-weight: 600;
 }
 
-div.card>small.date {
+div.card>hgroup>small {
+    font-size: 0.8em !important;
+    color: var(--subtle-dawn);
+}
+
+@media (prefers-color-scheme: dark) {
+    div.card>hgroup>small {
+        color: var(--subtle-moon);
+    }
+}
+
+div.card>hgroup {
     margin-bottom: 1em;
 }
 
 div.card>div.card-text {
     margin-bottom: 2em;
+    color: green;
 }
-
 
 div.card div.card-text code {
     font-size: 0.8em;
     display: inline-block;
     max-width: 100%;
     overflow-x: auto;
+    /* vertical-align: -0.65em; */
     vertical-align: bottom;
     white-space: nowrap;
+    padding: 0.3em;
 }
 
 .card code::-webkit-scrollbar {
@@ -233,35 +285,18 @@ div.card div.card-text code {
     border-radius: 4px;
 }
 
+@media (prefers-color-scheme: dark) {
+    .card code::-webkit-scrollbar-thumb {
+        background-color: var(--muted-moon);
+    }
+}
+
 .card code::-webkit-scrollbar-track {
     background: transparent;
 }
 
 .card>small.category {
     font-size: 0.8em !important;
-}
-
-/* Dark mode styles */
-@media (prefers-color-scheme: dark) {
-    div.card {
-        background-color: var(--surface-moon);
-    }
-
-    .card:hover {
-        background-color: var(--overlay-moon);
-    }
-
-    .card>h3.card-title {}
-
-    div.card>small.date {}
-
-    div.card>p.card-text {}
-
-    .card code::-webkit-scrollbar-thumb {
-        background-color: var(--muted-moon);
-    }
-
-    .card>small.category {}
 }
 
 
