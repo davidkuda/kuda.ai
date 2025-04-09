@@ -21,6 +21,9 @@
     --overlay-dawn: #f2e9e1;
     --overlay-moon: #393552;
 
+    --highlight-low-dawn: #f4ede8;
+    --highlight-med-moon: #2a283e;
+
     --highlight-med-dawn: #dfdad9;
     --highlight-med-moon: #44415a;
 
@@ -59,8 +62,22 @@ code {
     background-color: var(--highlight-high-dawn);
 }
 
+p>code {
+    padding: 0.2em;
+    background-color: var(--highlight-med-dawn);
+    font-size: 0.8em;
+}
+
+@media (prefers-color-scheme: dark) {
+    p>code {
+        background-color: var(--highlight-med-moon);
+    }
+}
+
 pre {
     background-color: var(--surface-dawn);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0.6em;
 }
 
 pre>code {
