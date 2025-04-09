@@ -58,6 +58,8 @@ func (m *TILModel) GetAll() (TILs, error) {
 		if err != nil {
 			return nil, err
 		}
+		htmlBytes := blackfriday.Run([]byte(til.Summary))
+		til.HTML.Summary = template.HTML(htmlBytes)
 		tils = append(tils, &til)
 	}
 

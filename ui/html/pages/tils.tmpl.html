@@ -12,10 +12,10 @@
   <a href="/today-i-learned/{{ .Path }}">
     <div class="card">
       <hgroup>
-      <p class="card-title"><strong>{{ .Title }}</strong></p>
-      <small class="date">{{ .CreatedAt | formatDate }}</small>
+        <p class="card-title"><strong>{{ .Title }}</strong></p>
+        <small class="date">{{ .CreatedAt | formatDate }}</small>
       </hgroup>
-      <p class="card-text">{{ .Summary }}</p>
+      <p class="card-text">{{ .HTML.Summary }}</p>
       <small class="category"><code>{{ .Category }}</code></small>
     </div>
   </a>
