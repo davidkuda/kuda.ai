@@ -2,6 +2,11 @@
 
 {{ define "main" }}
 <h2 class="text-center">Today I Learned</h2>
+{{ if .LoggedIn }}
+<p class="text-center">
+  <a href="/admin/new-til">new TIL</a>
+</p>
+{{ end }}
 <div class="tils-container">
   {{ range .TILs }}
   <a href="/today-i-learned/{{ .Path }}">

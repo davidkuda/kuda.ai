@@ -102,7 +102,7 @@ header>nav>ul>li>a.active {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* MAIN */
 
-h2.text-center {
+.text-center {
     text-align: center;
 }
 
