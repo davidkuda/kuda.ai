@@ -11,8 +11,8 @@
 <p>
   <small>
     Created on {{ .CreatedAt | formatDate }}<br>
-    Updated on {{ .UpdatedAt | formatDate }}<br>
-    Category: <code>{{ .Category }}</code>
+    {{- with .UpdatedAt }}Updated on {{ . | formatDate }}<br>{{ end -}}
+    <small class="category"><code>{{ .Category }}</code></small>
   </small>
 </p>
 {{ .HTML.Text }}
