@@ -320,8 +320,10 @@ div.card div.card-text code {
     background: transparent;
 }
 
-.card>small.category {
-    font-size: 0.8em !important;
+.card>small.category>code {
+    font-size: 0.8em;
+    background-color: var(--pine-moon);
+    color: white;
 }
 
 
