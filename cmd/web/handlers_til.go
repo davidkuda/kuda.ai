@@ -47,6 +47,10 @@ func (app *application) todayILearnedPath(w http.ResponseWriter, r *http.Request
 	t.RootPath = "/today-i-learned"
 	t.TIL = til
 
+	if !isSameDay(t.TIL.CreatedAt, t.TIL.UpdatedAt) {
+		t.ShowUpdatedAt = true
+	}
+
 	app.render(w, r, 200, "tils.til.tmpl.html", &t)
 }
 

@@ -1,12 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"strings"
-	"fmt"
+	"time"
 
 	"github.com/russross/blackfriday/v2"
 )
@@ -61,4 +62,10 @@ func newMarkdownHTMLCache() (map[string]template.HTML, error) {
 	}
 
 	return pages, nil
+}
+
+func isSameDay(a, b time.Time) bool {
+	return a.Year() == b.Year() &&
+		a.Month() == b.Month() &&
+		a.Day() == b.Day()
 }

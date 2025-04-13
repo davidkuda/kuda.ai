@@ -11,7 +11,7 @@
 <p>
   <small>
     Created on {{ .CreatedAt | formatDate }}<br>
-    {{- with .UpdatedAt }}Updated on {{ . | formatDate }}<br>{{ end -}}
+    {{ if $.ShowUpdatedAt }}Updated on {{ . | formatDate }}<br>{{ end }}
     <small class="category"><code>{{ .Category }}</code></small>
   </small>
 </p>

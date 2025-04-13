@@ -12,19 +12,20 @@ import (
 )
 
 type templateData struct {
-	Title    string
-	NavItems []NavItem
-	Path     string
-	RootPath string
-	HTML     template.HTML
-	Songs    models.Songs
-	Song     *models.Song
-	TILs     models.TILs
-	TIL      *models.TIL
-	Form     any
-	LoggedIn bool
-	HideNav  bool
-	Sidebars bool
+	Title         string
+	NavItems      []NavItem
+	Path          string
+	RootPath      string
+	HTML          template.HTML
+	Songs         models.Songs
+	Song          *models.Song
+	TILs          models.TILs
+	TIL           *models.TIL
+	Form          any
+	ShowUpdatedAt bool
+	LoggedIn      bool
+	HideNav       bool
+	Sidebars      bool
 }
 
 func (app *application) newTemplateData(r *http.Request) templateData {
