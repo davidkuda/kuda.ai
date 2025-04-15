@@ -12,11 +12,15 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, 200, "home.tmpl.html", &t)
 }
 
+func (app *application) now(w http.ResponseWriter, r *http.Request) {
+	t := app.newTemplateData(r)
+	t.HTML = app.markdownHTMLCache["now.md"]
+	app.render(w, r, 200, "simplePage.tmpl.html", &t)
+}
+
 func (app *application) about(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
 	t.HTML = app.markdownHTMLCache["about.md"]
-	// Title:    "About",
-	// RootPath: "/about",
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
 

@@ -45,6 +45,7 @@ func main() {
 	app := &application{}
 
 	app.navItems = []NavItem{
+		{Name: "Now", Path: "/now"},
 		{Name: "About", Path: "/about"},
 		{Name: "Blog", Path: "/blog"},
 		{Name: "Bookshelf", Path: "/bookshelf"},

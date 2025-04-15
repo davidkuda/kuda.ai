@@ -45,6 +45,7 @@ func newMarkdownHTMLCache() (map[string]template.HTML, error) {
 
 	files := []string{
 		"home.md",
+		"now.md",
 		"about.md",
 		"blog.md",
 		"bookshelf.md",
