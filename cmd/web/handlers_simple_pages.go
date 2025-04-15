@@ -7,7 +7,9 @@ import (
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Server", "Go")
 	w.Header().Add("Started-Working-On", "April-2024")
-	http.Redirect(w, r, "/about", http.StatusSeeOther)
+	t := app.newTemplateData(r)
+	t.HTML = app.markdownHTMLCache["home.md"]
+	app.render(w, r, 200, "home.tmpl.html", &t)
 }
 
 func (app *application) about(w http.ResponseWriter, r *http.Request) {

@@ -44,6 +44,7 @@ func newMarkdownHTMLCache() (map[string]template.HTML, error) {
 	pages := make(map[string]template.HTML)
 
 	files := []string{
+		"home.md",
 		"about.md",
 		"blog.md",
 		"bookshelf.md",
