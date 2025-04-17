@@ -21,6 +21,8 @@ type templateData struct {
 	Song          *models.Song
 	TILs          models.TILs
 	TIL           *models.TIL
+	Pages         models.Pages
+	Page          *models.Page
 	Form          any
 	ShowUpdatedAt bool
 	LoggedIn      bool
@@ -53,6 +55,7 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 		Path:     r.URL.Path,
 		Song:     &models.Song{},
 		TIL:      &models.TIL{},
+		Page:     &models.Page{},
 		Sidebars: true,
 	}
 }
