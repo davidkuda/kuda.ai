@@ -73,7 +73,7 @@ CREATE TABLE website.til (
 	path       TEXT NOT NULL UNIQUE,
 	title      TEXT NOT NULL,
 	category   TEXT NOT NULL,
-    summary    TEXT,
+	summary    TEXT,
 	text       TEXT,
 	created_at DATE DEFAULT CURRENT_DATE,
 	updated_at DATE DEFAULT CURRENT_DATE
@@ -91,7 +91,19 @@ CREATE TABLE website.til_tags (
 
 
 
--- TODO: Tags??
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- Pages
+
+CREATE TABLE website.pages (
+	path       TEXT NOT NULL,
+	version    INT  NOT NULL,
+	title      TEXT,
+	content    TEXT NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (path, version)
+);
+
+
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- AUTH
@@ -110,5 +122,11 @@ ON ALL TABLES IN SCHEMA website, auth
 TO app;
 
 GRANT USAGE, SELECT ON SEQUENCE website.til_id_seq TO app;
+
+GRANT SELECT, INSERT, UPDATE, DELETE 
+ON ALL TABLES IN SCHEMA website, auth
+TO app;
+
+ALTER TABLE website.til OWNER TO dev;
 
 COMMIT;
