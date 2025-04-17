@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/davidkuda/kudaai/internal/models"
@@ -50,7 +51,21 @@ func (app *application) adminNewPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) adminPagesPage(w http.ResponseWriter, r *http.Request) {
+	var err error
 
+	path := r.PathValue("page")
+
+	page, err := app.pages.GetByPath(path)
+	if err != nil {
+		log.Printf("app.pages.GetByPath(%v): %v", path, err)
+		http.NotFound(w, r)
+		return
+	}
+
+	t := app.newTemplateData(r)
+	t.Page = page
+	t.Form = pageForm{}
+	app.render(w, r, http.StatusOK, "admin.new_page.tmpl.html", &t)
 }
 
 func (app *application) pagesPost(w http.ResponseWriter, r *http.Request) {

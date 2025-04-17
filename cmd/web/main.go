@@ -19,6 +19,7 @@ type application struct {
 	songs *models.SongModel
 	users *models.UserModel
 	til   *models.TILModel
+	pages *models.PageModel
 
 	templateCache     map[string]*template.Template
 	markdownHTMLCache map[string]template.HTML
@@ -67,6 +68,7 @@ func main() {
 	app.songs = &models.SongModel{DB: db}
 	app.users = &models.UserModel{DB: db}
 	app.til = &models.TILModel{DB: db}
+	app.pages = &models.PageModel{DB: db}
 
 	templateCache, err := newTemplateCache()
 	if err != nil {
