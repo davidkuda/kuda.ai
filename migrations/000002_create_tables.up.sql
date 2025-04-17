@@ -5,7 +5,7 @@ SET ROLE dev;
 
 create schema if not exists website;
 
--- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- CONTENT
 
 CREATE TYPE content_type AS ENUM (
@@ -23,7 +23,7 @@ create table website.content (
 );
 
 
--- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- SONGBOOK
 
 create table website.songs (
@@ -35,7 +35,7 @@ create table website.songs (
     copyright text
 );
 
--- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- BLOG
 
 create table website.blogs (
@@ -59,12 +59,12 @@ create table website.blog_tags (
 );
 
 
--- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- BOOKSHELF
 
 -- TODO: create table books ();
 
--- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- TIL
 -- path may change, therefore, it's not the ID.
 
@@ -91,7 +91,7 @@ CREATE TABLE website.til_tags (
 
 
 
--- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- Pages
 
 CREATE TABLE website.pages (
@@ -105,7 +105,7 @@ CREATE TABLE website.pages (
 
 
 
--- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- AUTH
 
 create schema if not exists auth;
@@ -116,6 +116,9 @@ CREATE TABLE auth.users (
     created_at timestamp(0) with time zone NOT NULL DEFAULT NOW()
 );
 
+
+-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- Update Permissions:
 
 GRANT SELECT, INSERT, UPDATE, DELETE 
 ON ALL TABLES IN SCHEMA website, auth
@@ -128,5 +131,6 @@ ON ALL TABLES IN SCHEMA website, auth
 TO app;
 
 ALTER TABLE website.til OWNER TO dev;
+ALTER TABLE website.pages OWNER TO dev;
 
 COMMIT;
