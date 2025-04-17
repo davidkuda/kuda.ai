@@ -27,6 +27,22 @@ type PageModel struct {
 func (m *PageModel) Insert(page *Page) error {
 	var err error
 
+	// get version first if exists:
+	var version int
+
+	vstmt := `
+	SELECT COALESCE(MAX(version), 0)
+	FROM website.pages
+	WHERE path = $1
+	`
+
+	row := m.DB.QueryRow(vstmt, page.Path)
+	err = row.Scan(&version)
+	if err != nil {
+		return fmt.Errorf("row.Scan(&page.Version): %v", err)
+	}
+	page.Version = version + 1
+
 	stmt := `
 	INSERT INTO website.pages (path, version, title, content)
 	VALUES ($1, $2, $3, $4);
