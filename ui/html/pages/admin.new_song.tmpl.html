@@ -50,4 +50,12 @@
   </fieldset>
   <input type="submit" value="{{if .Form.Song.ID}}Update{{else}}Create{{end}}">
 </form>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('textarea').forEach(textarea => {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    });
+  });
+</script>
 {{ end }}
