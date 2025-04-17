@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"regexp"
 
 	"github.com/davidkuda/kudaai/internal/models"
 )
@@ -69,5 +70,45 @@ func (app *application) adminPagesPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) pagesPost(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	err = r.ParseForm()
+	if err != nil {
+		log.Printf("Failed parsing form: %v", err)
+		return
+	}
+
+	f := r.PostForm
+
+	form := pageForm{
+		Page: &models.Page{
+			Path:    f.Get("page-path"),
+			Title:   f.Get("page-title"),
+			Content: f.Get("page-content"),
+		},
+		FieldErrors: map[string]string{},
+	}
+
+	// TODO: This is used several times. make a function.
+	var rxPat = regexp.MustCompile(`[^a-z\-]`)
+	if rxPat.MatchString(form.Page.Path) {
+		form.FieldErrors["pathfmt"] = "path may only contain lowercase characters and hyphens"
+	}
+
+	if len(form.FieldErrors) > 0 {
+		t := app.newTemplateData(r)
+		t.Form = form
+		t.Page = form.Page
+		app.render(w, r, http.StatusUnprocessableEntity, "admin.new_page.tmpl.html", &t)
+		return
+	}
+
+	err = app.pages.Insert(form.Page)
+	if err != nil {
+		log.Printf("app.pages.Insert(form.Page): %v\n", err)
+		return
+	}
+	http.Redirect(w, r, "/" + form.Page.Path, http.StatusSeeOther)
+	return
 
 }
