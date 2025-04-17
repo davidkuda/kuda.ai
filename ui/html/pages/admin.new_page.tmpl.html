@@ -13,7 +13,7 @@
         name="page-path"
         value="{{.TIL.Path}}"
         required
-      {{if or .Form.FieldErrors.pathfmt .Form.FieldErrors.pathuniq }}
+      {{if .Form.FieldErrors.pathfmt }}
         aria-invalid="true"
         aria-describedby="invalid-til-path"
       {{end}}
