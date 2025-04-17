@@ -28,7 +28,7 @@ func (m *PageModel) Insert(page *Page) error {
 	var err error
 
 	stmt := `
-	INSERT INTO website.page (path, version, title, content)
+	INSERT INTO website.pages (path, version, title, content)
 	VALUES ($1, $2, $3, $4);
 	`
 
