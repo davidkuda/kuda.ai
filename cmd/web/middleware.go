@@ -6,18 +6,25 @@ import (
 )
 
 func logRequest(next http.Handler) http.Handler {
-    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-        var (
-            ip     = r.RemoteAddr
-            proto  = r.Proto
-            method = r.Method
-            uri    = r.URL.RequestURI()
-        )
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var (
+			ip     = r.RemoteAddr
+			proto  = r.Proto
+			method = r.Method
+			uri    = r.URL.RequestURI()
+		)
 
-        log.Printf("msg=received request ip=%v proto=%v method=%v uri=%v", ip, proto, method, uri)
+		// caddy will set X-Forwarded-For with original src IP when reverse proxying.
+		// r.RemoteAddr will be localhost, in that case.
+		xff := r.Header.Get("X-Forwarded-For")
+		if xff != "" {
+			ip = xff
+		}
 
-        next.ServeHTTP(w, r)
-    })
+		log.Printf("msg=received request ip=%v proto=%v method=%v uri=%v", ip, proto, method, uri)
+
+		next.ServeHTTP(w, r)
+	})
 }
 
 func (app *application) requireAuthentication(next http.Handler) http.Handler {
