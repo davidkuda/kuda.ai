@@ -23,6 +23,8 @@ type templateData struct {
 	TIL           *models.TIL
 	Pages         models.Pages
 	Page          *models.Page
+	Blogs         models.Blogs
+	Blog          *models.Blog
 	Form          any
 	ShowUpdatedAt bool
 	LoggedIn      bool
@@ -56,6 +58,7 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 		Song:     &models.Song{},
 		TIL:      &models.TIL{},
 		Page:     &models.Page{},
+		Blog:     &models.Blog{},
 		Sidebars: true,
 	}
 }

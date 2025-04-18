@@ -1,0 +1,18 @@
+{{ define "title" }}Today I Learned{{ end }}
+
+{{ define "main" }}
+{{ if .LoggedIn }}
+<p>
+  <a href="/admin/new-blog">New Blog Entry</a>
+</p>
+{{ end }}
+<div class="blog-entries-list-container">
+  {{ range .Blogs }}
+  <article>
+    <a href="/blog/{{ .Path }}">
+      {{ .Title }}
+    </a>
+  </article>
+  {{ end }}
+</div>
+{{ end }}

@@ -38,26 +38,30 @@ create table website.songs (
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- BLOG
 
-create table website.blogs (
-    id serial primary key,
-    path text unique not null,
-    title text not null,
-    body text,
-    created_at DATE DEFAULT current_date,
-    updated_at DATE DEFAULT current_date
+-- TODO: show tags instead of category as in TIL?
+CREATE TABLE website.blogs (
+	id         SERIAL8 PRIMARY KEY,
+	path       TEXT NOT NULL UNIQUE,
+	title      TEXT NOT NULL,
+	summary    TEXT,
+	content    TEXT,
+	created_at TIMESTAMP DEFAULT current_timestamp,
+	updated_at TIMESTAMP DEFAULT current_timestamp
 );
 
-create table website.tags (
-    id serial primary key,
-    tag text unique not null
+CREATE TABLE website.tags (
+	id SERIAL8 PRIMARY KEY,
+	tag STRING NOT NULL UNIQUE
 );
 
-create table website.blog_tags (
-  blog_id integer references website.blogs(id) on delete cascade,
-  tag_id integer references website.tags(id),
-  primary key (blog_id, tag_id)
+CREATE TABLE website.blog_tags (
+	blog_id INT8
+		REFERENCES website.blogs(id)
+		ON DELETE CASCADE,
+	tag_id  INT8
+		REFERENCES website.tags (id),
+	PRIMARY KEY (blog_id, tag_id)
 );
-
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- BOOKSHELF
@@ -132,5 +136,6 @@ TO app;
 
 ALTER TABLE website.til OWNER TO dev;
 ALTER TABLE website.pages OWNER TO dev;
+ALTER TABLE website.blogs OWNER TO dev;
 
 COMMIT;

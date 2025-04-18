@@ -17,19 +17,17 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) now(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
-	t.HTML = app.markdownHTMLCache["now.md"]
+	page, err := app.pages.GetByPath("now")
+	if err != nil {
+		log.Println("could not get now page from DB: ", err)
+	}
+	t.HTML = page.HTMLContent
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
 
 func (app *application) about(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
 	t.HTML = app.markdownHTMLCache["about.md"]
-	app.render(w, r, 200, "simplePage.tmpl.html", &t)
-}
-
-func (app *application) blog(w http.ResponseWriter, r *http.Request) {
-	t := app.newTemplateData(r)
-	t.HTML = app.markdownHTMLCache["blog.md"]
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
 

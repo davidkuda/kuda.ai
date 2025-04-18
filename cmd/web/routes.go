@@ -20,12 +20,19 @@ func (app *application) routes() http.Handler {
 	// simple pages:
 	mux.HandleFunc("GET /now", app.now)
 	mux.HandleFunc("GET /about", app.about)
-	mux.HandleFunc("GET /blog", app.blog)
 	mux.HandleFunc("GET /bookshelf", app.bookshelf)
 	// protected:
 	mux.Handle("GET /admin/new-page", protected.ThenFunc(app.adminNewPage))
 	mux.Handle("GET /admin/pages/{page}", protected.ThenFunc(app.adminPagesPage))
 	mux.Handle("POST /pages", protected.ThenFunc(app.pagesPost))
+
+	// blogs:
+	mux.HandleFunc("GET /blog", app.blog)
+	mux.HandleFunc("GET /blog/{path}", app.blogPath)
+	// protected:
+	mux.Handle("POST /blog", protected.ThenFunc(app.blogPost))
+	mux.Handle("GET /admin/new-blog", protected.ThenFunc(app.adminNewBlog))
+	mux.Handle("GET /admin/blog/{path}", protected.ThenFunc(app.adminBlogPath))
 
 	// til:
 	mux.HandleFunc("GET /today-i-learned", app.todayILearned)

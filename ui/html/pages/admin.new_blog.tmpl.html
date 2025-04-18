@@ -1,0 +1,107 @@
+{{ define "title" }}Admin: New Blog{{ end }}
+{{ define "main" }}
+{{- if eq .Blog.ID 0 -}}
+<h3>New Blog:</h3>
+{{- else -}}
+<h3>Edit Blog:</h3>
+{{- end -}}
+<form action="/blog" method="post">
+  <fieldset>
+    {{- if .Blog.ID}}
+    <div class="grid">
+      <label>
+        Created At:
+        <input type="text" aria-label="created-at" value="{{ .Blog.CreatedAt | formatDate }}" disabled>
+      </label>
+      <label>
+        Updated At:
+        <input type="text" aria-label="updated-at" value="{{ .Blog.UpdatedAt | formatDate }}" disabled>
+      </label>
+      <label>
+        ID:
+        <input name="blog-id" type="text" aria-label="blog-id" value="{{ .Blog.ID }}" readonly>
+      </label>
+    </div>
+    {{end -}}
+
+    <label>Path:
+      <input
+        type="text"
+        name="blog-path"
+        value="{{.Blog.Path}}"
+        required
+      {{if or .Form.FieldErrors.pathfmt .Form.FieldErrors.pathuniq }}
+        aria-invalid="true"
+        aria-describedby="invalid-blog-path"
+      {{end}}
+      >
+      {{ with .Form.FieldErrors.pathfmt }}
+      <small id="invalid-blog-path">{{ . }}</small>
+      {{ end }}
+      {{ with .Form.FieldErrors.pathuniq }}
+      <small id="invalid-blog-path">{{ . }}</small>
+      {{ end }}
+    </label>
+
+    <label>Title:
+      <input
+        type="text"
+        name="blog-title"
+        value="{{.Blog.Title}}"
+        required
+        {{if .Form.FieldErrors.title}}
+        aria-invalid="true"
+        aria-describedby="invalid-blog-title"
+        {{end}}
+      >
+      {{ with .Form.FieldErrors.title }}
+      <small id="invalid-blog-title">{{ . }}</small>
+      {{ end }}
+    </label>
+
+    <label>Summary (1 Paragraph):
+      <textarea
+        name="blog-summary"
+        rows="2"
+        aria-label="summary"
+        required
+        value="{{.Blog.Summary}}"
+        {{if .Form.FieldErrors.summary}}
+        aria-invalid="true"
+        aria-describedby="invalid-blog-summary"
+        {{end}}
+      >
+        {{- .Blog.Summary -}}
+      </textarea>
+      {{ with .Form.FieldErrors.summary }}
+      <small id="invalid-blog-summary">{{ . }}</small>
+      {{ end }}
+    </label>
+
+    <label>Content (Markdown):
+      <textarea
+        name="blog-text"
+        rows="7"
+        aria-label="text"
+        required
+      >
+        {{- .Blog.Content -}}
+      </textarea>
+    </label>
+
+  </fieldset>
+
+  <input
+    type="submit"
+    value="{{if eq .Blog.ID 0}}Create{{else}}Update{{end}}"
+  >
+</form>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('textarea').forEach(textarea => {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    });
+  });
+</script>
+{{ end }}
