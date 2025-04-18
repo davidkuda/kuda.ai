@@ -1,8 +1,24 @@
 package main
 
 import (
+	"log"
 	"net/http"
 )
+
+func logRequest(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        var (
+            ip     = r.RemoteAddr
+            proto  = r.Proto
+            method = r.Method
+            uri    = r.URL.RequestURI()
+        )
+
+        log.Printf("msg=received request ip=%v proto=%v method=%v uri=%v", ip, proto, method, uri)
+
+        next.ServeHTTP(w, r)
+    })
+}
 
 func (app *application) requireAuthentication(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

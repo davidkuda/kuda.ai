@@ -106,5 +106,5 @@ func (app *application) routes() http.Handler {
 		)),
 	)
 
-	return commonHeaders(mux)
+	return logRequest(commonHeaders(mux))
 }
