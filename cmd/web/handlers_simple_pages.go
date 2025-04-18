@@ -9,7 +9,6 @@ import (
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Server", "Go")
 	w.Header().Add("Started-Working-On", "April-2024")
 	t := app.newTemplateData(r)
 	t.HTML = app.markdownHTMLCache["home.md"]
