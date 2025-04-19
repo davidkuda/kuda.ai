@@ -12,6 +12,8 @@ func logRequest(next http.Handler) http.Handler {
 			proto  = r.Proto
 			method = r.Method
 			uri    = r.URL.RequestURI()
+			uagent = r.Header.Get("User-Agent")
+			platf  = r.Header.Get("Sec-Ch-Ua-Platform")
 		)
 
 		// caddy will set X-Forwarded-For with original src IP when reverse proxying.
@@ -21,7 +23,7 @@ func logRequest(next http.Handler) http.Handler {
 			ip = xff
 		}
 
-		log.Printf("msg=received request ip=%v proto=%v method=%v uri=%v", ip, proto, method, uri)
+		log.Printf("msg=ReceivedRequest ip=%v proto=%v method=%v uri=%v platf=%v user-agent=%v", ip, proto, method, uri, platf, uagent)
 
 		next.ServeHTTP(w, r)
 	})
