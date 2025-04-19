@@ -17,6 +17,13 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) now(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
+	t.HTML = app.markdownHTMLCache["now.md"]
+	app.render(w, r, 200, "simplePage.tmpl.html", &t)
+}
+
+// TODO: ponder, use this or not?
+func (app *application) nowFromDB(w http.ResponseWriter, r *http.Request) {
+	t := app.newTemplateData(r)
 	page, err := app.pages.GetByPath("now")
 	if err != nil {
 		log.Println("could not get now page from DB: ", err)
