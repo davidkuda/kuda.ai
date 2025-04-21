@@ -115,9 +115,9 @@ func (app *application) blogPost(w http.ResponseWriter, r *http.Request) {
 
 	// regex for valid URL path; TIL.Path will be used in the URL.
 	// Therefore, it should only contain letters and hyphens.
-	var rxPat = regexp.MustCompile(`[^a-z\-]`)
+	var rxPat = regexp.MustCompile(`[^a-z\-0-9]`)
 	if rxPat.MatchString(form.Blog.Path) {
-		form.FieldErrors["pathfmt"] = "id may only contain lowercase characters and hyphens"
+		form.FieldErrors["pathfmt"] = "id may only contain lowercase characters, numbers and hyphens"
 	}
 
 	// TODO: Abstract away into a Validator
