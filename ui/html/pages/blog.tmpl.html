@@ -7,12 +7,14 @@
 </p>
 {{ end }}
 <div class="blog-entries-list-container">
+  <ul>
   {{ range .Blogs }}
-  <article>
+    <li>
     <a href="/blog/{{ .Path }}">
       {{ .Title }}
     </a>
-  </article>
+    </li>
   {{ end }}
+  </ul>
 </div>
 {{ end }}

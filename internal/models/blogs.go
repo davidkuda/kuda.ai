@@ -74,7 +74,7 @@ func (m *BlogModel) Insert(b *Blog) error {
 	INSERT INTO website.blogs (
 		path, title, summary, content
 	) VALUES (
-		$1, $2, $3, $4, $5
+		$1, $2, $3, $4
 	);
 	`
 
