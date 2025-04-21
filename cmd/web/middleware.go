@@ -47,7 +47,7 @@ func commonHeaders(next http.Handler) http.Handler {
 		// TODO: rm cdn.jsdelivr.net soon!
 		w.Header().Set(
 			"Content-Security-Policy",
-			"default-src 'self'; style-src 'self' cdn.jsdelivr.net fonts.googleapis.com; font-src fonts.gstatic.com",
+			"default-src 'self' images.ctfassets.net; style-src 'self' cdn.jsdelivr.net fonts.googleapis.com; font-src fonts.gstatic.com",
 		)
 		w.Header().Set("Referrer-Policy", "origin-when-cross-origin")
 		w.Header().Set("X-Content-Type-Options", "nosniff")
