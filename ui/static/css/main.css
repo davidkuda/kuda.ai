@@ -269,9 +269,21 @@ div.tils-container>a {
     text-decoration: none;
 }
 
+/* overwrite (or reset) a:hover from above */
+div.tils-container>a:hover {
+    color: var(--text-dawn);
+}
+
+@media (prefers-color-scheme: dark) {
+    div.tils-container>a:hover {
+        color: var(--text-moon);
+    }
+}
+
 div.tils-container {
     display: grid;
     /* border: 2px solid red; */
+    height: max-content;
     border-radius: 0.5em;
     padding: 0.2em;
     grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
@@ -281,11 +293,11 @@ div.tils-container {
 }
 
 div.card {
+    box-sizing: border-box;
     height: 100%;
     padding: 1rem;
     border-radius: 0.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-decoration: none;
     transition: background-color 0.2s ease-in-out;
     display: flex;
     justify-content: space-between;
@@ -310,7 +322,9 @@ div.card {
 }
 
 div.card>hgroup>p.card-title>strong {
-    font-weight: 600;
+    /* TODO: JetBrains apparently has no font weights :( */
+    font-weight: 700;
+    font-size: 1.2rem;
 }
 
 div.card>hgroup>small {
