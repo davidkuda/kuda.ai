@@ -390,5 +390,6 @@ small.category>code {
 /* FOOTER */
 
 footer {
+    margin-top: 4em;
     text-align: center;
 }
