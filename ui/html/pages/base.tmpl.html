@@ -6,9 +6,12 @@
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='shortcut icon' href='/static/img/favicon.ico' type='image/x-icon'>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.pumpkin.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/main.css?v=7">
-    <!-- <link rel="stylesheet" type="text/css" href="/static/css/pico.pumpkin.min.css"> -->
+    <!-- <<< fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <!-- fonts >>> -->
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css?v=5">
   </head>
   <body>
     <header>
@@ -17,14 +20,14 @@
         <p>Thoughts on programming and music theory.</p>
       </hgroup>
       {{ if not .HideNav }}
-        {{ template "nav" . }}
-        {{ end }}
+      {{ template "nav" . }}
+      {{ end }}
     </header>
     {{ if .Sidebars }}
     <div class="container main-layout">
       <div class="left">
       </div>
-      <main>
+      <main class="stack">
         {{ template "main" . }}
       </main>
       <div class="right">

@@ -40,22 +40,17 @@
     --pine-moon: #3e8fb0;
 }
 
-
-*,
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-a,
-code {
-    color: var(--text-dawn);
-}
-
 html {
     background-color: var(--base-dawn);
+}
+
+
+body {
+    /* font-family: "Space Grotesk", sans-serif; */
+    font-family: "JetBrains Mono", monospace;
+    color: var(--text-dawn);
+    font-size: 1.4rem;
+    line-height: 1.5;
 }
 
 code {
@@ -86,16 +81,7 @@ pre>code {
 
 @media (prefers-color-scheme: dark) {
 
-    *,
-    p,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    a,
-    code {
+    body {
         color: var(--text-moon);
     }
 
@@ -128,6 +114,21 @@ header {
 
 header>hgroup {
     text-align: center;
+    margin: 1rem;
+}
+
+header>hgroup>h1,p {
+    margin: 0;
+}
+
+header>nav * {
+    display: flex;
+    flex-direction: row;
+}
+
+header>nav>ul>li {
+    list-style: none;
+    padding: 0.2em 0.5em;
 }
 
 header>hgroup>h1 {}
@@ -168,10 +169,18 @@ header>nav>ul>li>a.active {
 
 div.main-layout {
     display: grid;
-    grid-template-columns: 1fr minmax(auto, 56ch) 1fr;
+    grid-template-columns: 1fr minmax(auto, 54ch) 1fr;
     justify-content: center;
     gap: 0.5em;
     align-items: start;
+}
+
+.stack > * + * {
+  margin-block-start: 1.5rem;
+}
+
+ul > li + li {
+  margin-block-start: 0.5rem;
 }
 
 div.left {}
@@ -219,6 +228,21 @@ a:hover {
 
 .active {}
 
+
+/* Songbook */
+
+pre.chords,
+pre.chords *,
+pre.chords>summary {
+    border-color: var(--rose-dawn);
+    margin: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    margin-bottom: 0;
+    padding: 0;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
 
 /* TILs */
 
@@ -287,7 +311,6 @@ div.card>hgroup {
 
 div.card>div.card-text {
     margin-bottom: 2em;
-    color: green;
 }
 
 div.card div.card-text code {
