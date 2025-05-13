@@ -11,7 +11,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
     <!-- fonts >>> -->
-    <link rel="stylesheet" type="text/css" href="/static/css/main.css?v=5">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css?v=4">
+    {{ if .HighlightJS }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/rose-pine.min.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    {{ end }}
   </head>
   <body>
     <header>
@@ -60,5 +64,10 @@
     </footer>
     <script src="/static/js/main.js" type="text/javascript"></script>
   </body>
+  {{ if .HighlightJS -}}
+  <script defer>
+    document.addEventListener("DOMContentLoaded", () => hljs.highlightAll());
+  </script>
+  {{- end }}
 </html>
 {{end}}

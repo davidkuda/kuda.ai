@@ -14,12 +14,14 @@
 
     --base-dawn: #faf4ed;
     --base-moon: #232136;
+    --base-main: #191724;
 
     --surface-dawn: #fffaf3;
     --surface-moon: #2a273f;
 
     --overlay-dawn: #f2e9e1;
     --overlay-moon: #393552;
+    --overlay-main: #26233a;
 
     --highlight-low-dawn: #f4ede8;
     --highlight-med-moon: #2a283e;
@@ -44,12 +46,15 @@ html {
     background-color: var(--base-dawn);
 }
 
+.hljs {
+    color: var(--text-moon) !important;
+}
+
 
 body {
     /* font-family: "Space Grotesk", sans-serif; */
     font-family: "JetBrains Mono", monospace;
     color: var(--text-dawn);
-    font-size: 1.4rem;
     line-height: 1.5;
 }
 
@@ -58,9 +63,9 @@ code {
 }
 
 p>code {
-    padding: 0.2em;
     background-color: var(--highlight-med-dawn);
-    font-size: 0.8em;
+    padding: 0.4em;
+    border-radius: 0.5em;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -73,6 +78,11 @@ pre {
     background-color: var(--surface-dawn);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 0.6em;
+    background-color: yellow;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: pre;
+    scrollbar-color: var(--overlay-main) var(--base-main);
 }
 
 pre>code {
@@ -117,7 +127,8 @@ header>hgroup {
     margin: 1rem;
 }
 
-header>hgroup>h1,p {
+header>hgroup>h1,
+p {
     margin: 0;
 }
 
@@ -169,14 +180,18 @@ header>nav>ul>li>a.active {
 
 div.main-layout {
     display: grid;
-    grid-template-columns: 1fr minmax(auto, 54ch) 1fr;
+    grid-template-columns: 1fr minmax(auto, 72ch) 1fr;
     justify-content: center;
     gap: 0.5em;
     align-items: start;
 }
 
-.stack > * + * {
-  margin-block-start: 1.5rem;
+.block {
+    display: block;
+}
+
+.stack>*+* {
+    margin-block-start: 1.5rem;
 }
 
 main ul>li+li {
@@ -344,12 +359,12 @@ div.card div.card-text code {
 }
 
 small.category>code {
-    font-size: 0.8em;
     padding: 0.4em;
-    padding-left: 0.7em;
-    padding-right: 0.7em;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
     background-color: var(--pine-moon);
-    color: white;
+    color: var(--text-moon);
+    border-radius: 0.5em;
 }
 
 

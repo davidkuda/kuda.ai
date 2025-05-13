@@ -1,5 +1,4 @@
 {{ define "title" }}{{ .Title }}{{ end }}
-
 {{ define "main" }}
 {{ with .TIL }}
 <h2>{{ .Title }}</h2>
@@ -9,11 +8,11 @@
 </p>
 {{ end }}
 <p>
-  <small>
-    Created on {{ .CreatedAt | formatDate }}<br>
-    {{ if $.ShowUpdatedAt }}Updated on {{ .UpdatedAt | formatDate }}<br>{{ end }}
-    <small class="category"><code>{{ .Category }}</code></small>
-  </small>
+  <small class="block">Created on {{ .CreatedAt | formatDate }}</small>
+  <small class="block">{{ if $.ShowUpdatedAt }}Updated on {{ .UpdatedAt | formatDate }}{{ end }}</small>
+</p>
+<p>
+  <small class="block category"><code>{{ .Category }}</code></small>
 </p>
 {{ .HTML.Text }}
 {{ end }}

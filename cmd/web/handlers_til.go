@@ -46,6 +46,7 @@ func (app *application) todayILearnedPath(w http.ResponseWriter, r *http.Request
 	t.Title = "Today I Learned"
 	t.RootPath = "/today-i-learned"
 	t.TIL = til
+	t.HighlightJS = true
 
 	if !isSameDay(t.TIL.CreatedAt, t.TIL.UpdatedAt) {
 		t.ShowUpdatedAt = true

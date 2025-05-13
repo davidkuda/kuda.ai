@@ -44,10 +44,16 @@ func (app *application) requireAuthentication(next http.Handler) http.Handler {
 // see https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP
 func commonHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// TODO: rm cdn.jsdelivr.net soon!
+
+		highlightJS := "'sha256-KuW8nrMYej09eTtZkBNDwTy8Yn05dABB5v2dLSEPgTY='"
+
 		w.Header().Set(
 			"Content-Security-Policy",
-			"default-src 'self' images.ctfassets.net; style-src 'self' cdn.jsdelivr.net fonts.googleapis.com; font-src fonts.gstatic.com",
+			"default-src 'self';"+
+				"img-src 'self' images.ctfassets.net;"+
+				"script-src 'self' cdnjs.cloudflare.com " + highlightJS + ";"+
+				"style-src 'self' cdnjs.cloudflare.com fonts.googleapis.com;"+
+				"font-src fonts.gstatic.com",
 		)
 		w.Header().Set("Referrer-Policy", "origin-when-cross-origin")
 		w.Header().Set("X-Content-Type-Options", "nosniff")

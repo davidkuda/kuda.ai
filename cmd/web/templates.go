@@ -30,6 +30,7 @@ type templateData struct {
 	LoggedIn      bool
 	HideNav       bool
 	Sidebars      bool
+	HighlightJS   bool
 }
 
 func (app *application) newTemplateData(r *http.Request) templateData {
