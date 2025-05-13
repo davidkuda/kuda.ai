@@ -347,14 +347,9 @@ div.card>div.card-text {
 }
 
 div.card div.card-text code {
-    font-size: 0.8em;
-    display: inline-block;
     max-width: 100%;
     overflow-x: auto;
-    /* vertical-align: -0.65em; */
-    vertical-align: bottom;
     white-space: nowrap;
-    padding: 0.3em;
 }
 
 .card code::-webkit-scrollbar {
