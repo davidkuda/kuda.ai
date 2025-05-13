@@ -132,16 +132,6 @@ p {
     margin: 0;
 }
 
-header>nav * {
-    display: flex;
-    flex-direction: row;
-}
-
-header>nav>ul>li {
-    list-style: none;
-    padding: 0.2em 0.5em;
-}
-
 header>hgroup>h1 {}
 
 header>hgroup>p {}
@@ -165,12 +155,26 @@ header>hgroup>h1>a:hover {
     text-decoration-thickness: 5%;
 }
 
+header>nav * {
+    display: flex;
+    flex-direction: row;
+}
+
+header ul {
+    padding-inline-start: 0;
+}
+
+header>nav>ul>li {
+    list-style: none;
+    padding: 0.2em 0.4em;
+}
+
 header>nav>ul>li>a {
-    text-decoration: underline !important;
+    text-decoration: underline;
 }
 
 header>nav>ul>li>a.active {
-    text-decoration: none !important;
+    text-decoration: none;
     font-weight: 600;
 }
 
