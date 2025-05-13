@@ -179,8 +179,8 @@ div.main-layout {
   margin-block-start: 1.5rem;
 }
 
-ul > li + li {
-  margin-block-start: 0.5rem;
+main ul>li+li {
+    margin-block-start: 0.5rem;
 }
 
 div.left {}
