@@ -8,14 +8,13 @@
   <a href="/admin/songbook/{{.ID}}">edit this song</a>
 </p>
 {{ end }}
-<details>
-  <summary role="button" class="outline">Chords</summary>
-  <pre>
-    <code>
-      {{ .HTML.Chords }}
-    </code>
-  </pre>
-</details>
+{{- with .HTML.Chords }}
+<h4>Chords:</h4>
+<pre>
+{{ . }}
+</pre>
+<h4>Lyrics:</h4>
+{{ end -}}
 {{ .HTML.Lyrics }}
 <small>{{.Copyright}}</small>
 {{ end }}
