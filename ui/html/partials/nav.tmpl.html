@@ -3,15 +3,15 @@
 	<ul>
 		{{ range .NavItems }}
 		<li>
-			<a href="{{ .Path }}" {{ if eq $.Path .Path }}class="active" {{ end }}>
-				{{ .Name }}
-			</a>
+			{{ if eq $.Path .Path }}
+			<span>{{ .Name }}</span>
+			{{ else }}
+			<a href="{{ .Path }}">{{ .Name }}</a>
+			{{ end }}
 		</li>
 		{{ end }}
 		<li>
-        <span id="themeToggle" title="Toggle theme">
-          dark mode
-        </span>
+			<span id="themeToggle">dark mode</span>
 		</li>
 	</ul>
 </nav>
