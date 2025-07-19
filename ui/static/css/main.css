@@ -2,48 +2,46 @@
 /* GLOBAL */
 
 /* rose pine palette: https://rosepinetheme.com/palette/ */
+
+/* light: Rose Pine Dawn */
 :root {
-    --text-dawn: #575279;
-    --text-moon: #e0def4;
-
-    --muted-dawn: #9893a5;
-    --muted-moon: #6e6a86;
-
-    --subtle-dawn: #797593;
-    --subtle-moon: #908caa;
-
-    --base-dawn: #faf4ed;
-    --base-moon: #232136;
+    --text: #575279;
+    --muted: #9893a5;
+    --subtle: #797593;
+    --base: #faf4ed;
     --base-main: #191724;
-
-    --surface-dawn: #fffaf3;
-    --surface-moon: #2a273f;
-
-    --overlay-dawn: #f2e9e1;
-    --overlay-moon: #393552;
+    --surface: #fffaf3;
+    --overlay: #f2e9e1;
     --overlay-main: #26233a;
+    --highlight-low: #f4ede8;
+    --highlight-med: #dfdad9;
+    --highlight-high: #cecacd;
+    --rose: #d7827e;
+    --iris: #907aa9;
+    --pine: #286983;
+}
 
-    --highlight-low-dawn: #f4ede8;
-    --highlight-med-moon: #2a283e;
-
-    --highlight-med-dawn: #dfdad9;
-    --highlight-med-moon: #44415a;
-
-    --highlight-high-dawn: #cecacd;
-    --highlight-high-moon: #56526e;
-
-    --rose-dawn: #d7827e;
-    --rose-moon: #ea9a97;
-
-    --iris-dawn: #907aa9;
-    --iris-moon: #c4a7e7;
-
-    --pine-dawn: #286983;
-    --pine-moon: #3e8fb0;
+/* dark: Rose Pine Moon */
+[data-theme="dark"] {
+    --text: #e0def4;
+    --muted: #6e6a86;
+    --subtle: #908caa;
+    --base: #232136;
+    --base-main: #191724;
+    --surface: #2a273f;
+    --overlay: #393552;
+    --overlay-main: #26233a;
+    --highlight-med: #2a283e;
+    --highlight-med: #44415a;
+    --highlight-high: #56526e;
+    --rose: #ea9a97;
+    --iris: #c4a7e7;
+    --pine: #3e8fb0;
 }
 
 html {
-    background-color: var(--base-dawn);
+    background-color: var(--base);
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .hljs {
@@ -54,51 +52,22 @@ html {
 body {
     /* font-family: "Space Grotesk", sans-serif; */
     font-family: "JetBrains Mono", monospace;
-    color: var(--text-dawn);
+    color: var(--text);
     line-height: 1.5;
 }
 
 code {
-    background-color: var(--highlight-high-dawn);
+    background-color: var(--highlight-high);
 }
 
 p>code {
-    background-color: var(--highlight-med-dawn);
+    background-color: var(--highlight-med);
     padding: 0.4em;
     border-radius: 0.5em;
 }
 
-@media (prefers-color-scheme: dark) {
-    p>code {
-        background-color: var(--highlight-med-moon);
-    }
-}
-
 pre>code {
-    background-color: var(--surface-dawn);
-}
-
-@media (prefers-color-scheme: dark) {
-
-    body {
-        color: var(--text-moon);
-    }
-
-    html {
-        background-color: var(--base-moon);
-    }
-
-    code {
-        background-color: var(--highlight-high-moon);
-    }
-
-    pre {
-        background-color: var(--surface-moon);
-    }
-
-    pre>code {
-        background-color: var(--surface-moon);
-    }
+    background-color: var(--surface);
 }
 
 
@@ -109,6 +78,17 @@ header {
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+span#themeToggle {
+    margin-left: 0.6rem;
+    background-color: none;
+    border: none;
+    text-decoration: underline;
+}
+
+span#themeToggle:hover {
+    cursor: pointer;
 }
 
 header>hgroup {
@@ -124,16 +104,6 @@ p {
 header>hgroup>h1 {}
 
 header>hgroup>p {}
-
-@media (prefers-color-scheme: dark) {
-    header>hgroup>h1 {
-        color: var(--iris-moon);
-    }
-
-    header>hgroup>p {
-        color: var(--iris-moon);
-    }
-}
 
 header>hgroup>h1>a {
     text-decoration: none;
@@ -213,25 +183,13 @@ div.right {}
 
 h2 {}
 
-@media (prefers-color-scheme: dark) {
-    h2 {
-        color: var(--iris-moon);
-    }
-}
-
 a {
     color: inherit;
     text-decoration: underline;
 }
 
 a:hover {
-    color: var(--rose-dawn);
-}
-
-@media (prefers-color-scheme: dark) {
-    a:hover {
-        color: var(--rose-moon);
-    }
+    color: var(--rose);
 }
 
 .active {}
@@ -242,7 +200,7 @@ a:hover {
 pre.chords,
 pre.chords *,
 pre.chords>summary {
-    border-color: var(--rose-dawn);
+    border-color: var(--rose);
     margin: 0;
     margin-inline-start: 0;
     margin-inline-end: 0;
@@ -260,13 +218,7 @@ div.tils-container>a {
 
 /* overwrite (or reset) a:hover from above */
 div.tils-container>a:hover {
-    color: var(--text-dawn);
-}
-
-@media (prefers-color-scheme: dark) {
-    div.tils-container>a:hover {
-        color: var(--text-moon);
-    }
+    color: var(--text);
 }
 
 div.tils-container {
@@ -291,23 +243,11 @@ div.card {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    background-color: var(--surface-dawn);
-}
-
-@media (prefers-color-scheme: dark) {
-    div.card {
-        background-color: var(--surface-moon);
-    }
+    background-color: var(--surface);
 }
 
 .card:hover {
-    background-color: var(--overlay-dawn);
-}
-
-@media (prefers-color-scheme: dark) {
-    .card:hover {
-        background-color: var(--overlay-moon);
-    }
+    background-color: var(--overlay);
 }
 
 div.card>hgroup>p.card-title>strong {
@@ -318,13 +258,7 @@ div.card>hgroup>p.card-title>strong {
 
 div.card>hgroup>small {
     font-size: 0.8em !important;
-    color: var(--subtle-dawn);
-}
-
-@media (prefers-color-scheme: dark) {
-    div.card>hgroup>small {
-        color: var(--subtle-moon);
-    }
+    color: var(--subtle);
 }
 
 div.card>hgroup {
@@ -346,14 +280,8 @@ div.card div.card-text code {
 }
 
 .card code::-webkit-scrollbar-thumb {
-    background-color: var(--muted-dawn);
+    background-color: var(--muted);
     border-radius: 4px;
-}
-
-@media (prefers-color-scheme: dark) {
-    .card code::-webkit-scrollbar-thumb {
-        background-color: var(--muted-moon);
-    }
 }
 
 .card code::-webkit-scrollbar-track {
@@ -364,11 +292,10 @@ small.category>code {
     padding: 0.4em;
     padding-left: 0.6em;
     padding-right: 0.6em;
-    background-color: var(--pine-moon);
-    color: var(--text-moon);
+    background-color: var(--pine);
+    color: var(--text);
     border-radius: 0.5em;
 }
-
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* FOOTER */
