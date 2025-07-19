@@ -3,6 +3,10 @@
 <html lang='en'>
   <head>
     <title>kuda.ai | {{ template "title" . }}</title>
+    <script>
+	const theme = localStorage.getItem("theme");
+	document.documentElement.setAttribute("data-theme", theme);
+    </script>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='shortcut icon' href='/static/img/favicon.ico' type='image/x-icon'>
