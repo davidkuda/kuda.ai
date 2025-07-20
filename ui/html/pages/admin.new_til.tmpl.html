@@ -38,10 +38,10 @@
       {{end}}
       >
       {{ with .Form.FieldErrors.pathfmt }}
-      <small id="invalid-til-path">{{ . }}</small>
+      <small class="failed-validation stack-exception-small" id="invalid-til-path">{{ . }}</small>
       {{ end }}
       {{ with .Form.FieldErrors.pathuniq }}
-      <small id="invalid-til-path">{{ . }}</small>
+      <small class="failed-validation stack-exception-small" id="invalid-til-path">{{ . }}</small>
       {{ end }}
     </label>
 
@@ -57,7 +57,7 @@
         {{end}}
       >
       {{ with .Form.FieldErrors.title }}
-      <small id="invalid-til-title">{{ . }}</small>
+      <small class="failed-validation stack-exception-small" id="invalid-til-title">{{ . }}</small>
       {{ end }}
     </label>
 
@@ -69,7 +69,7 @@
         required
       >
       {{ with .Form.FieldErrors.category }}
-      <small id="invalid-til-title">{{ . }}</small>
+      <small class="failed-validation stack-exception-small" id="invalid-til-title">{{ . }}</small>
       {{ end }}
     </label>
 
@@ -88,7 +88,7 @@
         {{- .TIL.Summary -}}
       </textarea>
       {{ with .Form.FieldErrors.summary }}
-      <small id="invalid-til-summary">{{ . }}</small>
+      <small class="failed-validation stack-exception-small" id="invalid-til-summary">{{ . }}</small>
       {{ end }}
     </label>
 
@@ -105,7 +105,7 @@
 
   </fieldset>
 
-  <button type="submit" class="stack-exception">
+  <button type="submit" class="stack-exception-large">
     {{if eq .TIL.ID 0}}Create{{else}}Update{{end}}
   </button>
 </form>

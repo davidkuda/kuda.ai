@@ -164,7 +164,11 @@ div.main-layout {
     margin-block-start: var(--space, 1.5rem);
 }
 
-.stack-exception {
+.stack-exception-small {
+    --space: 0.5rem;
+}
+
+.stack-exception-large {
     --space: 3rem;
 }
 
