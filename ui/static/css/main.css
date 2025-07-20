@@ -123,6 +123,7 @@ header>hgroup>h1>a:hover {
 header>nav * {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 header ul {
@@ -311,7 +312,7 @@ form {
     background-color: var(--iris-moon);
     /* border: 1px solid var(--text); */
     border: none;
-    border-radius: 1em;
+    border-radius: 0.4em;
     background-color: var(--surface);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 1rem;
