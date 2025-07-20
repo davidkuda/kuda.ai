@@ -23,6 +23,7 @@ func (app *application) adminLogin(w http.ResponseWriter, r *http.Request) {
 	t = templateData{
 		Title:    "Login",
 		RootPath: "/admin",
+		Sidebars: true,
 	}
 
 	app.render(w, r, 200, "admin.login.tmpl.html", &t)
