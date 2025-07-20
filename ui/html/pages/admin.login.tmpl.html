@@ -1,7 +1,7 @@
 {{ define "title" }}Admin: Login{{ end }}
 {{ define "main" }}
-<h3>Login:</h3>
 <form class="stack" id="login-form" action="/admin/login" method="post">
+<h2>Sign In</h2>
   <fieldset class="stack">
     <label>email:
       <input type="email" name="email" autocomplete="email" required aria-label="Email" autofocus>
@@ -11,7 +11,7 @@
         autocomplete="current-password" required>
     </label>
   </fieldset>
-  <button type="submit" id="login-button">
+  <button type="submit" id="login-button" class="stack-exception-large">
     Login
   </button>
 </form>

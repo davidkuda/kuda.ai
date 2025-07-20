@@ -19,13 +19,8 @@ func (app *application) adminLogin(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/admin", http.StatusSeeOther)
 		return
 	}
-	t := app.newTemplateData(r)
-	t = templateData{
-		Title:    "Login",
-		RootPath: "/admin",
-		Sidebars: true,
-	}
 
+	t := app.newTemplateData(r)
 	app.render(w, r, 200, "admin.login.tmpl.html", &t)
 }
 

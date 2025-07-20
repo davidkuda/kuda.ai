@@ -12,13 +12,16 @@ func (app *application) routes() http.Handler {
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
 
-	standard := alice.New(logRequest, commonHeaders)
+	// standard := alice.New(logRequest, commonHeaders)
+	standard := alice.New(commonHeaders)
 	protected := alice.New(app.requireAuthentication)
 
 	mux.HandleFunc("GET /", app.home)
 
+	mux.HandleFunc("GET /progress", app.progress)
+
 	// simple pages:
-	mux.HandleFunc("GET /now", app.now)
+	mux.HandleFunc("GET /now", app.nowFromDB)
 	mux.HandleFunc("GET /about", app.about)
 	mux.HandleFunc("GET /bookshelf", app.bookshelf)
 	// protected:
@@ -55,6 +58,7 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("POST /admin/login", app.adminLoginPost)
 	// protected:
 	mux.Handle("GET /admin", protected.ThenFunc(app.admin))
+	mux.Handle("GET /admin/new-bellevue-activity", protected.ThenFunc(app.adminBellevueActivity))
 	mux.Handle("GET /admin/logout", protected.ThenFunc(app.adminLogoutPost))
 
 	// finances:

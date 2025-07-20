@@ -12,25 +12,27 @@ import (
 )
 
 type templateData struct {
-	Title         string
-	NavItems      []NavItem
-	Path          string
-	RootPath      string
-	HTML          template.HTML
-	Songs         models.Songs
-	Song          *models.Song
-	TILs          models.TILs
-	TIL           *models.TIL
-	Pages         models.Pages
-	Page          *models.Page
-	Blogs         models.Blogs
-	Blog          *models.Blog
-	Form          any
-	ShowUpdatedAt bool
-	LoggedIn      bool
-	HideNav       bool
-	Sidebars      bool
-	HighlightJS   bool
+	Title              string
+	NavItems           []NavItem
+	Path               string
+	RootPath           string
+	HTML               template.HTML
+	Songs              models.Songs
+	Song               *models.Song
+	TILs               models.TILs
+	TIL                *models.TIL
+	Pages              models.Pages
+	Page               *models.Page
+	Blogs              models.Blogs
+	Blog               *models.Blog
+	BellevueActivities *models.BellevueActivities
+	BellevueActivity   *models.BellevueActivity
+	Form               any
+	ShowUpdatedAt      bool
+	LoggedIn           bool
+	HideNav            bool
+	Sidebars           bool
+	HighlightJS        bool
 }
 
 func (app *application) newTemplateData(r *http.Request) templateData {
@@ -51,16 +53,17 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 	title = strings.ToTitle(r.URL.Path[1:i])
 
 	return templateData{
-		NavItems: app.navItems,
-		LoggedIn: isAuthenticated,
-		Title:    title,
-		RootPath: rootPath,
-		Path:     r.URL.Path,
-		Song:     &models.Song{},
-		TIL:      &models.TIL{},
-		Page:     &models.Page{},
-		Blog:     &models.Blog{},
-		Sidebars: true,
+		NavItems:         app.navItems,
+		LoggedIn:         isAuthenticated,
+		Title:            title,
+		RootPath:         rootPath,
+		Path:             r.URL.Path,
+		Song:             &models.Song{},
+		TIL:              &models.TIL{},
+		Page:             &models.Page{},
+		Blog:             &models.Blog{},
+		BellevueActivity: models.NewBellevueActivity(),
+		Sidebars:         true,
 	}
 }
 
@@ -87,6 +90,7 @@ func newTemplateCache() (map[string]*template.Template, error) {
 
 	funcs := template.FuncMap{
 		"formatDate": formatDate,
+		"formatDateFormInput": formatDateFormInput,
 	}
 
 	pages, err := filepath.Glob("./ui/html/pages/*.tmpl.html")
@@ -117,4 +121,8 @@ func newTemplateCache() (map[string]*template.Template, error) {
 
 func formatDate(t time.Time) string {
 	return t.Format("January 2, 2006")
+}
+
+func formatDateFormInput(t time.Time) string {
+	return t.Format("2006-01-02")
 }
