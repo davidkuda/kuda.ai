@@ -160,7 +160,7 @@ div.main-layout {
     display: block;
 }
 
-.stack>*+* {
+.stack * + * {
     margin-block-start: 1.5rem;
 }
 

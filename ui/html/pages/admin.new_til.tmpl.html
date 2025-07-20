@@ -1,12 +1,12 @@
 {{ define "title" }}Admin: New TIL{{ end }}
 {{ define "main" }}
-<form action="/til" method="post" class="stack">
+<form action="/til" method="post">
 {{- if eq .TIL.ID 0 -}}
 <h3>New TIL:</h3>
 {{- else -}}
 <h3>Edit TIL:</h3>
 {{- end -}}
-  <fieldset class="stack">
+  <fieldset>
 
     {{- if .TIL.ID}}
     <div class="grid">
