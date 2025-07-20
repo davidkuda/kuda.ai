@@ -59,6 +59,8 @@ func (app *application) routes() http.Handler {
 	// protected:
 	mux.Handle("GET /admin", protected.ThenFunc(app.admin))
 	mux.Handle("GET /admin/new-bellevue-activity", protected.ThenFunc(app.adminBellevueActivity))
+	mux.Handle("POST /bellevue-activities", protected.ThenFunc(app.bellevueActivityPost))
+
 	mux.Handle("GET /admin/logout", protected.ThenFunc(app.adminLogoutPost))
 
 	// finances:

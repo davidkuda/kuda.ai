@@ -124,16 +124,12 @@ CREATE TABLE auth.users (
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- Update Permissions:
 
-GRANT SELECT, INSERT, UPDATE, DELETE 
+GRANT SELECT, INSERT, UPDATE, DELETE
 ON ALL TABLES IN SCHEMA website, auth
 TO app;
 
 GRANT USAGE, SELECT ON SEQUENCE website.til_id_seq TO app;
 GRANT USAGE, SELECT ON SEQUENCE website.blogs_id_seq TO app;
-
-GRANT SELECT, INSERT, UPDATE, DELETE 
-ON ALL TABLES IN SCHEMA website, auth
-TO app;
 
 ALTER TABLE website.til OWNER TO dev;
 ALTER TABLE website.pages OWNER TO dev;

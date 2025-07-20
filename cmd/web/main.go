@@ -16,11 +16,12 @@ import (
 type application struct {
 	navItems []NavItem
 
-	songs *models.SongModel
-	users *models.UserModel
-	til   *models.TILModel
-	pages *models.PageModel
-	blogs *models.BlogModel
+	songs              *models.SongModel
+	users              *models.UserModel
+	til                *models.TILModel
+	pages              *models.PageModel
+	blogs              *models.BlogModel
+	bellevueActivities *models.BellevueActivityModel
 
 	templateCache     map[string]*template.Template
 	markdownHTMLCache map[string]template.HTML
@@ -71,6 +72,7 @@ func main() {
 	app.til = &models.TILModel{DB: db}
 	app.pages = &models.PageModel{DB: db}
 	app.blogs = &models.BlogModel{DB: db}
+	app.bellevueActivities = &models.BellevueActivityModel{DB: db}
 
 	templateCache, err := newTemplateCache()
 	if err != nil {
