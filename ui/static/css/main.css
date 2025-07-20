@@ -62,6 +62,17 @@ body {
     line-height: 1.5;
 }
 
+h2 {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--pine);
+}
+
+h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
 code {
     background-color: var(--highlight-high);
 }
@@ -160,7 +171,7 @@ div.main-layout {
     display: block;
 }
 
-.stack * + * {
+.stack *+* {
     margin-block-start: var(--space, 1.5rem);
 }
 
@@ -326,6 +337,10 @@ form {
     padding: 1rem;
 }
 
+form>h2 {
+    margin-top: 0em;
+}
+
 form>fieldset {
     border: 0;
     padding: 0;
@@ -356,7 +371,7 @@ select {
     padding: 0.4rem;
     width: 100%;
     background-color: var(--overlay);
-  transition: border 0.2s ease, box-shadow 0.2s ease;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
 textarea {
@@ -367,8 +382,25 @@ textarea {
 input:not([type="radio"], [type="checkbox"]):focus,
 textarea:focus,
 select:focus {
-  outline: none;
-  border: 2px solid var(--rose);
+    outline: none;
+    border: 2px solid var(--rose);
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+    border: 2px solid var(--love);
+}
+
+small.failed-validation {
+    color: var(--love);
+}
+
+input[readonly],
+textarea[readonly] {
+  user-select: none;
+  -webkit-user-select: none; /* For Safari */
+  -moz-user-select: none;    /* For Firefox */
+  -ms-user-select: none;     /* For IE/Edge */
 }
 
 
