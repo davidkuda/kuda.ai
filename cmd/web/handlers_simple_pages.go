@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"regexp"
+	"strings"
 
 	"github.com/davidkuda/kudaai/internal/models"
 )
@@ -88,7 +89,7 @@ func (app *application) pagesPost(w http.ResponseWriter, r *http.Request) {
 		Page: &models.Page{
 			Path:    f.Get("page-path"),
 			Title:   f.Get("page-title"),
-			Content: f.Get("page-content"),
+			Content: strings.ReplaceAll(f.Get("page-content"), "\r\n", "\n"),
 		},
 		FieldErrors: map[string]string{},
 	}
@@ -112,7 +113,7 @@ func (app *application) pagesPost(w http.ResponseWriter, r *http.Request) {
 		log.Printf("app.pages.Insert(form.Page): %v\n", err)
 		return
 	}
-	http.Redirect(w, r, "/" + form.Page.Path, http.StatusSeeOther)
+	http.Redirect(w, r, "/"+form.Page.Path, http.StatusSeeOther)
 	return
 
 }

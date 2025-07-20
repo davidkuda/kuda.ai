@@ -72,6 +72,7 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, status in
 		return
 	}
 
+	// TODO: what if ts.ExecuteTemplate fails? shouldn't we return a 5xx?
 	w.WriteHeader(status)
 
 	err := ts.ExecuteTemplate(w, "base", data)
