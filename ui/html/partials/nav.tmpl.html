@@ -10,23 +10,23 @@
 			{{ end }}
 		</li>
 		{{ end }}
-	</ul>
-</nav>
-{{ if .LoggedIn }}
-<nav>
-	<ul>
+		{{ if .LoggedIn }}
 		<li>
-			<a href="/admin" {{ if eq $.RootPath "/admin" }}class="active" {{ end }}>
+			{{ if eq $.Path "/admin" }}
+			<span>Admin</span>
+			{{ else }}
+			<a href="/admin">
 				Admin
 			</a>
+			{{ end }}
 		</li>
 		<li>
 			<a href="/admin/logout">
 				Logout
 			</a>
 		</li>
+		{{ end }}
 	</ul>
 </nav>
-{{ end }}
 <span id="themeToggle">dark mode</span>
 {{ end }}
