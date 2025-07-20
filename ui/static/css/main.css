@@ -175,6 +175,14 @@ div.main-layout {
     margin-block-start: var(--space, 1.5rem);
 }
 
+.stack-small > * + * {
+  margin-block-start: 0.5rem;
+}
+
+.stack-large > * + * {
+  margin-block-start: 3rem;
+}
+
 .stack-exception-small {
     --space: 0.5rem;
 }
@@ -184,7 +192,8 @@ div.main-layout {
 }
 
 main ul>li+li {
-    margin-block-start: 0.5rem;
+    /* margin-block-start: 0.5rem; */
+    --space: 0.75rem;
 }
 
 div.left {}
