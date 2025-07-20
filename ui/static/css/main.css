@@ -19,6 +19,9 @@
     --rose: #d7827e;
     --iris: #907aa9;
     --pine: #286983;
+    --love: #b4637a;
+    --foam: #9ccfd8;
+    --gold: #f6c177;
 }
 
 /* dark: Rose Pine Moon */
@@ -37,6 +40,9 @@
     --rose: #ea9a97;
     --iris: #c4a7e7;
     --pine: #3e8fb0;
+    --love: #eb6f92;
+    --foam: #9ccfd8;
+    --gold: #f6c177;
 }
 
 html {
@@ -296,6 +302,87 @@ small.category>code {
     color: var(--text);
     border-radius: 0.5em;
 }
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* MAIN.forms */
+
+form {
+    background-color: var(--iris-moon);
+    /* border: 1px solid var(--text); */
+    border: none;
+    border-radius: 1em;
+    background-color: var(--surface);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+form>fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+form * {
+    box-sizing: border-box;
+    display: block;
+    /* margin-top: 1.2em; */
+    /* margin-bottom: 1.2em; */
+    overflow: hidden;
+}
+
+
+input:not([type="radio"], [type="checkbox"]),
+textarea,
+select {
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-family: inherit;
+    color: inherit;
+    /* border: none; */
+    /* border-bottom: solid 1px var(--rose); */
+    /* border-image: linear-gradient(to right, var(--pine), var(--accent)) 1; */
+    border: solid 1px var(--highlight-med);
+    border-radius: 0.2rem;
+    padding: 0.4rem;
+    width: 100%;
+    background-color: var(--overlay);
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea {
+    resize: vertical;
+}
+
+
+input:not([type="radio"], [type="checkbox"]):focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border: 2px solid var(--rose);
+}
+
+
+form button {
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: var(--rose);
+    box-sizing: border-box;
+    color: var(--overlay);
+    padding: 0.8rem;
+    width: 100%;
+    border-radius: 0.2rem;
+    border: none;
+}
+
+form button:hover,
+form button:focus {
+    cursor: pointer;
+    background-color: var(--love);
+    border: none;
+}
+
+
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* FOOTER */

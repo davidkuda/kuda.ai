@@ -1,13 +1,13 @@
 {{ define "title" }}Admin: Login{{ end }}
 {{ define "main" }}
 <h3>Login:</h3>
-<form id="login-form" action="/admin/login" method="post">
-  <fieldset>
+<form class="stack" id="login-form" action="/admin/login" method="post">
+  <fieldset class="stack">
     <label>email:
-      <input type="email" name="email" placeholder="email@me.ch" autocomplete="email" required aria-label="Email">
+      <input type="email" name="email" autocomplete="email" required aria-label="Email" autofocus>
     </label>
     <label>password:
-      <input type="password" name="password" placeholder="Password" aria-label="Password"
+      <input type="password" name="password" aria-label="Password"
         autocomplete="current-password" required>
     </label>
   </fieldset>

@@ -1,12 +1,12 @@
 {{ define "title" }}Admin: New TIL{{ end }}
 {{ define "main" }}
+<form action="/til" method="post" class="stack">
 {{- if eq .TIL.ID 0 -}}
 <h3>New TIL:</h3>
 {{- else -}}
 <h3>Edit TIL:</h3>
 {{- end -}}
-<form action="/til" method="post">
-  <fieldset>
+  <fieldset class="stack">
 
     {{- if .TIL.ID}}
     <div class="grid">
@@ -31,6 +31,7 @@
         name="til-path"
         value="{{.TIL.Path}}"
         required
+        autofocus
       {{if or .Form.FieldErrors.pathfmt .Form.FieldErrors.pathuniq }}
         aria-invalid="true"
         aria-describedby="invalid-til-path"
@@ -104,10 +105,9 @@
 
   </fieldset>
 
-  <input
-    type="submit"
-    value="{{if eq .TIL.ID 0}}Create{{else}}Update{{end}}"
-  >
+  <button type="submit">
+    {{if eq .TIL.ID 0}}Create{{else}}Update{{end}}
+  </button>
 </form>
 <script>
   window.addEventListener('DOMContentLoaded', () => {
