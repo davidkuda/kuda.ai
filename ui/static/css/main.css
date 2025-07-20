@@ -22,6 +22,7 @@
     --love: #b4637a;
     --foam: #9ccfd8;
     --gold: #f6c177;
+    --button-text-color: #f2e9e1;
 }
 
 /* dark: Rose Pine Moon */
@@ -405,11 +406,11 @@ textarea[readonly] {
 
 
 form button {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     background-color: var(--rose);
     box-sizing: border-box;
-    color: var(--overlay);
+    color: var(--button-text-color);
     padding: 0.8rem;
     width: 100%;
     border-radius: 0.2rem;

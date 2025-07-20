@@ -1,7 +1,7 @@
 {{ define "title" }}Admin: New Song{{ end }}
 {{ define "main" }}
-<h3>New Song:</h3>
 <form action="/songbook" method="post">
+<h2>Song.New</h2>
   <fieldset>
 
     <div class="grid">
@@ -10,9 +10,9 @@
         <input
           type="text"
           name="song-id"
-          placeholder="ID"
           value="{{.Song.ID}}"
           required
+          autofocus
           {{if .Form.FieldErrors.id}}
           aria-invalid="true"
           aria-describedby="invalid-song-id"
@@ -27,7 +27,6 @@
         <input
           type="text"
           name="song-copyright"
-          placeholder="Copyright"
           value="{{.Song.Copyright}}"
         >
       </label>
@@ -37,18 +36,20 @@
     <div class="grid">
 
       <label>Artist:
-        <input type="text" name="song-artist" placeholder="Artist" required value="{{.Song.Artist}}"></label>
+        <input type="text" name="song-artist" required value="{{.Song.Artist}}"></label>
       <label>Name:
-        <input type="text" name="song-name" placeholder="SongName" required value="{{.Song.Name}}"></label>
+        <input type="text" name="song-name" required value="{{.Song.Name}}"></label>
 
     </div>
 
     <label>Chords:
-      <textarea style="font-family: monospace;" name="song-chords" rows="8" placeholder="Chords">{{.Song.Chords}}</textarea></label>
+      <textarea style="font-family: monospace;" name="song-chords" rows="8">{{.Song.Chords}}</textarea></label>
     <label>Lyrics:
-      <textarea name="song-lyrics" rows="16" placeholder="Lyrics" aria-label="lyrics">{{.Song.Lyrics}}</textarea></label>
+      <textarea name="song-lyrics" rows="16" aria-label="lyrics">{{.Song.Lyrics}}</textarea></label>
   </fieldset>
-  <input type="submit" value="{{if .Form.Song.ID}}Update{{else}}Create{{end}}">
+  <button type="submit" class="stack-exception-large">
+    {{if .Form.Song.ID}}Update{{else}}Create{{end}}
+  </button>
 </form>
 <script>
   window.addEventListener('DOMContentLoaded', () => {
