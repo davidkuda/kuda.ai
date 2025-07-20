@@ -29,7 +29,6 @@
       <input
         type="text"
         name="til-path"
-        placeholder="Path"
         value="{{.TIL.Path}}"
         required
       {{if or .Form.FieldErrors.pathfmt .Form.FieldErrors.pathuniq }}
@@ -49,7 +48,6 @@
       <input
         type="text"
         name="til-title"
-        placeholder="Title"
         value="{{.TIL.Title}}"
         required
         {{if .Form.FieldErrors.title}}
@@ -66,7 +64,6 @@
       <input
         type="text"
         name="til-category"
-        placeholder="Category"
         value="{{.TIL.Category}}"
         required
       >
@@ -79,7 +76,6 @@
       <textarea
         name="til-summary"
         rows="2"
-        placeholder="Summary ..."
         aria-label="summary"
         required
         value="{{.TIL.Summary}}"
@@ -99,7 +95,6 @@
       <textarea
         name="til-text"
         rows="7"
-        placeholder="Today I learned ..."
         aria-label="text"
         required
       >
