@@ -161,7 +161,11 @@ div.main-layout {
 }
 
 .stack * + * {
-    margin-block-start: 1.5rem;
+    margin-block-start: var(--space, 1.5rem);
+}
+
+.stack-exception {
+    --space: 3rem;
 }
 
 main ul>li+li {
