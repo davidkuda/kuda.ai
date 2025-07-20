@@ -2,9 +2,9 @@
 {{ define "main" }}
 <form action="/til" method="post">
 {{- if eq .TIL.ID 0 -}}
-<h3>New TIL:</h3>
+<h2>TIL.New</h2>
 {{- else -}}
-<h3>Edit TIL:</h3>
+<h2>TIL.Edit</h2>
 {{- end -}}
   <fieldset>
 
@@ -76,7 +76,7 @@
     <label>Summary (1 Paragraph):
       <textarea
         name="til-summary"
-        rows="2"
+        rows="3"
         aria-label="summary"
         required
         value="{{.TIL.Summary}}"
@@ -95,7 +95,7 @@
     <label>Text (Markdown):
       <textarea
         name="til-text"
-        rows="7"
+        rows="10"
         aria-label="text"
         required
       >
