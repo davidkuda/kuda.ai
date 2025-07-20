@@ -67,7 +67,7 @@ func (m *PageModel) GetByPath(path string) (*Page, error) {
 	var err error
 
 	stmt := `
-	SELECT *
+	SELECT path, version, title, content, created_at
 	FROM website.pages
 	WHERE path = $1
 	ORDER BY version DESC
