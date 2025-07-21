@@ -5,17 +5,18 @@ SET ROLE dev;
 -- NOTE: Prices are stored in Rappen, not a fraction of CHF.
 --       (CHF => float64(total_price) / 100.0)
 create table website.bellevue_activities (
-	id                 SERIAL primary key,
-	user_id            INT references auth.users(id),
-	activity_date      DATE not null,
-	breakfast_count    INT default 0 not null,
-	lunch_dinner_count INT default 0 not null,
-	coffee_count       INT default 0 not null,
-	sauna_count        INT default 0 not null,
-	lecture_count      INT default 0 not null,
-	comment            TEXT,
-	total_price        INT,
-	created_at         TIMESTAMPTZ default now() not null
+	id              SERIAL primary key,
+	user_id         INT references auth.users(id),
+	activity_date   DATE not null,
+	breakfast_count INT default 0 not null,
+	lunch_count     INT default 0 not null,
+	dinner_count    INT default 0 not null,
+	coffee_count    INT default 0 not null,
+	sauna_count     INT default 0 not null,
+	lecture_count   INT default 0 not null,
+	comment         TEXT,
+	total_price     INT,
+	created_at      TIMESTAMPTZ default now() not null
 );
 
 GRANT SELECT, INSERT, UPDATE, DELETE

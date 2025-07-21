@@ -46,20 +46,22 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 	date, _ := time.Parse("2006-01-02", dateStr)
 
 	breakfasts, _ := strconv.Atoi(f.Get("bellevue-activity-breakfasts"))
-	lunchDinners, _ := strconv.Atoi(f.Get("bellevue-activity-lunchdinners"))
+	lunches, _ := strconv.Atoi(f.Get("bellevue-activity-lunches"))
+	dinners, _ := strconv.Atoi(f.Get("bellevue-activity-dinners"))
 	coffees, _ := strconv.Atoi(f.Get("bellevue-activity-coffees"))
 	saunas, _ := strconv.Atoi(f.Get("bellevue-activity-saunas"))
 	lectures, _ := strconv.Atoi(f.Get("bellevue-activity-lectures"))
 
 	form := bellevueActivityForm{
 		BellevueActivity: &models.BellevueActivity{
-			Date:         date,
-			Breakfasts:   breakfasts,
-			LunchDinners: lunchDinners,
-			Coffees:      coffees,
-			Saunas:       saunas,
-			Lectures:     lectures,
-			Comment:      f.Get("bellevue-activity-comment"),
+			Date:       date,
+			Breakfasts: breakfasts,
+			Lunches:    lunches,
+			Dinners:    dinners,
+			Coffees:    coffees,
+			Saunas:     saunas,
+			Lectures:   lectures,
+			Comment:    f.Get("bellevue-activity-comment"),
 		},
 		FieldErrors: map[string]string{},
 	}

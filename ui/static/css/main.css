@@ -174,16 +174,24 @@ div.main-layout {
 	margin-block-start: var(--space, 1.5rem);
 }
 
+.stack-xs>*+* {
+	margin-block-start: var(--space, 0.25rem);
+}
+
 .stack-small>*+* {
-	margin-block-start: 0.5rem;
+	margin-block-start: var(--space, 0.5rem);
 }
 
 .stack-large>*+* {
-	margin-block-start: 3rem;
+	margin-block-start: var(--space, 3rem);
 }
 
 .stack-exception-small {
 	--space: 0.5rem;
+}
+
+.stack-exception-medium {
+	--space: 1.5rem;
 }
 
 .stack-exception-large {
@@ -339,7 +347,6 @@ span.bellevue-activity {
 table {
 	width: 100%;
 	border-collapse: collapse;
-	border: 1px solid var(--iris);
 	border: none;
 	border-radius: 0.4em;
 	background-color: var(--surface);
@@ -366,6 +373,12 @@ tr:nth-child(even) {
 
 tr:hover {
 	background-color: var(--highlight-high);
+}
+
+.no-break {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 
