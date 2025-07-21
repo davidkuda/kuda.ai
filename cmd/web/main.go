@@ -16,6 +16,7 @@ import (
 type application struct {
 	navItems []NavItem
 
+	models             models.Models
 	songs              *models.SongModel
 	users              *models.UserModel
 	til                *models.TILModel
@@ -67,12 +68,16 @@ func main() {
 	}
 	defer db.Close()
 
+	app.models = models.New(db)
+	// TODO: replace all individual models with calls to app.models.M.func
+	// NOTE: some learning moment:
+	// after thinking about it, pointers are not necessary for the models.
+	// No mutation. No big, heavy structs.
 	app.songs = &models.SongModel{DB: db}
 	app.users = &models.UserModel{DB: db}
 	app.til = &models.TILModel{DB: db}
 	app.pages = &models.PageModel{DB: db}
 	app.blogs = &models.BlogModel{DB: db}
-	app.bellevueActivities = &models.BellevueActivityModel{DB: db}
 
 	templateCache, err := newTemplateCache()
 	if err != nil {

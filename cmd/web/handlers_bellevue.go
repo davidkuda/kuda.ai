@@ -9,10 +9,14 @@ import (
 	"github.com/davidkuda/kudaai/internal/models"
 )
 
-func (app *application) adminBellevueActivity(w http.ResponseWriter, r *http.Request) {
+func (app *application) adminNewBellevueActivity(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
 	t.Title = "New Bellevue Activity"
 	app.render(w, r, http.StatusOK, "admin.new_bellevue_activity.tmpl.html", &t)
+}
+
+func (app *application) bellevueActivitiesGet(w http.ResponseWriter, r *http.Request) {
+
 }
 
 type bellevueActivityForm struct {
@@ -59,7 +63,7 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	err = app.bellevueActivities.Insert(form.BellevueActivity)
+	err = app.models.BellevueActivities.Insert(form.BellevueActivity)
 	if err != nil {
 		log.Printf("app.bellevueActivities.Insert(): %v\n", err)
 		// TODO: send some notification to the UI (failed submission)
