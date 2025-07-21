@@ -89,8 +89,9 @@ func newTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
 
 	funcs := template.FuncMap{
-		"formatDate": formatDate,
+		"formatDate":          formatDate,
 		"formatDateFormInput": formatDateFormInput,
+		"fmtCHF":              formatCurrency,
 	}
 
 	pages, err := filepath.Glob("./ui/html/pages/*.tmpl.html")
@@ -125,4 +126,9 @@ func formatDate(t time.Time) string {
 
 func formatDateFormInput(t time.Time) string {
 	return t.Format("2006-01-02")
+}
+
+// formatCurrency converts an integer (in Rappen) to a currency string like "22.50 CHF".
+func formatCurrency(value int) string {
+	return fmt.Sprintf("%.2f CHF", float64(value)/100)
 }

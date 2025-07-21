@@ -7,24 +7,21 @@
 <table>
   <tr>
     <th>Date</th>
-    <th>Breakfasts</th>
-    <th>Lunches / Dinners</th>
-    <th>Coffees</th>
-    <th>Saunas</th>
-    <th>Lectures</th>
     <th>Total Price</th>
-    <th>Comment</th>
+    <th>Activties</th>
   </tr>
   {{ range .BellevueActivities }}
   <tr>
     <td>{{ .Date | formatDate }}</td>
-    <td>{{ .Breakfasts }}</td>
-    <td>{{ .LunchDinners }}</td>
-    <td>{{ .Coffees }}</td>
-    <td>{{ .Saunas }}</td>
-    <td>{{ .Lectures }}</td>
-    <td>{{ .TotalPrice }}</td>
-    <td>{{ .Comment }}</td>
+    <td>{{ .TotalPrice | fmtCHF }}</td>
+    <td class="stack-small">
+      {{ if gt .Breakfasts 0 }}<span class="bellevue-activity">{{ .Breakfasts }} Breakfasts</span>{{ end }}
+      {{ if gt .LunchDinners 0 }}<span class="bellevue-activity">{{ .LunchDinners }} LunchDinners</span>{{ end }}
+      {{ if gt .Coffees 0 }}<span class="bellevue-activity">{{ .Coffees }} Coffees</span>{{ end }}
+      {{ if gt .Saunas 0 }}<span class="bellevue-activity">{{ .Saunas }} Saunas</span>{{ end }}
+      {{ if gt .Lectures 0 }}<span class="bellevue-activity">{{ .Lectures }} Lectures</span>{{ end }}
+      {{ if ne .Comment "" }}<span class="bellevue-activity">{{ .Comment }} Comment</span>{{ end }}
+    </td>
   </tr>
   {{ end }}
 </table>
