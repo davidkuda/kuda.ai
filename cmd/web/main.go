@@ -22,7 +22,6 @@ type application struct {
 	til                *models.TILModel
 	pages              *models.PageModel
 	blogs              *models.BlogModel
-	bellevueActivities *models.BellevueActivityModel
 
 	templateCache     map[string]*template.Template
 	markdownHTMLCache map[string]template.HTML

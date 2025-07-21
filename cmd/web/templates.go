@@ -25,7 +25,7 @@ type templateData struct {
 	Page               *models.Page
 	Blogs              models.Blogs
 	Blog               *models.Blog
-	BellevueActivities *models.BellevueActivities
+	BellevueActivities models.BellevueActivities
 	BellevueActivity   *models.BellevueActivity
 	Form               any
 	ShowUpdatedAt      bool

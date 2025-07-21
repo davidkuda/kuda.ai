@@ -1,0 +1,31 @@
+{{ define "title" }}Bellevue Activities{{ end }}
+{{ define "main" }}
+<h2 class="text-center">Bellevue Activities</h2>
+<p class="text-center">
+  <a href="/admin/new-bellevue-activity">Add new activities</a>
+</p>
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Breakfasts</th>
+    <th>Lunches / Dinners</th>
+    <th>Coffees</th>
+    <th>Saunas</th>
+    <th>Lectures</th>
+    <th>Total Price</th>
+    <th>Comment</th>
+  </tr>
+  {{ range .BellevueActivities }}
+  <tr>
+    <td>{{ .Date | formatDate }}</td>
+    <td>{{ .Breakfasts }}</td>
+    <td>{{ .LunchDinners }}</td>
+    <td>{{ .Coffees }}</td>
+    <td>{{ .Saunas }}</td>
+    <td>{{ .Lectures }}</td>
+    <td>{{ .TotalPrice }}</td>
+    <td>{{ .Comment }}</td>
+  </tr>
+  {{ end }}
+</table>
+{{ end }}

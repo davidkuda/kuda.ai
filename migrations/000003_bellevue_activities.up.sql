@@ -6,6 +6,7 @@ SET ROLE dev;
 --       (CHF => float64(total_price) / 100.0)
 create table website.bellevue_activities (
 	id                 SERIAL primary key,
+	user_id            INT references auth.users(id),
 	activity_date      DATE not null,
 	breakfast_count    INT default 0 not null,
 	lunch_dinner_count INT default 0 not null,

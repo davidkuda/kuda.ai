@@ -112,7 +112,7 @@ CREATE TABLE website.pages (
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -- AUTH
 
-create schema if not exists auth;
+CREATE SCHEMA IF NOT EXISTS auth;
 
 CREATE TABLE auth.users (
     email VARCHAR(255) PRIMARY KEY,

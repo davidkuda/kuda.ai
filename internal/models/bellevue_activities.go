@@ -6,13 +6,7 @@ import (
 	"time"
 )
 
-type BellevueActivities []*BellevueActivity
-
-func NewBellevueActivity() *BellevueActivity {
-	return &BellevueActivity{
-		Date: time.Now(),
-	}
-}
+type BellevueActivities []BellevueActivity
 
 // This struct keeps track of things you need to pay for.
 type BellevueActivity struct {
@@ -25,6 +19,12 @@ type BellevueActivity struct {
 	Lectures     int
 	Comment      string
 	TotalPrice   int // in Rappen => CHF => float64(TotalCost) / 100.0
+}
+
+func NewBellevueActivity() *BellevueActivity {
+	return &BellevueActivity{
+		Date: time.Now(),
+	}
 }
 
 func (a *BellevueActivity) CalculatePrice() {
@@ -83,4 +83,56 @@ func (m *BellevueActivityModel) Insert(a *BellevueActivity) error {
 	}
 
 	return nil
+}
+
+func (m *BellevueActivityModel) GetAllByUser(userID int) (BellevueActivities, error) {
+	stmt := `
+	SELECT
+		id,
+		activity_date,
+		breakfast_count,
+		lunch_dinner_count,
+		coffee_count,
+		sauna_count,
+		lecture_count,
+		total_price,
+		comment
+	FROM website.bellevue_activities
+	WHERE user_id = $1
+	ORDER BY activity_date DESC
+	`
+
+	rows, err := m.DB.Query(stmt, userID)
+	if err != nil {
+		return nil, fmt.Errorf("DB.Query(stmt): %v", err)
+	}
+
+	defer rows.Close()
+
+	var bas BellevueActivities
+
+	for rows.Next() {
+		var ba BellevueActivity
+		err = rows.Scan(
+			&ba.ID,
+			&ba.Date,
+			&ba.Breakfasts,
+			&ba.LunchDinners,
+			&ba.Coffees,
+			&ba.Saunas,
+			&ba.Lectures,
+			&ba.TotalPrice,
+			&ba.Comment,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("for rows.Next(): %v", err)
+		}
+		bas = append(bas, ba)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, fmt.Errorf("rows.Err(): %v", err)
+	}
+
+	return bas, nil
 }

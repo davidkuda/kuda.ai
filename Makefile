@@ -1,15 +1,23 @@
 PG_DSN_ADMIN = postgres://davidkuda:@${DB_ADDRESS}/${DB_NAME}?sslmode=disable
 PG_DSN_APP = postgres://${DB_USER}:${DB_PASSWORD}@${DB_ADDRESS}/${DB_NAME}?sslmode=disable
 
-db/backup:
+db/backup/songs:
 	pg_dump \
 	--data-only \
 	--column-inserts \
 	--no-privileges \
 	--no-owner \
 	--table=songs \
-	> ./data/postgres/2025-03-28--songs
+	> ./data/postgres/2025-07-20--backup--songs
 
+
+db/backup/full:
+	pg_dump \
+	--data-only \
+	--column-inserts \
+	--no-privileges \
+	--no-owner \
+	> ./data/postgres/2025-07-20--backup--full
 
 db/init:
 	createdb kuda_ai
@@ -25,9 +33,9 @@ db/migrate/newsql:
 	-seq \
 	-ext=.sql \
 	-dir=./migrations \
-	songszzz
+	${name}
 
-db/migrate/up/roles:
+db/migrate/up:
 	migrate \
 	-path=./migrations \
 	-database=${PG_DSN_ADMIN} \

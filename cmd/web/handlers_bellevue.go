@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -15,8 +16,14 @@ func (app *application) adminNewBellevueActivity(w http.ResponseWriter, r *http.
 	app.render(w, r, http.StatusOK, "admin.new_bellevue_activity.tmpl.html", &t)
 }
 
-func (app *application) bellevueActivitiesGet(w http.ResponseWriter, r *http.Request) {
-
+func (app *application) bellevueActivities(w http.ResponseWriter, r *http.Request) {
+	t := app.newTemplateData(r)
+	bas, err := app.models.BellevueActivities.GetAllByUser(1)
+	if err != nil {
+		log.Println(fmt.Errorf("failed reading bellevue activities: %v", err))
+	}
+	t.BellevueActivities = bas
+	app.render(w, r, http.StatusOK, "bellevue_activities.tmpl.html", &t)
 }
 
 type bellevueActivityForm struct {
@@ -70,7 +77,7 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	// TODO: send some notification to the UI (successfully submitted)
-	http.Redirect(w, r, "/admin/new-bellevue-activity", http.StatusSeeOther)
+	// TODO: send some notification (Toast) to the UI (successfully submitted)
+	http.Redirect(w, r, "/bellevue-activities", http.StatusSeeOther)
 	return
 }
