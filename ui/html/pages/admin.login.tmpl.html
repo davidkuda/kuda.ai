@@ -15,17 +15,4 @@
     Login
   </button>
 </form>
-
-<!-- the scripts transforms the button to: -->
-<!-- <button aria-busy="true" class="outline">Please wait…</button> -->
-<script>
-  const form = document.getElementById("login-form");
-  const button = document.getElementById("login-button");
-  form.addEventListener("submit", function () {
-    // button.disabled = true;
-    button.setAttribute("aria-busy", "true");
-    button.classList.add("outline");
-    button.textContent = "Authenticating ...";
-  });
-</script>
 {{ end }}
