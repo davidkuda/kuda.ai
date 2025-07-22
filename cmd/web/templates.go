@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"path/filepath"
 	"strings"
@@ -12,6 +13,9 @@ import (
 )
 
 type templateData struct {
+	LoggedIn           bool
+	UserID             int
+	IsAdmin            bool
 	Title              string
 	NavItems           []NavItem
 	Path               string
@@ -29,7 +33,6 @@ type templateData struct {
 	BellevueActivity   *models.BellevueActivity
 	Form               any
 	ShowUpdatedAt      bool
-	LoggedIn           bool
 	HideNav            bool
 	Sidebars           bool
 	HighlightJS        bool
@@ -42,6 +45,20 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 		isAuthenticated = false
 	}
 
+	var userID int
+	var isAdmin bool
+	if isAuthenticated {
+		userID, ok = r.Context().Value("userID").(int)
+		if !ok {
+			// TODO: what to do with this check?
+			log.Println("newTemplateData: could not get userID from request.Context")
+		}
+		isAdmin, ok = r.Context().Value("isAdmin").(bool)
+		if !ok {
+			isAdmin = false
+		}
+	}
+
 	var rootPath, title string
 	i := 1
 	for i < len(r.URL.Path) && r.URL.Path[i] != '/' {
@@ -50,9 +67,13 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 	rootPath = r.URL.Path[0:i]
 	title = strings.ToTitle(r.URL.Path[1:i])
 
+	// TODO: using empty structs with a pointer seems so wrong here. How to fix it?
+	// problem is that the templates will error on render.
 	return templateData{
-		NavItems:         app.navItems,
 		LoggedIn:         isAuthenticated,
+		UserID:           userID,
+		IsAdmin:          isAdmin,
+		NavItems:         app.navItems,
 		Title:            title,
 		RootPath:         rootPath,
 		Path:             r.URL.Path,
