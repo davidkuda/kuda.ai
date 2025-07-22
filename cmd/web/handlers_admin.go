@@ -90,7 +90,7 @@ func (app *application) adminLogoutPost(w http.ResponseWriter, r *http.Request) 
 }
 
 func (app *application) isAuthenticated(r *http.Request) bool {
-	err := app.checkJWTCookie(r)
+	err := app.validateJWTCookie(r)
 	if err == nil {
 		return true
 	} else {
@@ -98,7 +98,7 @@ func (app *application) isAuthenticated(r *http.Request) bool {
 	}
 }
 
-func (app *application) checkJWTCookie(r *http.Request) error {
+func (app *application) validateJWTCookie(r *http.Request) error {
 	token, err := r.Cookie("id")
 	if err != nil {
 		return fmt.Errorf("couldn't find cookie: %v", err)

@@ -39,7 +39,7 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 	var err error
 
 	var isAuthenticated bool
-	err = app.checkJWTCookie(r)
+	err = app.validateJWTCookie(r)
 	if err == nil {
 		isAuthenticated = true
 	}
