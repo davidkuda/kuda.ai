@@ -63,7 +63,7 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.SetCookie(w, &http.Cookie{
-		Name:     "session",
+		Name:     "id",
 		Value:    string(jwtBytes),
 		Domain:   app.JWT.CookieDomain,
 		Expires:  time.Now().Add(24 * time.Hour),
@@ -78,7 +78,7 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) adminLogoutPost(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &http.Cookie{
-		Name:     "session",
+		Name:     "id",
 		Value:    "",
 		Domain:   app.JWT.CookieDomain,
 		Expires:  time.Now(),
@@ -99,7 +99,7 @@ func (app *application) isAuthenticated(r *http.Request) bool {
 }
 
 func (app *application) checkJWTCookie(r *http.Request) error {
-	token, err := r.Cookie("session")
+	token, err := r.Cookie("id")
 	if err != nil {
 		return fmt.Errorf("couldn't find cookie: %v", err)
 	}
