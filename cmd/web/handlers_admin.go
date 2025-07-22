@@ -70,8 +70,7 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 		Secure:   true,
 		HttpOnly: true,
 		Path:     "/",
-		// TODO: what is SameSite??
-		// SameSite: http.SameSiteNoneMode,
+		SameSite: http.SameSiteStrictMode,
 	})
 
 	http.Redirect(w, r, "/admin", http.StatusSeeOther)
