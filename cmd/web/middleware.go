@@ -69,6 +69,19 @@ func (app *application) requireAuthentication(next http.Handler) http.Handler {
 	})
 }
 
+func (app *application) requireAdmin(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		isAdmin, ok := r.Context().Value("isAdmin").(bool)
+		if !ok {
+			return
+		}
+		if !isAdmin {
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
 // see https://owasp.org/www-project-secure-headers/
 // see https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP
 func commonHeaders(next http.Handler) http.Handler {

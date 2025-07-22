@@ -131,6 +131,8 @@ TO app;
 GRANT USAGE, SELECT ON SEQUENCE website.til_id_seq TO app;
 GRANT USAGE, SELECT ON SEQUENCE website.blogs_id_seq TO app;
 
+GRANT USAGE, SELECT ON SEQUENCE auth.users_id_seq TO app;
+
 ALTER TABLE website.til OWNER TO dev;
 ALTER TABLE website.pages OWNER TO dev;
 ALTER TABLE website.blogs OWNER TO dev;

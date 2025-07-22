@@ -14,7 +14,8 @@ func (app *application) routes() http.Handler {
 
 	// standard := alice.New(logRequest, commonHeaders)
 	standard := alice.New(commonHeaders)
-	protected := alice.New(app.requireAuthentication)
+	identity := alice.New(app.requireAuthentication)
+	protected := alice.New(app.requireAuthentication, app.requireAdmin)
 
 	mux.HandleFunc("GET /", app.home)
 
@@ -54,17 +55,16 @@ func (app *application) routes() http.Handler {
 	mux.Handle("GET /admin/songbook/{song}", protected.ThenFunc(app.adminSongbookSong))
 
 	// Bellevue Activities (all protected):
-	mux.Handle("GET /admin/new-bellevue-activity", protected.ThenFunc(app.adminNewBellevueActivity))
-	mux.Handle("GET /bellevue-activities", protected.ThenFunc(app.bellevueActivities))
-	mux.Handle("POST /bellevue-activities", protected.ThenFunc(app.bellevueActivityPost))
+	mux.Handle("GET /admin/new-bellevue-activity", identity.ThenFunc(app.adminNewBellevueActivity))
+	mux.Handle("GET /bellevue-activities", identity.ThenFunc(app.bellevueActivities))
+	mux.Handle("POST /bellevue-activities", identity.ThenFunc(app.bellevueActivityPost))
 
 	// admin:
 	mux.HandleFunc("GET /admin/login", app.adminLogin)
 	mux.HandleFunc("POST /admin/login", app.adminLoginPost)
 	// protected:
-	mux.Handle("GET /admin", protected.ThenFunc(app.admin))
-
-	mux.Handle("GET /admin/logout", protected.ThenFunc(app.adminLogoutPost))
+	mux.Handle("GET /admin", identity.ThenFunc(app.admin))
+	mux.Handle("GET /admin/logout", identity.ThenFunc(app.adminLogoutPost))
 
 	// finances:
 	// protected:

@@ -18,7 +18,7 @@ func (app *application) adminNewBellevueActivity(w http.ResponseWriter, r *http.
 
 func (app *application) bellevueActivities(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
-	bas, err := app.models.BellevueActivities.GetAllByUser(1)
+	bas, err := app.models.BellevueActivities.GetAllByUser(t.UserID)
 	if err != nil {
 		log.Println(fmt.Errorf("failed reading bellevue activities: %v", err))
 	}
