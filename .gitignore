@@ -7,3 +7,5 @@ cmd/commitanalysis/
 cmd/web/handlers_progress.go
 temp.md
 ui/static/css/experiment.css
+error.tmpl.html
+.env.sh

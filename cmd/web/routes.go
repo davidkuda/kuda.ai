@@ -19,8 +19,6 @@ func (app *application) routes() http.Handler {
 
 	mux.HandleFunc("GET /", app.home)
 
-	mux.HandleFunc("GET /progress", app.progress)
-
 	// simple pages:
 	mux.HandleFunc("GET /now", app.nowFromDB)
 	mux.HandleFunc("GET /about", app.about)
