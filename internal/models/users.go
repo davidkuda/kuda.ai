@@ -66,3 +66,16 @@ func (m *UserModel) Authenticate(email, password string) error {
 func (m *UserModel) Exists(email string) (bool, error) {
 	return false, nil
 }
+
+func (m *UserModel) GetUserIDByEmail(email string) (int, error) {
+	stmt := "SELECT id FROM auth.users WHERE email = $1;"
+
+	var userID int
+
+	err := m.DB.QueryRow(stmt, email).Scan(&userID)
+	if err != nil {
+		return 0, fmt.Errorf("DB.QueryRow(): %v", err)
+	}
+
+	return userID, nil
+}

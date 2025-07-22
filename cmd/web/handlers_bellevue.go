@@ -68,9 +68,18 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 
 	// TODO: FieldErrors?
 	//       - [ ] if all counts are 0
+	//       - [ ] if a count is negative
 	if len(form.FieldErrors) > 0 {
 		return
 	}
+
+	userID, ok := r.Context().Value("userID").(int)
+	if !ok {
+		log.Println("post /bellevue-activity: could not get userID from request.Context")
+		// TODO: return 503
+		return
+	}
+	form.BellevueActivity.UserID = userID
 
 	err = app.models.BellevueActivities.Insert(form.BellevueActivity)
 	if err != nil {

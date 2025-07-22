@@ -36,12 +36,10 @@ type templateData struct {
 }
 
 func (app *application) newTemplateData(r *http.Request) templateData {
-	var err error
 
-	var isAuthenticated bool
-	err = app.validateJWTCookie(r)
-	if err == nil {
-		isAuthenticated = true
+	isAuthenticated, ok := r.Context().Value("isAuthenticated").(bool)
+	if !ok {
+		isAuthenticated = false
 	}
 
 	var rootPath, title string
@@ -130,7 +128,7 @@ func formatDateFormInput(t time.Time) string {
 }
 
 func formatDateNiceRead(t time.Time) string {
-    return t.Format("Mon 2.01.2006")
+	return t.Format("Mon 2.01.2006")
 }
 
 // formatCurrency converts an integer (in Rappen) to a currency string like "22.50 CHF".

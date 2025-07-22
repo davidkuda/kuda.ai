@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -36,7 +37,34 @@ func (app *application) requireAuthentication(next http.Handler) http.Handler {
 			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
 			return
 		}
+
 		w.Header().Add("Cache-Control", "no-store")
+
+		userEmail, err := app.extractUserFromJWT(r)
+		if err != nil {
+			log.Println("failed extracting subject from JWT")
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+			return
+		}
+
+		userID, err := app.users.GetUserIDByEmail(userEmail)
+		if err != nil {
+			log.Printf("could not get email from user with email %s: %v\n", userEmail, err)
+			// TODO: return 503
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+			return
+		}
+
+		ctx := r.Context()
+		ctx = context.WithValue(ctx, "isAuthenticated", true)
+		ctx = context.WithValue(ctx, "userEmail", userEmail)
+		ctx = context.WithValue(ctx, "userID", userID)
+		// TODO: implement nice permission management...
+		if userID == 1 {
+			ctx = context.WithValue(ctx, "isAdmin", true)
+		}
+		r = r.WithContext(ctx)
+
 		next.ServeHTTP(w, r)
 	})
 }

@@ -98,6 +98,20 @@ func (app *application) isAuthenticated(r *http.Request) bool {
 	}
 }
 
+func (app *application) extractUserFromJWT(r *http.Request) (string, error) {
+	token, err := r.Cookie("id")
+	if err != nil {
+		return "", fmt.Errorf("couldn't find cookie: %v", err)
+	}
+
+	claims, err := jwt.HMACCheck([]byte(token.Value), []byte(app.JWT.Secret))
+	if err != nil {
+		return "", fmt.Errorf("detected invalid signature in jwtCookie: %v", err)
+	}
+
+	return claims.Subject, nil
+}
+
 func (app *application) validateJWTCookie(r *http.Request) error {
 	token, err := r.Cookie("id")
 	if err != nil {
