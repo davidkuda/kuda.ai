@@ -31,27 +31,26 @@ func logRequest(next http.Handler) http.Handler {
 	})
 }
 
-func (app *application) requireAuthentication(next http.Handler) http.Handler {
+func (app *application) identify(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if !app.isAuthenticated(r) {
-			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
-			return
-		}
-
 		w.Header().Add("Cache-Control", "no-store")
 
-		userEmail, err := app.extractUserFromJWT(r)
+		var userEmail string
+		var userID int
+
+		userEmail, err := app.extractUserFromJWTCookie(r)
 		if err != nil {
-			log.Println("failed extracting subject from JWT")
-			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+			ctx := r.Context()
+			ctx = context.WithValue(ctx, "isAuthenticated", false)
+			r = r.WithContext(ctx)
+			next.ServeHTTP(w, r)
 			return
 		}
 
-		userID, err := app.users.GetUserIDByEmail(userEmail)
+		userID, err = app.users.GetUserIDByEmail(userEmail)
 		if err != nil {
-			log.Printf("could not get email from user with email %s: %v\n", userEmail, err)
-			// TODO: return 503
-			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+			err = fmt.Errorf("could not get email from user with email %s: %v\n", userEmail, err)
+			app.serverError(w, r, err)
 			return
 		}
 
@@ -59,12 +58,25 @@ func (app *application) requireAuthentication(next http.Handler) http.Handler {
 		ctx = context.WithValue(ctx, "isAuthenticated", true)
 		ctx = context.WithValue(ctx, "userEmail", userEmail)
 		ctx = context.WithValue(ctx, "userID", userID)
+
 		// TODO: implement nice permission management...
 		if userID == 1 {
 			ctx = context.WithValue(ctx, "isAdmin", true)
 		}
+
 		r = r.WithContext(ctx)
 
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (app *application) requireAuthentication(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// TODO: think this over, this makes another JWT decoding
+		if !app.isAuthenticated(r) {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+			return
+		}
 		next.ServeHTTP(w, r)
 	})
 }
@@ -73,9 +85,11 @@ func (app *application) requireAdmin(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		isAdmin, ok := r.Context().Value("isAdmin").(bool)
 		if !ok {
+			app.renderError(w, r, http.StatusForbidden)
 			return
 		}
 		if !isAdmin {
+			app.renderError(w, r, http.StatusForbidden)
 			return
 		}
 		next.ServeHTTP(w, r)

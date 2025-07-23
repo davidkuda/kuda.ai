@@ -13,9 +13,9 @@ func (app *application) routes() http.Handler {
 	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
 
 	// standard := alice.New(logRequest, commonHeaders)
-	standard := alice.New(commonHeaders)
-	identity := alice.New(app.requireAuthentication)
-	protected := alice.New(app.requireAuthentication, app.requireAdmin)
+	standard := alice.New(commonHeaders, app.identify)
+	usersOnly := alice.New(app.requireAuthentication)
+	adminsOnly := alice.New(app.requireAuthentication, app.requireAdmin)
 
 	mux.HandleFunc("GET /", app.home)
 
@@ -24,49 +24,49 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("GET /about", app.about)
 	mux.HandleFunc("GET /bookshelf", app.bookshelf)
 	// protected:
-	mux.Handle("GET /admin/new-page", protected.ThenFunc(app.adminNewPage))
-	mux.Handle("GET /admin/pages/{page}", protected.ThenFunc(app.adminPagesPage))
-	mux.Handle("POST /pages", protected.ThenFunc(app.pagesPost))
+	mux.Handle("GET /admin/new-page", adminsOnly.ThenFunc(app.adminNewPage))
+	mux.Handle("GET /admin/pages/{page}", adminsOnly.ThenFunc(app.adminPagesPage))
+	mux.Handle("POST /pages", adminsOnly.ThenFunc(app.pagesPost))
 
 	// blogs:
 	mux.HandleFunc("GET /blog", app.blog)
 	mux.HandleFunc("GET /blog/{path}", app.blogPath)
 	// protected:
-	mux.Handle("POST /blog", protected.ThenFunc(app.blogPost))
-	mux.Handle("GET /admin/new-blog", protected.ThenFunc(app.adminNewBlog))
-	mux.Handle("GET /admin/blog/{path}", protected.ThenFunc(app.adminBlogPath))
+	mux.Handle("POST /blog", adminsOnly.ThenFunc(app.blogPost))
+	mux.Handle("GET /admin/new-blog", adminsOnly.ThenFunc(app.adminNewBlog))
+	mux.Handle("GET /admin/blog/{path}", adminsOnly.ThenFunc(app.adminBlogPath))
 
 	// til:
 	mux.HandleFunc("GET /today-i-learned", app.todayILearned)
 	mux.HandleFunc("GET /today-i-learned/{path}", app.todayILearnedPath)
 	// protected:
-	mux.Handle("POST /til", protected.ThenFunc(app.tilPost))
-	mux.Handle("GET /admin/new-til", protected.ThenFunc(app.adminNewTIL))
-	mux.Handle("GET /admin/tils/{path}", protected.ThenFunc(app.adminTILSTIL))
+	mux.Handle("POST /til", adminsOnly.ThenFunc(app.tilPost))
+	mux.Handle("GET /admin/new-til", adminsOnly.ThenFunc(app.adminNewTIL))
+	mux.Handle("GET /admin/tils/{path}", adminsOnly.ThenFunc(app.adminTILSTIL))
 
 	//songbook:
 	mux.HandleFunc("GET /songbook", app.songbook)
 	mux.HandleFunc("GET /songbook/{song}", app.songbookSong)
 	// protected:
-	mux.Handle("POST /songbook", protected.ThenFunc(app.songbookPost))
-	mux.Handle("GET /admin/new-song", protected.ThenFunc(app.adminNewSong))
-	mux.Handle("GET /admin/songbook/{song}", protected.ThenFunc(app.adminSongbookSong))
+	mux.Handle("POST /songbook", adminsOnly.ThenFunc(app.songbookPost))
+	mux.Handle("GET /admin/new-song", adminsOnly.ThenFunc(app.adminNewSong))
+	mux.Handle("GET /admin/songbook/{song}", adminsOnly.ThenFunc(app.adminSongbookSong))
 
 	// Bellevue Activities (all protected):
-	mux.Handle("GET /admin/new-bellevue-activity", identity.ThenFunc(app.adminNewBellevueActivity))
-	mux.Handle("GET /bellevue-activities", identity.ThenFunc(app.bellevueActivities))
-	mux.Handle("POST /bellevue-activities", identity.ThenFunc(app.bellevueActivityPost))
+	mux.Handle("GET /admin/new-bellevue-activity", usersOnly.ThenFunc(app.adminNewBellevueActivity))
+	mux.Handle("GET /bellevue-activities", usersOnly.ThenFunc(app.bellevueActivities))
+	mux.Handle("POST /bellevue-activities", usersOnly.ThenFunc(app.bellevueActivityPost))
 
 	// admin:
 	mux.HandleFunc("GET /admin/login", app.adminLogin)
 	mux.HandleFunc("POST /admin/login", app.adminLoginPost)
 	// protected:
-	mux.Handle("GET /admin", identity.ThenFunc(app.admin))
-	mux.Handle("GET /admin/logout", identity.ThenFunc(app.adminLogoutPost))
+	mux.Handle("GET /admin", usersOnly.ThenFunc(app.admin))
+	mux.Handle("GET /admin/logout", usersOnly.ThenFunc(app.adminLogoutPost))
 
 	// finances:
 	// protected:
-	mux.Handle("GET /finances", protected.ThenFunc(app.finances))
+	mux.Handle("GET /finances", adminsOnly.ThenFunc(app.finances))
 
 	return standard.Then(mux)
 }
