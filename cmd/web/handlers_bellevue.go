@@ -10,12 +10,14 @@ import (
 	"github.com/davidkuda/kudaai/internal/models"
 )
 
+// GET /admin/new-bellevue-activity
 func (app *application) adminNewBellevueActivity(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
 	t.Title = "New Bellevue Activity"
 	app.render(w, r, http.StatusOK, "admin.new_bellevue_activity.tmpl.html", &t)
 }
 
+// GET /bellevue-activities
 func (app *application) bellevueActivities(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
 	bas, err := app.models.BellevueActivities.GetAllByUser(t.UserID)
@@ -31,6 +33,7 @@ type bellevueActivityForm struct {
 	FieldErrors      map[string]string
 }
 
+// POST /admin/new-bellevue-activity
 func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {

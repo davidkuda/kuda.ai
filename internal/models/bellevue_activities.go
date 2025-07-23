@@ -20,12 +20,42 @@ type BellevueActivity struct {
 	Saunas     int
 	Lectures   int
 	Comment    string
-	TotalPrice int // in Rappen => CHF => float64(TotalCost) / 100.0
+	TotalPrice int    // in Rappen => CHF => float64(TotalCost) / 100.0
+	Items      []Item // this is a representation that is used in a template to render the data
+}
+
+type Item struct {
+	Activity string
+	Count    int
+}
+
+func newItem(s string, n int) Item {
+	return Item{s, n}
 }
 
 func NewBellevueActivity() *BellevueActivity {
 	return &BellevueActivity{
 		Date: time.Now(),
+	}
+}
+
+func (b *BellevueActivity) PopulateItems() {
+	b.Items = make([]Item, 0)
+	b.addItem(b.Breakfasts, "Breakfast", "Breakfasts")
+	b.addItem(b.Lunches, "Lunch", "Lunches")
+	b.addItem(b.Dinners, "Dinner", "Dinners")
+	b.addItem(b.Coffees, "Coffee", "Coffees")
+	b.addItem(b.Saunas, "Sauna", "Saunas")
+	b.addItem(b.Lectures, "Lecture", "Lectures")
+}
+
+func (b *BellevueActivity) addItem( count int, singular, plural string) {
+	if count <= 0 {
+		return
+	} else if count == 1 {
+		b.Items = append(b.Items, Item{singular, count})
+	} else {
+		b.Items = append(b.Items, Item{plural, count})
 	}
 }
 
@@ -137,6 +167,7 @@ func (m *BellevueActivityModel) GetAllByUser(userID int) (BellevueActivities, er
 		if err != nil {
 			return nil, fmt.Errorf("for rows.Next(): %v", err)
 		}
+		ba.PopulateItems()
 		bas = append(bas, ba)
 	}
 

@@ -15,12 +15,9 @@
     <td class="no-break">{{ .Date | fmtDateNiceRead }}</td>
     <td>{{ .TotalPrice | fmtCHF }}</td>
     <td class="stack-xs">
-      {{ if gt .Breakfasts 0 }}<span class="bellevue-activity">{{ .Breakfasts }} Breakfast(s)</span>{{ end }}
-      {{ if gt .Lunches 0 }}<span class="bellevue-activity">{{ .Lunches }} Lunch(es)</span>{{ end }}
-      {{ if gt .Dinners 0 }}<span class="bellevue-activity">{{ .Dinners }} Dinner(s)</span>{{ end }}
-      {{ if gt .Coffees 0 }}<span class="bellevue-activity">{{ .Coffees }} Coffee(s)</span>{{ end }}
-      {{ if gt .Saunas 0 }}<span class="bellevue-activity">{{ .Saunas }} Sauna(s)</span>{{ end }}
-      {{ if gt .Lectures 0 }}<span class="bellevue-activity">{{ .Lectures }} Lecture(s)</span>{{ end }}
+      {{ range .Items }}
+      <span class="bellevue-activity">{{ .Count }} {{ .Activity }}</span>
+      {{ end }}
       {{ if ne .Comment "" }}<span class="bellevue-activity stack-exception-medium">{{ .Comment }}</span>{{ end }}
     </td>
   </tr>
