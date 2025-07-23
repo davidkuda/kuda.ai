@@ -344,36 +344,52 @@ span.bellevue-activity {
 	display: block;
 }
 
+div.table-container {
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	/* Smooth scrolling on iOS */
+}
+
+
+th,
+td {
+	padding: 8px;
+	text-align: left;
+}
+
+
 table {
+	min-width: 600px;
+	/* optional: ensures scrolling if content is large */
 	width: 100%;
 	border-collapse: collapse;
 	border: none;
-	border-radius: 0.4em;
-	background-color: var(--surface);
+	border-radius: 0.5em;
+	border-bottom: 1px solid var(--highlight-med);
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	padding: 1rem;
-	margin-top: 1rem;
 }
 
 th,
 td {
-	padding: 10px 15px;
-	text-align: left;
-	border-bottom: 1px solid var(--overlay);
+	padding: 0.8em 1em;
 	vertical-align: top;
+	text-align: left;
+	border-bottom: 2px solid var(--highlight-med);
 }
 
 th {
 	font-weight: bold;
+	background-color: var(--highlight-med);
 }
 
-tr:nth-child(even) {
-	background-color: var(--overlay);
-}
+/* tr:nth-child(even) { */
+/* 	background-color: var(--overlay); */
+/* } */
 
-tr:hover {
-	background-color: var(--highlight-high);
-}
+/* tr:hover:not(:has(th)) { */
+/*     background-color: var(--highlight-med); */
+/* } */
 
 .no-break {
 	white-space: nowrap;
@@ -487,28 +503,30 @@ form button:focus {
 /* Loading Spinner */
 /* Style the button when aria-busy="true" */
 button#login-button[aria-busy="true"] {
-  position: relative;
-  pointer-events: none;
-  opacity: 0.7;
+	position: relative;
+	pointer-events: none;
+	opacity: 0.7;
 }
 
 /* Add spinner when aria-busy is true */
 button#login-button[aria-busy="true"]::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 16px;
-  height: 16px;
-  margin: -8px 0 0 -8px;
-  border: 2px solid #fff;
-  border-top: 2px solid transparent;
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 16px;
+	height: 16px;
+	margin: -8px 0 0 -8px;
+	border: 2px solid #fff;
+	border-top: 2px solid transparent;
+	border-radius: 50%;
+	animation: spin 0.6s linear infinite;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 
