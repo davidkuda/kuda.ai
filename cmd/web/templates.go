@@ -36,6 +36,23 @@ type templateData struct {
 	HideNav            bool
 	Sidebars           bool
 	HighlightJS        bool
+	Error              Error
+}
+
+type Error struct {
+	HTTPStatusCode int
+	HTTPStatusText string
+	Method         string
+	Path           string
+}
+
+func newError(r *http.Request, errorCode int) Error {
+	return Error{
+		HTTPStatusCode: errorCode,
+		HTTPStatusText: http.StatusText(errorCode),
+		Method:         r.Method,
+		Path:           r.URL.Path,
+	}
 }
 
 func (app *application) newTemplateData(r *http.Request) templateData {

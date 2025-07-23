@@ -12,6 +12,26 @@ import (
 	"github.com/russross/blackfriday/v2"
 )
 
+func (app *application) renderError(w http.ResponseWriter, r *http.Request, errorCode int) {
+	ts, ok := app.templateCache["error.tmpl.html"]
+	if !ok {
+		err := fmt.Errorf("couldn't find template \"error\" in app.templateCache")
+		app.serverError(w, r, err)
+		return
+	}
+
+	data := app.newTemplateData(r)
+	data.Error = newError(r, errorCode)
+
+	w.WriteHeader(errorCode)
+
+	err := ts.ExecuteTemplate(w, "base", data)
+	if err != nil {
+		errMsg := fmt.Errorf("error executing templates: %s", err.Error())
+		app.serverError(w, r, errMsg)
+	}
+}
+
 func (app *application) serverError(w http.ResponseWriter, r *http.Request, err error) {
 	var (
 		method = r.Method

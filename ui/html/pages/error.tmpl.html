@@ -1,0 +1,7 @@
+{{ define "title" }}{{ .Error.HTTPStatusCode }} {{ .Error.HTTPStatusText }}{{ end }}
+{{ define "main" }}
+<h2>Something didn't go as planned, mate.</h2>
+<p>{{ .Error.Method }} {{ .Error.Path }} {{ .Error.HTTPStatusCode }} {{ .Error.HTTPStatusText }}</p>
+
+{{ .HTML }}
+{{ end }}
