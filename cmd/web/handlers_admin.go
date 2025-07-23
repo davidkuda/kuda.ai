@@ -98,7 +98,7 @@ func (app *application) isAuthenticated(r *http.Request) bool {
 	}
 }
 
-func (app *application) extractUserFromJWT(r *http.Request) (string, error) {
+func (app *application) extractUserFromJWTCookie(r *http.Request) (string, error) {
 	token, err := r.Cookie("id")
 	if err != nil {
 		return "", fmt.Errorf("couldn't find cookie: %v", err)
