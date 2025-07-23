@@ -15,6 +15,7 @@ import (
 type templateData struct {
 	LoggedIn           bool
 	UserID             int
+	UserEmail          string
 	IsAdmin            bool
 	Title              string
 	NavItems           []NavItem
@@ -63,13 +64,22 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 	}
 
 	var userID int
+	var userEmail string
 	var isAdmin bool
+
 	if isAuthenticated {
 		userID, ok = r.Context().Value("userID").(int)
 		if !ok {
 			// TODO: what to do with this check?
 			log.Println("newTemplateData: could not get userID from request.Context")
 		}
+
+		userEmail, ok = r.Context().Value("userEmail").(string)
+		if !ok {
+			// TODO: what to do with this check?
+			log.Println("newTemplateData: could not get userEmail from request.Context")
+		}
+
 		isAdmin, ok = r.Context().Value("isAdmin").(bool)
 		if !ok {
 			isAdmin = false
@@ -89,6 +99,7 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 	return templateData{
 		LoggedIn:         isAuthenticated,
 		UserID:           userID,
+		UserEmail:        userEmail,
 		IsAdmin:          isAdmin,
 		NavItems:         app.navItems,
 		Title:            title,

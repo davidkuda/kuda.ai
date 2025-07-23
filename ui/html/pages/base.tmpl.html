@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
     <!-- fonts >>> -->
-    <link rel="stylesheet" type="text/css" href="/static/css/main.css?v=15">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css?v=21">
     {{ if .HighlightJS }}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/rose-pine.min.css">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
@@ -27,6 +27,9 @@
         <h1><a href="/">kuda.ai</a></h1>
         <p>Thoughts on programming and music theory.</p>
       </hgroup>
+      {{ if .LoggedIn }}
+      <p><small>Hoooi {{ .UserEmail }} 👋🇨🇭🗻</small></p>
+      {{ end }}
       {{ if not .HideNav }}
       {{ template "nav" . }}
       {{ end }}
