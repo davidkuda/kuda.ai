@@ -1,10 +1,9 @@
-console.log("Hello from the go server")
+console.log("Hello from the go server");
 
 // ------------------------------------------------------------
 // DOM references
 // ------------------------------------------------------------
 const themeBtn = document.getElementById("themeToggle");
-
 
 // ------------------------------------------------------------
 // event listeners
@@ -16,7 +15,6 @@ themeBtn.addEventListener("click", async () => {
 	await localStorage.setItem("theme", next);
 });
 
-
 // ------------------------------------------------------------
 // functions
 // ------------------------------------------------------------
@@ -25,7 +23,6 @@ function applyTheme(mode) {
 	themeBtn.textContent = mode === "dark" ? "light mode" : "dark mode";
 }
 
-
 // ------------------------------------------------------------
 // init
 // ------------------------------------------------------------
@@ -33,4 +30,3 @@ function applyTheme(mode) {
 	const theme = await localStorage.getItem("theme");
 	applyTheme(theme);
 })();
-

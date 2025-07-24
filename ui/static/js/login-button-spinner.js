@@ -6,4 +6,3 @@ form.addEventListener("submit", () => {
 	button.disabled = true;
 	button.classList.add("loading");
 });
-

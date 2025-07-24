@@ -79,13 +79,13 @@ code {
 	background-color: var(--highlight-high);
 }
 
-p>code {
+p > code {
 	background-color: var(--highlight-med);
 	padding: 0.4em;
 	border-radius: 0.5em;
 }
 
-pre>code {
+pre > code {
 	background-color: var(--surface);
 	border-radius: 0.5em;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -110,30 +110,32 @@ span#themeToggle:hover {
 	cursor: pointer;
 }
 
-header>hgroup {
+header > hgroup {
 	text-align: center;
 	margin: 1rem;
 }
 
-header>hgroup>h1,
+header > hgroup > h1,
 p {
 	margin: 0;
 }
 
-header>hgroup>h1 {}
+header > hgroup > h1 {
+}
 
-header>hgroup>p {}
+header > hgroup > p {
+}
 
-header>hgroup>h1>a {
+header > hgroup > h1 > a {
 	text-decoration: none;
 }
 
-header>hgroup>h1>a:hover {
+header > hgroup > h1 > a:hover {
 	text-decoration: underline;
 	text-decoration-thickness: 5%;
 }
 
-header>nav * {
+header > nav * {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -143,16 +145,16 @@ header ul {
 	padding-inline-start: 0;
 }
 
-header>nav>ul>li {
+header > nav > ul > li {
 	list-style: none;
 	padding: 0.2em 0.4em;
 }
 
-header>nav>ul>li>a {
+header > nav > ul > li > a {
 	text-decoration: underline;
 }
 
-header>nav>ul>li>a.active {
+header > nav > ul > li > a.active {
 	text-decoration: none;
 	font-weight: 600;
 }
@@ -172,19 +174,19 @@ div.main-layout {
 	display: block;
 }
 
-.stack *+* {
+.stack * + * {
 	margin-block-start: var(--space, 1.5rem);
 }
 
-.stack-xs>*+* {
+.stack-xs > * + * {
 	margin-block-start: var(--space, 0.25rem);
 }
 
-.stack-small>*+* {
+.stack-small > * + * {
 	margin-block-start: var(--space, 0.5rem);
 }
 
-.stack-large>*+* {
+.stack-large > * + * {
 	margin-block-start: var(--space, 3rem);
 }
 
@@ -200,19 +202,21 @@ div.main-layout {
 	--space: 3rem;
 }
 
-main ul>li+li {
+main ul > li + li {
 	/* margin-block-start: 0.5rem; */
 	--space: 0.75rem;
 }
 
-div.left {}
+div.left {
+}
 
 main {
 	padding: 0.5em;
 	overflow-x: hidden;
 }
 
-div.right {}
+div.right {
+}
 
 @media (max-width: 60ch) {
 	div.main-layout {
@@ -224,7 +228,8 @@ div.right {}
 	text-align: center;
 }
 
-h2 {}
+h2 {
+}
 
 a {
 	color: inherit;
@@ -235,13 +240,14 @@ a:hover {
 	color: var(--rose);
 }
 
-.active {}
+.active {
+}
 
 /* Songbook */
 
 pre.chords,
 pre.chords *,
-pre.chords>summary {
+pre.chords > summary {
 	border-color: var(--rose);
 	margin: 0;
 	margin-inline-start: 0;
@@ -254,12 +260,12 @@ pre.chords>summary {
 
 /* TILs */
 
-div.tils-container>a {
+div.tils-container > a {
 	text-decoration: none;
 }
 
 /* overwrite (or reset) a:hover from above */
-div.tils-container>a:hover {
+div.tils-container > a:hover {
 	color: var(--text);
 }
 
@@ -292,22 +298,22 @@ div.card {
 	background-color: var(--overlay);
 }
 
-div.card>hgroup>p.card-title>strong {
+div.card > hgroup > p.card-title > strong {
 	/* TODO: JetBrains apparently has no font weights :( */
 	font-weight: 700;
 	font-size: 1.2rem;
 }
 
-div.card>hgroup>small {
+div.card > hgroup > small {
 	font-size: 0.8em !important;
 	color: var(--subtle);
 }
 
-div.card>hgroup {
+div.card > hgroup {
 	margin-bottom: 1em;
 }
 
-div.card>div.card-text {
+div.card > div.card-text {
 	margin-bottom: 2em;
 }
 
@@ -330,7 +336,7 @@ div.card div.card-text code {
 	background: transparent;
 }
 
-small.category>code {
+small.category > code {
 	padding: 0.4em;
 	padding-left: 0.6em;
 	padding-right: 0.6em;
@@ -352,13 +358,11 @@ div.table-container {
 	/* Smooth scrolling on iOS */
 }
 
-
 th,
 td {
 	padding: 8px;
 	text-align: left;
 }
-
 
 table {
 	min-width: 600px;
@@ -399,7 +403,6 @@ th {
 	text-overflow: ellipsis;
 }
 
-
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* MAIN.forms  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
@@ -414,11 +417,11 @@ form {
 	margin-top: 1rem;
 }
 
-form>h2 {
+form > h2 {
 	margin-top: 0em;
 }
 
-form>fieldset {
+form > fieldset {
 	border: 0;
 	padding: 0;
 	margin: 0;
@@ -531,10 +534,9 @@ button#login-button[aria-busy="true"]::after {
 	}
 }
 
-
 /* New Bellevue Acitvity */
 /* reset stack */
-form label fieldset>*+* {
+form label fieldset > * + * {
 	--space: 0;
 }
 
@@ -564,7 +566,6 @@ fieldset.number-picker button {
 	border: 1px solid var(--overlay);
 }
 
-
 /* Rounded left corners */
 .number-picker button.minus {
 	border-radius: 0.5rem 0 0 0.5rem;
@@ -575,17 +576,16 @@ fieldset.number-picker button {
 	border-radius: 0 0.5rem 0.5rem 0;
 }
 
-
 /* remove browser input up arrow and down arrow */
 /* Chrome, Safari, Edge, Opera */
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
 	-moz-appearance: textfield;
 }
 

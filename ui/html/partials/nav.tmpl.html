@@ -1,32 +1,27 @@
 {{ define "nav" }}
 <nav>
-	<ul>
-		{{ range .NavItems }}
-		<li>
-			{{ if eq $.Path .Path }}
-			<span>{{ .Name }}</span>
-			{{ else }}
-			<a href="{{ .Path }}">{{ .Name }}</a>
-			{{ end }}
-		</li>
-		{{ end }}
-		{{ if .LoggedIn }}
-		<li>
-			{{ if eq $.Path "/admin" }}
-			<span>Admin</span>
-			{{ else }}
-			<a href="/admin">
-				Admin
-			</a>
-			{{ end }}
-		</li>
-		<li>
-			<a href="/admin/logout">
-				Logout
-			</a>
-		</li>
-		{{ end }}
-	</ul>
+  <ul>
+    {{ range .NavItems }}
+    <li>
+      {{ if eq $.Path .Path }}
+      <span>{{ .Name }}</span>
+      {{ else }}
+      <a href="{{ .Path }}">{{ .Name }}</a>
+      {{ end }}
+    </li>
+    {{ end }} {{ if .LoggedIn }}
+    <li>
+      {{ if eq $.Path "/admin" }}
+      <span>Admin</span>
+      {{ else }}
+      <a href="/admin"> Admin </a>
+      {{ end }}
+    </li>
+    <li>
+      <a href="/admin/logout"> Logout </a>
+    </li>
+    {{ end }}
+  </ul>
 </nav>
 <span id="themeToggle">dark mode</span>
 {{ end }}
