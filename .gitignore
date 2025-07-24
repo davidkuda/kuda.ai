@@ -8,3 +8,9 @@ cmd/web/handlers_progress.go
 temp.md
 ui/static/css/experiment.css
 .env.sh
+
+package.json
+package-lock.json
+node_modules/
+.prettierignore
+.prettierrc
