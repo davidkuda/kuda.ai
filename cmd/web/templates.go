@@ -32,6 +32,7 @@ type templateData struct {
 	Blog               *models.Blog
 	BellevueActivities models.BellevueActivities
 	BellevueActivity   *models.BellevueActivity
+	BellevueOfferings  models.BellevueOfferings
 	Form               any
 	ShowUpdatedAt      bool
 	HideNav            bool

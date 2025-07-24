@@ -8,43 +8,10 @@
       type="date"
       value="{{ .BellevueActivity.Date | formatDateFormInput }}"
   /></label>
-  <label for="breakfast"
-    >Breakfast (8.00 CHF):
-    <fieldset class="number-picker">
-      <button type="button" class="minus">−</button>
-      <input
-        name="bellevue-activity-breakfasts"
-        id="breakfast"
-        type="number"
-        value="0"
-        min="0"
-      />
-      <button type="button" class="plus">+</button>
-    </fieldset></label
-  >
+  {{ range .BellevueOfferings }} {{ template "bellevue-activity" . }} {{ end }}
   <label
-    >Breakfast (8.00 CHF):
-    <input name="bellevue-activity-breakfasts" type="number" value="0"
-  /></label>
-  <label
-    >Lunch (11.00 CHF):
-    <input name="bellevue-activity-lunches" type="number" value="0"
-  /></label>
-  <label
-    >Dinner (11.00 CHF):
-    <input name="bellevue-activity-dinners" type="number" value="0"
-  /></label>
-  <label
-    >Coffee (1.00 CHF):
-    <input name="bellevue-activity-coffees" type="number" value="0"
-  /></label>
-  <label
-    >Sauna (7.50 CHF):
-    <input name="bellevue-activity-saunas" type="number" value="0"
-  /></label>
-  <label
-    >Lecture (12.00 CHF):
-    <input name="bellevue-activity-lectures" type="number" value="0"
+    >Snacks (in CHF):
+    <input name="bellevue-activity-snacks" type="number" min="0"
   /></label>
   <label
     >Comment (max 1 Paragraph):

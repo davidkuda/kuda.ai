@@ -21,7 +21,7 @@ type BellevueActivity struct {
 	Lectures   int
 	Comment    string
 	TotalPrice int    // in Rappen => CHF => float64(TotalCost) / 100.0
-	Items      []Item // this is a representation that is used in a template to render the data
+	Items      []Item // this is a representation that is used in a template to render the data in the table "bellevue-activities"
 }
 
 type Item struct {
@@ -29,8 +29,53 @@ type Item struct {
 	Count    int
 }
 
-func newItem(s string, n int) Item {
+func NewItem(s string, n int) Item {
 	return Item{s, n}
+}
+
+type BellevueOfferings []Offer
+
+// TODO: I don't like these structs ... needs refactoring
+// TODO: Maybe combine with Item? Will see when implementing edit and open the form.
+type Offer struct {
+	Label string
+	Price int
+	ID    string
+}
+
+func NewBellevueOfferings() BellevueOfferings {
+	return BellevueOfferings{
+		Offer{
+			Label: "Breakfast (8.00 CHF):",
+			Price: 800,
+			ID:    "breakfasts",
+		},
+		Offer{
+			Label: "Lunch (11.00 CHF):",
+			Price: 1100,
+			ID:    "lunches",
+		},
+		Offer{
+			Label: "Dinner (11.00 CHF):",
+			Price: 1100,
+			ID:    "dinners",
+		},
+		Offer{
+			Label: "Coffee (1.00 CHF):",
+			Price: 100,
+			ID:    "coffees",
+		},
+		Offer{
+			Label: "Sauna (7.50 CHF):",
+			Price: 750,
+			ID:    "saunas",
+		},
+		Offer{
+			Label: "Lectures (12.00 CHF):",
+			Price: 1200,
+			ID:    "lectures",
+		},
+	}
 }
 
 func NewBellevueActivity() *BellevueActivity {
@@ -49,7 +94,7 @@ func (b *BellevueActivity) PopulateItems() {
 	b.addItem(b.Lectures, "Lecture", "Lectures")
 }
 
-func (b *BellevueActivity) addItem( count int, singular, plural string) {
+func (b *BellevueActivity) addItem(count int, singular, plural string) {
 	if count <= 0 {
 		return
 	} else if count == 1 {

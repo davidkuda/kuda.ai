@@ -1,0 +1,16 @@
+{{ define "bellevue-activity" }}
+<label for="{{ .ID }}"
+  >{{ .Label }}
+  <fieldset class="number-picker">
+    <button type="button" class="minus">−</button>
+    <input
+      name="bellevue-activity-{{ .ID }}"
+      id="{{ .ID }}"
+      type="number"
+      value="0"
+      min="0"
+    />
+    <button type="button" class="plus">+</button>
+  </fieldset></label
+>
+{{ end }}

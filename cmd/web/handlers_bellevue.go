@@ -14,6 +14,7 @@ import (
 func (app *application) adminNewBellevueActivity(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
 	t.Title = "New Bellevue Activity"
+	t.BellevueOfferings = models.NewBellevueOfferings()
 	app.render(w, r, http.StatusOK, "admin.new_bellevue_activity.tmpl.html", &t)
 }
 
