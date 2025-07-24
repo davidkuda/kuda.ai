@@ -13,32 +13,32 @@ import (
 )
 
 type templateData struct {
-	LoggedIn           bool
-	UserID             int
-	UserEmail          string
-	IsAdmin            bool
-	Title              string
-	NavItems           []NavItem
-	Path               string
-	RootPath           string
-	HTML               template.HTML
-	Songs              models.Songs
-	Song               *models.Song
-	TILs               models.TILs
-	TIL                *models.TIL
-	Pages              models.Pages
-	Page               *models.Page
-	Blogs              models.Blogs
-	Blog               *models.Blog
-	BellevueActivities models.BellevueActivities
-	BellevueActivity   *models.BellevueActivity
-	BellevueOfferings  models.BellevueOfferings
-	Form               any
-	ShowUpdatedAt      bool
-	HideNav            bool
-	Sidebars           bool
-	HighlightJS        bool
-	Error              Error
+	LoggedIn                 bool
+	UserID                   int
+	UserEmail                string
+	IsAdmin                  bool
+	Title                    string
+	NavItems                 []NavItem
+	Path                     string
+	RootPath                 string
+	HTML                     template.HTML
+	Songs                    models.Songs
+	Song                     *models.Song
+	TILs                     models.TILs
+	TIL                      *models.TIL
+	Pages                    models.Pages
+	Page                     *models.Page
+	Blogs                    models.Blogs
+	Blog                     *models.Blog
+	BellevueActivityOverview models.BellevueActivityOverview
+	BellevueActivity         *models.BellevueActivity
+	BellevueOfferings        models.BellevueOfferings
+	Form                     any
+	ShowUpdatedAt            bool
+	HideNav                  bool
+	Sidebars                 bool
+	HighlightJS              bool
+	Error                    Error
 }
 
 type Error struct {

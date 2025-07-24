@@ -25,7 +25,8 @@ func (app *application) bellevueActivities(w http.ResponseWriter, r *http.Reques
 	if err != nil {
 		log.Println(fmt.Errorf("failed reading bellevue activities: %v", err))
 	}
-	t.BellevueActivities = bas
+	t.BellevueActivityOverview.BellevueActivities = bas
+	t.BellevueActivityOverview.CalculateTotalPrice()
 	app.render(w, r, http.StatusOK, "bellevue_activities.tmpl.html", &t)
 }
 

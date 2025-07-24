@@ -6,6 +6,21 @@ import (
 	"time"
 )
 
+type BellevueActivityOverview struct {
+	BellevueActivities []BellevueActivity
+	TotalPrice         int
+	Month              int
+	Year               int
+}
+
+func (b *BellevueActivityOverview) CalculateTotalPrice() {
+	var sum int
+	for _, a := range b.BellevueActivities {
+		sum += a.TotalPrice
+	}
+	b.TotalPrice = sum
+}
+
 type BellevueActivities []BellevueActivity
 
 // This struct keeps track of things you need to pay for.
