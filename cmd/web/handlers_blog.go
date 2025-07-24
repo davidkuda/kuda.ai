@@ -42,6 +42,7 @@ func (app *application) blogPath(w http.ResponseWriter, r *http.Request) {
 
 	t := app.newTemplateData(r)
 	t.Blog = blog
+	t.HighlightJS = true
 
 	if !isSameDay(t.Blog.CreatedAt, t.Blog.UpdatedAt) {
 		t.ShowUpdatedAt = true
