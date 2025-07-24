@@ -144,17 +144,24 @@ func newTemplateCache() (map[string]*template.Template, error) {
 
 	pages, err := filepath.Glob("./ui/html/pages/*.tmpl.html")
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed filepath.Glob for pages: %v", err)
+	}
+
+	partials, err := filepath.Glob("./ui/html/partials/*.tmpl.html")
+	if err != nil {
+		return nil, fmt.Errorf("failed filepath.Glob for partials: %v", err)
 	}
 
 	for _, page := range pages {
 		name := filepath.Base(page)
 
-		files := []string{
-			"./ui/html/pages/base.tmpl.html",
-			"./ui/html/partials/nav.tmpl.html",
-			page,
+		N := 1 + len(partials) + 1
+		files := make([]string, N)
+		files[0] = "./ui/html/pages/base.tmpl.html"
+		for i, partial := range partials {
+			files[i+1] = partial
 		}
+		files[N-1] = page
 
 		tmpl := template.New("base").Funcs(funcs)
 		t, err := tmpl.ParseFiles(files...)
