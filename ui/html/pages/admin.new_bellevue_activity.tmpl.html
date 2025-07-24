@@ -1,44 +1,63 @@
-{{ define "title" }}Admin: New TIL{{ end }}
-{{ define "main" }}
+{{ define "title" }}Admin: New TIL{{ end }} {{ define "main" }}
 <form action="/bellevue-activities" method="post">
-<h2>Bellevue Activity</h2>
-  <fieldset>
-    <label>Date:
-      <input name="bellevue-activity-date" type="date" value="{{ .BellevueActivity.Date | formatDateFormInput }}">
-    </label>
-    <label>Breakfast (8.00 CHF):
-      <input name="bellevue-activity-breakfasts" type="number" value=0>
-    </label>
-    <label>Lunch (11.00 CHF):
-      <input name="bellevue-activity-lunches" type="number" value=0>
-    </label>
-    <label>Dinner (11.00 CHF):
-      <input name="bellevue-activity-dinners" type="number" value=0>
-    </label>
-    <label>Coffee (1.00 CHF):
-      <input name="bellevue-activity-coffees" type="number" value=0>
-    </label>
-    <label>Sauna (7.50 CHF):
-      <input name="bellevue-activity-saunas" type="number" value=0>
-    </label>
-    <label>Lecture (12.00 CHF):
-      <input name="bellevue-activity-lectures" type="number" value=0>
-    </label>
-    <label>Comment (max 1 Paragraph):
-      <textarea
-        name="bellevue-activity-comment"
-        rows="2"
-        aria-label="comment"
-        value="{{.BellevueActivity.Comment}}"
-      >
-        {{- .BellevueActivity.Comment -}}
-      </textarea>
-    </label>
-
-  </fieldset>
-
-  <button type="submit" class="stack-exception-large">
-    Add
-  </button>
+  <h2>Bellevue Activity</h2>
+  <label
+    >Date:
+    <input
+      name="bellevue-activity-date"
+      type="date"
+      value="{{ .BellevueActivity.Date | formatDateFormInput }}"
+  /></label>
+  <label
+    >Breakfast (8.00 CHF):
+    <fieldset class="number-picker">
+      <!-- defining a button of type button is important, because default on forms is submit. -->
+      <button type="button" class="minus">−</button>
+      <input
+        name="bellevue-activity-breakfasts"
+        type="number"
+        value="0"
+        min="0"
+      />
+      <button type="button" class="plus">+</button>
+    </fieldset></label
+  >
+  <label
+    >Breakfast (8.00 CHF):
+    <input name="bellevue-activity-breakfasts" type="number" value="0"
+  /></label>
+  <label
+    >Lunch (11.00 CHF):
+    <input name="bellevue-activity-lunches" type="number" value="0"
+  /></label>
+  <label
+    >Dinner (11.00 CHF):
+    <input name="bellevue-activity-dinners" type="number" value="0"
+  /></label>
+  <label
+    >Coffee (1.00 CHF):
+    <input name="bellevue-activity-coffees" type="number" value="0"
+  /></label>
+  <label
+    >Sauna (7.50 CHF):
+    <input name="bellevue-activity-saunas" type="number" value="0"
+  /></label>
+  <label
+    >Lecture (12.00 CHF):
+    <input name="bellevue-activity-lectures" type="number" value="0"
+  /></label>
+  <label
+    >Comment (max 1 Paragraph):
+    <textarea
+      name="bellevue-activity-comment"
+      rows="2"
+      aria-label="comment"
+      value="{{.BellevueActivity.Comment}}"
+    >
+      {{- .BellevueActivity.Comment -}}
+    </textarea>
+  </label>
+  <button type="submit" class="stack-exception-large">Add</button>
 </form>
+<script defer src="/static/js/new-bellevue-activity.js"></script>
 {{ end }}

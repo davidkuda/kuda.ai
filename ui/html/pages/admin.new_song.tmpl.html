@@ -1,61 +1,66 @@
-{{ define "title" }}Admin: New Song{{ end }}
-{{ define "main" }}
+{{ define "title" }}Admin: New Song{{ end }} {{ define "main" }}
 <form action="/songbook" method="post">
-<h2>Song.New</h2>
+  <h2>Song.New</h2>
   <fieldset>
-
     <div class="grid">
-
-      <label>Song ID:
+      <label
+        >Song ID:
         <input
           type="text"
           name="song-id"
           value="{{.Song.ID}}"
           required
           autofocus
-          {{if .Form.FieldErrors.id}}
+          {{if
+          .Form.FieldErrors.id}}
           aria-invalid="true"
           aria-describedby="invalid-song-id"
           {{end}}
-        >
+        />
         {{ with .Form.FieldErrors.id }}
         <small id="invalid-song-id">{{ . }}</small>
         {{ end }}
       </label>
 
-      <label>Copyright:
-        <input
-          type="text"
-          name="song-copyright"
-          value="{{.Song.Copyright}}"
-        >
+      <label
+        >Copyright:
+        <input type="text" name="song-copyright" value="{{.Song.Copyright}}" />
       </label>
-
     </div>
 
     <div class="grid">
-
-      <label>Artist:
-        <input type="text" name="song-artist" required value="{{.Song.Artist}}"></label>
-      <label>Name:
-        <input type="text" name="song-name" required value="{{.Song.Name}}"></label>
-
+      <label
+        >Artist:
+        <input type="text" name="song-artist" required value="{{.Song.Artist}}"
+      /></label>
+      <label
+        >Name:
+        <input type="text" name="song-name" required value="{{.Song.Name}}"
+      /></label>
     </div>
 
-    <label>Chords:
-      <textarea style="font-family: monospace;" name="song-chords" rows="8">{{.Song.Chords}}</textarea></label>
-    <label>Lyrics:
-      <textarea name="song-lyrics" rows="16" aria-label="lyrics">{{.Song.Lyrics}}</textarea></label>
+    <label
+      >Chords:
+      <textarea style="font-family: monospace" name="song-chords" rows="8">
+{{.Song.Chords}}</textarea
+      >
+    </label>
+    <label
+      >Lyrics:
+      <textarea name="song-lyrics" rows="16" aria-label="lyrics">
+{{.Song.Lyrics}}</textarea
+      >
+    </label>
   </fieldset>
   <button type="submit" class="stack-exception-large">
     {{if .Form.Song.ID}}Update{{else}}Create{{end}}
   </button>
 </form>
 <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('textarea').forEach(textarea => {
-      textarea.style.height = 'auto';
-      textarea.style.height = textarea.scrollHeight + 'px';
+  window.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("textarea").forEach((textarea) => {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
     });
   });
 </script>

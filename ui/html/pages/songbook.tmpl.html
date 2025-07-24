@@ -1,16 +1,21 @@
-{{ define "title" }}Songbook{{ end }}
-
-{{ define "main" }}
+{{ define "title" }}Songbook{{ end }} {{ define "main" }}
 <h2>Songs I Like To Cover</h2>
-<p>I have learned a lot by covering songs and figuring out their chords by by ear. Here I publish my transcriptions.</p>
+<p>
+  I have learned a lot by covering songs and figuring out their chords by by
+  ear. Here I publish my transcriptions.
+</p>
 
-<p>Occasionally, I find myself with a guitar in front of a group or among other musicians. Then we think about songs. This list is going to help future me in such situations. :)</p>
+<p>
+  Occasionally, I find myself with a guitar in front of a group or among other
+  musicians. Then we think about songs. This list is going to help future me in
+  such situations. :)
+</p>
 
 <ul>
-{{ range .Songs }}
-    <li>
-        <a href="/songbook/{{ .ID }}">{{ .Artist }} | {{ .Name }}</a>
-    </li>
-{{ end }}
+  {{ range .Songs }}
+  <li>
+    <a href="/songbook/{{ .ID }}">{{ .Artist }} | {{ .Name }}</a>
+  </li>
+  {{ end }}
 </ul>
 {{ end }}

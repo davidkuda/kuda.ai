@@ -1,28 +1,29 @@
-{{ define "title" }}Bellevue Activities{{ end }}
-{{ define "main" }}
+{{ define "title" }}Bellevue Activities{{ end }} {{ define "main" }}
 <h2 class="text-center">Bellevue Activities</h2>
 <p class="text-center">
   <a href="/admin/new-bellevue-activity">Add new activities</a>
 </p>
 <div class="table-container">
-<table>
-  <tr>
-    <th>Date</th>
-    <th class="no-break">Price</th>
-    <th>Activties</th>
-  </tr>
-  {{ range .BellevueActivities }}
-  <tr>
-    <td class="no-break">{{ .Date | fmtDateNiceRead }}</td>
-    <td class="no-break">{{ .TotalPrice | fmtCHF }}</td>
-    <td class="stack-xs">
-      {{ range .Items }}
-      <span class="bellevue-activity">{{ .Count }} {{ .Activity }}</span>
-      {{ end }}
-      {{ if ne .Comment "" }}<span class="bellevue-activity stack-exception-medium">{{ .Comment }}</span>{{ end }}
-    </td>
-  </tr>
-  {{ end }}
-</table>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th class="no-break">Price</th>
+      <th>Activties</th>
+    </tr>
+    {{ range .BellevueActivities }}
+    <tr>
+      <td class="no-break">{{ .Date | fmtDateNiceRead }}</td>
+      <td class="no-break">{{ .TotalPrice | fmtCHF }}</td>
+      <td class="stack-xs">
+        {{ range .Items }}
+        <span class="bellevue-activity">{{ .Count }} {{ .Activity }}</span>
+        {{ end }} {{ if ne .Comment "" }}<span
+          class="bellevue-activity stack-exception-medium"
+          >{{ .Comment }}</span
+        >{{ end }}
+      </td>
+    </tr>
+    {{ end }}
+  </table>
 </div>
 {{ end }}

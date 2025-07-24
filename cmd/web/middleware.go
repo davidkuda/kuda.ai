@@ -101,15 +101,15 @@ func (app *application) requireAdmin(next http.Handler) http.Handler {
 func commonHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		setTheme := "'sha256-lQ7hEV5vzkCFUSGHetH4H+fWaAnYTAAiEMxdfS0bTeU='"
-		highlightJS := "'sha256-kesGYQCKRT1Io3waiBp5a4n4ZLg1Xbn8ldhKQWp/hco='"
+		setTheme := "'sha256-d0p7Z2OKW9F6H7+KJP42Xcw2Tb90XTuKIILK5NffXgQ='"
+		highlightJS := "'sha256-KuW8nrMYej09eTtZkBNDwTy8Yn05dABB5v2dLSEPgTY='"
 		allowedInlineJS := fmt.Sprintf("%s %s", setTheme, highlightJS)
 
 		w.Header().Set(
 			"Content-Security-Policy",
 			"default-src 'self';"+
 				"img-src 'self' images.ctfassets.net;"+
-				"script-src 'self' cdnjs.cloudflare.com "+allowedInlineJS+";"+
+				"script-src 'self' cdnjs.cloudflare.com cdn.jsdelivr.net "+allowedInlineJS+";"+
 				"style-src 'self' cdnjs.cloudflare.com fonts.googleapis.com;"+
 				"font-src fonts.gstatic.com",
 		)

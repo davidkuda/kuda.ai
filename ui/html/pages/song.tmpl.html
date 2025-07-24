@@ -1,21 +1,15 @@
-{{ define "title" }}{{ .Title }}{{ end }}
-
-{{ define "main" }}
-{{ with .Song }}
+{{ define "title" }}{{ .Title }}{{ end }} {{ define "main" }} {{ with .Song }}
 <h3>{{ .Name }} ({{ .Artist }})</h3>
 {{ if $.LoggedIn }}
 <p>
   <a href="/admin/songbook/{{.ID}}">edit this song</a>
 </p>
-{{ end }}
-{{- with .HTML.Chords }}
+{{ end }} {{- with .HTML.Chords }}
 <h4>Chords:</h4>
 <pre>
 {{ . }}
 </pre>
 <h4>Lyrics:</h4>
-{{ end -}}
-{{ .HTML.Lyrics }}
+{{ end -}} {{ .HTML.Lyrics }}
 <small>{{.Copyright}}</small>
-{{ end }}
-{{ end }}
+{{ end }} {{ end }}

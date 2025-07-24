@@ -1,42 +1,37 @@
-{{ define "title" }}Admin: New TIL{{ end }}
-{{ define "main" }}
-{{- if eq .Page.Version 0 -}}
+{{ define "title" }}Admin: New TIL{{ end }} {{ define "main" }} {{- if eq
+.Page.Version 0 -}}
 <h3>New Page:</h3>
 {{- else -}}
 <h3>Edit Page:</h3>
 {{- end -}}
 <form action="/pages" method="post">
   <fieldset>
-    <label>Path:
+    <label
+      >Path:
       <input
         type="text"
         name="page-path"
         value="{{.Page.Path}}"
         required
-      {{if .Form.FieldErrors.pathfmt }}
+        {{if
+        .Form.FieldErrors.pathfmt
+        }}
         aria-invalid="true"
         aria-describedby="invalid-til-path"
-      {{end}}
-      >
+        {{end}}
+      />
       {{ with .Form.FieldErrors.pathfmt }}
       <small id="invalid-page-path">{{ . }}</small>
       {{ end }}
     </label>
 
-    <label>Title:
-      <input
-        type="text"
-        name="page-title"
-        value="{{.Page.Title}}"
-        required
-      >
+    <label
+      >Title:
+      <input type="text" name="page-title" value="{{.Page.Title}}" required />
     </label>
-    <label>Content (Markdown):
-      <textarea
-        name="page-content"
-        rows="12"
-        required
-      >
+    <label
+      >Content (Markdown):
+      <textarea name="page-content" rows="12" required>
         {{- .Page.Content -}}
       </textarea>
     </label>
@@ -44,13 +39,13 @@
   <input
     type="submit"
     value="{{if eq .Page.Version 0}}Create{{else}}Update{{end}}"
-  >
+  />
 </form>
 <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('textarea').forEach(textarea => {
-      textarea.style.height = 'auto';
-      textarea.style.height = textarea.scrollHeight + 'px';
+  window.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("textarea").forEach((textarea) => {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
     });
   });
 </script>

@@ -1,19 +1,15 @@
-{{ define "title" }}Today I Learned{{ end }}
-
-{{ define "main" }}
-{{ if .LoggedIn }}
+{{ define "title" }}Today I Learned{{ end }} {{ define "main" }} {{ if .LoggedIn
+}}
 <p>
   <a href="/admin/{{ .Path }}">Edit this blog entry</a>
 </p>
-{{ end }}
-{{ with .Blog }}
+{{ end }} {{ with .Blog }}
 <p>
   <small>
-    Created on {{ .CreatedAt | formatDate }}<br>
-    {{ if $.ShowUpdatedAt }}Updated on {{ .UpdatedAt | formatDate }}<br>{{ end }}
+    Created on {{ .CreatedAt | formatDate }}<br />
+    {{ if $.ShowUpdatedAt }}Updated on {{ .UpdatedAt | formatDate }}<br />{{ end
+    }}
   </small>
 </p>
 <h2>{{ .Title }}</h2>
-{{ .HTML.Content }}
-{{ end }}
-{{ end }}
+{{ .HTML.Content }} {{ end }} {{ end }}

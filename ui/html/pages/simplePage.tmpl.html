@@ -1,9 +1,5 @@
-{{ define "title" }}{{ .Title }}{{ end }}
-{{ define "main" }}
-{{ if .LoggedIn }}
+{{ define "title" }}{{ .Title }}{{ end }} {{ define "main" }} {{ if .LoggedIn }}
 <p>
   <a href="/admin/pages/{{ .Path }}">edit this page</a>
 </p>
-{{ end }}
-{{ .HTML }}
-{{ end }}
+{{ end }} {{ .HTML }} {{ end }}

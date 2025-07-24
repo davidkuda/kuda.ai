@@ -1,86 +1,125 @@
-{{ define "title" }}Admin: New TIL{{ end }}
-{{ define "main" }}
+{{ define "title" }}Admin: New TIL{{ end }} {{ define "main" }}
 <form action="/til" method="post">
-{{- if eq .TIL.ID 0 -}}
-<h2>TIL.New</h2>
-{{- else -}}
-<h2>TIL.Edit</h2>
-{{- end -}}
+  {{- if eq .TIL.ID 0 -}}
+  <h2>TIL.New</h2>
+  {{- else -}}
+  <h2>TIL.Edit</h2>
+  {{- end -}}
   <fieldset>
-
     {{- if .TIL.ID}}
     <div class="grid">
       <label>
         Created At:
-        <input type="text" aria-label="created-at" value="{{ .TIL.CreatedAt | formatDate }}" disabled>
+        <input
+          type="text"
+          aria-label="created-at"
+          value="{{ .TIL.CreatedAt | formatDate }}"
+          disabled
+        />
       </label>
       <label>
         Updated At:
-        <input type="text" aria-label="updated-at" value="{{ .TIL.UpdatedAt | formatDate }}" disabled>
+        <input
+          type="text"
+          aria-label="updated-at"
+          value="{{ .TIL.UpdatedAt | formatDate }}"
+          disabled
+        />
       </label>
       <label>
         ID:
-        <input name="til-id" type="text" aria-label="til-id" value="{{ .TIL.ID }}" readonly>
+        <input
+          name="til-id"
+          type="text"
+          aria-label="til-id"
+          value="{{ .TIL.ID }}"
+          readonly
+        />
       </label>
     </div>
     {{end -}}
 
-    <label>Path:
+    <label
+      >Path:
       <input
         type="text"
         name="til-path"
         value="{{.TIL.Path}}"
         required
         autofocus
-      {{if or .Form.FieldErrors.pathfmt .Form.FieldErrors.pathuniq }}
+        {{if
+        or
+        .Form.FieldErrors.pathfmt
+        .Form.FieldErrors.pathuniq
+        }}
         aria-invalid="true"
         aria-describedby="invalid-til-path"
-      {{end}}
-      >
+        {{end}}
+      />
       {{ with .Form.FieldErrors.pathfmt }}
-      <small class="failed-validation stack-exception-small" id="invalid-til-path">{{ . }}</small>
-      {{ end }}
-      {{ with .Form.FieldErrors.pathuniq }}
-      <small class="failed-validation stack-exception-small" id="invalid-til-path">{{ . }}</small>
+      <small
+        class="failed-validation stack-exception-small"
+        id="invalid-til-path"
+        >{{ . }}</small
+      >
+      {{ end }} {{ with .Form.FieldErrors.pathuniq }}
+      <small
+        class="failed-validation stack-exception-small"
+        id="invalid-til-path"
+        >{{ . }}</small
+      >
       {{ end }}
     </label>
 
-    <label>Title:
+    <label
+      >Title:
       <input
         type="text"
         name="til-title"
         value="{{.TIL.Title}}"
         required
-        {{if .Form.FieldErrors.title}}
+        {{if
+        .Form.FieldErrors.title}}
         aria-invalid="true"
         aria-describedby="invalid-til-title"
         {{end}}
-      >
+      />
       {{ with .Form.FieldErrors.title }}
-      <small class="failed-validation stack-exception-small" id="invalid-til-title">{{ . }}</small>
+      <small
+        class="failed-validation stack-exception-small"
+        id="invalid-til-title"
+        >{{ . }}</small
+      >
       {{ end }}
     </label>
 
-    <label>Category:
+    <label
+      >Category:
       <input
         type="text"
         name="til-category"
         value="{{.TIL.Category}}"
         required
-      >
+      />
       {{ with .Form.FieldErrors.category }}
-      <small class="failed-validation stack-exception-small" id="invalid-til-title">{{ . }}</small>
+      <small
+        class="failed-validation stack-exception-small"
+        id="invalid-til-title"
+        >{{ . }}</small
+      >
       {{ end }}
     </label>
 
-    <label>Summary (1 Paragraph):
+    <label
+      >Summary (1 Paragraph):
       <textarea
         name="til-summary"
         rows="3"
         aria-label="summary"
         required
         value="{{.TIL.Summary}}"
-        {{if .Form.FieldErrors.summary}}
+        {{if
+        .Form.FieldErrors.summary}}
         aria-invalid="true"
         aria-describedby="invalid-til-summary"
         {{end}}
@@ -88,21 +127,20 @@
         {{- .TIL.Summary -}}
       </textarea>
       {{ with .Form.FieldErrors.summary }}
-      <small class="failed-validation stack-exception-small" id="invalid-til-summary">{{ . }}</small>
+      <small
+        class="failed-validation stack-exception-small"
+        id="invalid-til-summary"
+        >{{ . }}</small
+      >
       {{ end }}
     </label>
 
-    <label>Text (Markdown):
-      <textarea
-        name="til-text"
-        rows="10"
-        aria-label="text"
-        required
-      >
+    <label
+      >Text (Markdown):
+      <textarea name="til-text" rows="10" aria-label="text" required>
         {{- .TIL.Text -}}
       </textarea>
     </label>
-
   </fieldset>
 
   <button type="submit" class="stack-exception-large">
@@ -110,10 +148,10 @@
   </button>
 </form>
 <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('textarea').forEach(textarea => {
-      textarea.style.height = 'auto';
-      textarea.style.height = textarea.scrollHeight + 'px';
+  window.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("textarea").forEach((textarea) => {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
     });
   });
 </script>

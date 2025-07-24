@@ -1,38 +1,24 @@
-{{ define "title" }}{{ .Title }}{{ end }}
-
-{{ define "main" }}
+{{ define "title" }}{{ .Title }}{{ end }} {{ define "main" }}
 <ul>
   {{ if .IsAdmin }}
   <li>
-    <a href="/admin/new-song">
-      Songbook/NewSong
-    </a>
+    <a href="/admin/new-song"> Songbook/NewSong </a>
   </li>
   <li>
-    <a href="/admin/new-til">
-      New TIL
-    </a>
+    <a href="/admin/new-til"> New TIL </a>
   </li>
   <li>
-    <a href="/admin/new-page">
-      New Page
-    </a>
+    <a href="/admin/new-page"> New Page </a>
   </li>
   {{ end }}
   <li>
-    <a href="/admin/new-bellevue-activity">
-      New Bellevue Activity
-    </a>
+    <a href="/admin/new-bellevue-activity"> New Bellevue Activity </a>
   </li>
   <li>
-    <a href="/bellevue-activities">
-      Bellevue Activities
-    </a>
+    <a href="/bellevue-activities"> Bellevue Activities </a>
   </li>
   <li>
-    <a href="/admin/logout">
-      Logout
-    </a>
+    <a href="/admin/logout"> Logout </a>
   </li>
 </ul>
 {{ end }}

@@ -1,20 +1,16 @@
-{{ define "title" }}Today I Learned{{ end }}
-
-{{ define "main" }}
-{{ if .LoggedIn }}
+{{ define "title" }}Today I Learned{{ end }} {{ define "main" }} {{ if .LoggedIn
+}}
 <p>
   <a href="/admin/new-blog">New Blog Entry</a>
 </p>
 {{ end }}
 <div class="blog-entries-list-container">
   <ul>
-  {{ range .Blogs }}
+    {{ range .Blogs }}
     <li>
-    <a href="/blog/{{ .Path }}">
-      {{ .Title }}
-    </a>
+      <a href="/blog/{{ .Path }}"> {{ .Title }} </a>
     </li>
-  {{ end }}
+    {{ end }}
   </ul>
 </div>
 {{ end }}
