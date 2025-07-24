@@ -8,13 +8,13 @@
       type="date"
       value="{{ .BellevueActivity.Date | formatDateFormInput }}"
   /></label>
-  <label
+  <label for="breakfast"
     >Breakfast (8.00 CHF):
     <fieldset class="number-picker">
-      <!-- defining a button of type button is important, because default on forms is submit. -->
       <button type="button" class="minus">−</button>
       <input
         name="bellevue-activity-breakfasts"
+        id="breakfast"
         type="number"
         value="0"
         min="0"

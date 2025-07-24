@@ -495,12 +495,12 @@ form button {
 	border: none;
 }
 
-form button:hover,
-form button:focus {
-	cursor: pointer;
-	background-color: var(--love);
-	border: none;
-}
+/* form button:hover, */
+/* form button:focus { */
+/* 	cursor: pointer; */
+/* 	background-color: var(--love); */
+/* 	border: none; */
+/* } */
 
 /* Loading Spinner */
 /* Style the button when aria-busy="true" */
@@ -531,6 +531,63 @@ button#login-button[aria-busy="true"]::after {
 	}
 }
 
+
+/* New Bellevue Acitvity */
+/* reset stack */
+form label fieldset>*+* {
+	--space: 0;
+}
+
+fieldset {
+	border: none;
+}
+
+fieldset.number-picker {
+	display: flex;
+	max-width: 324px;
+	border-radius: 0.5rem;
+	overflow: hidden;
+}
+
+.number-picker input {
+	width: 4rem;
+	text-align: center;
+	border-radius: 0;
+	border: 1px solid var(--overlay);
+	background-color: var(--surface);
+}
+
+fieldset.number-picker button {
+	width: 3rem;
+	background-color: var(--overlay);
+	cursor: pointer;
+	border: 1px solid var(--overlay);
+}
+
+
+/* Rounded left corners */
+.number-picker button.minus {
+	border-radius: 0.5rem 0 0 0.5rem;
+}
+
+/* Rounded right corners */
+.number-picker button.plus {
+	border-radius: 0 0.5rem 0.5rem 0;
+}
+
+
+/* remove browser input up arrow and down arrow */
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+	-moz-appearance: textfield;
+}
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* FOOTER */
