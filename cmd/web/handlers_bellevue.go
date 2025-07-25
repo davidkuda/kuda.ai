@@ -58,13 +58,17 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 	saunas, _ := strconv.Atoi(f.Get("bellevue-activity-saunas"))
 	lectures, _ := strconv.Atoi(f.Get("bellevue-activity-lectures"))
 
+	var snacksCHF int
 	snackCHFString := f.Get("bellevue-activity-snacks")
-	priceFloat, err := strconv.ParseFloat(snackCHFString, 64)
-	if err != nil {
-		app.renderError(w, r, http.StatusInternalServerError)
-		return
+	if len(snackCHFString) > 0 {
+		priceFloat, err := strconv.ParseFloat(snackCHFString, 64)
+		if err != nil {
+			log.Printf("failed parsing string \"%s\" to float:", snackCHFString)
+			app.renderError(w, r, http.StatusInternalServerError)
+			return
+		}
+		snacksCHF = int(math.Round(priceFloat * 100))
 	}
-	snacksCHF := int(math.Round(priceFloat * 100))
 
 	form := bellevueActivityForm{
 		BellevueActivity: &models.BellevueActivity{
@@ -85,6 +89,7 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 	//       - [ ] if all counts are 0
 	//       - [ ] if a count is negative
 	if len(form.FieldErrors) > 0 {
+		log.Println("field errors")
 		return
 	}
 
