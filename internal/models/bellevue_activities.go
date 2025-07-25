@@ -229,7 +229,6 @@ func (m *BellevueActivityModel) GetAllByUser(userID int) (BellevueActivities, er
 			&ba.TotalPrice,
 			&ba.Comment,
 		)
-		fmt.Println(ba.SnacksCHF)
 		if err != nil {
 			return nil, fmt.Errorf("for rows.Next(): %v", err)
 		}
