@@ -56,6 +56,7 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 	coffees, _ := strconv.Atoi(f.Get("bellevue-activity-coffees"))
 	saunas, _ := strconv.Atoi(f.Get("bellevue-activity-saunas"))
 	lectures, _ := strconv.Atoi(f.Get("bellevue-activity-lectures"))
+	snacksCHF, _ := strconv.Atoi(f.Get("bellevue-activity-snacks"))
 
 	form := bellevueActivityForm{
 		BellevueActivity: &models.BellevueActivity{
@@ -66,6 +67,7 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 			Coffees:    coffees,
 			Saunas:     saunas,
 			Lectures:   lectures,
+			SnacksCHF:  snacksCHF,
 			Comment:    f.Get("bellevue-activity-comment"),
 		},
 		FieldErrors: map[string]string{},

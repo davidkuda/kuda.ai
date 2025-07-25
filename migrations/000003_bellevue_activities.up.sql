@@ -2,8 +2,9 @@ BEGIN;
 
 SET ROLE dev;
 
+-- TODO: Do I really need to not null?? especially with default 0?
 -- NOTE: Prices are stored in Rappen, not a fraction of CHF.
---       (CHF => float64(total_price) / 100.0)
+--       (in Go, post-process: CHF => float64(total_price) / 100.0)
 create table website.bellevue_activities (
 	id              SERIAL primary key,
 	user_id         INT references auth.users(id),
@@ -14,8 +15,9 @@ create table website.bellevue_activities (
 	coffee_count    INT default 0 not null,
 	sauna_count     INT default 0 not null,
 	lecture_count   INT default 0 not null,
+	snacks_chf      INT default 0 not null,
 	comment         TEXT,
-	total_price     INT,
+	total_price     INT not null,
 	created_at      TIMESTAMPTZ default now() not null
 );
 

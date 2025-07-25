@@ -33,6 +33,7 @@ type BellevueActivity struct {
 	Dinners    int
 	Coffees    int
 	Saunas     int
+	SnacksCHF  int
 	Lectures   int
 	Comment    string
 	TotalPrice int    // in Rappen => CHF => float64(TotalCost) / 100.0
@@ -154,10 +155,11 @@ func (m *BellevueActivityModel) Insert(a *BellevueActivity) error {
 		coffee_count,
 		sauna_count,
 		lecture_count,
+		snacks_chf,
 		comment,
 		total_price
 	) VALUES (
-		$1, $2, $3, $4, $5, $6, $7, $8, $9, $10
+		$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
 	);
 	`
 
@@ -173,6 +175,7 @@ func (m *BellevueActivityModel) Insert(a *BellevueActivity) error {
 		a.Coffees,
 		a.Saunas,
 		a.Lectures,
+		a.SnacksCHF,
 		a.Comment,
 		a.TotalPrice,
 	)
@@ -194,6 +197,7 @@ func (m *BellevueActivityModel) GetAllByUser(userID int) (BellevueActivities, er
 		coffee_count,
 		sauna_count,
 		lecture_count,
+		snacks_chf,
 		total_price,
 		comment
 	FROM website.bellevue_activities
@@ -221,9 +225,11 @@ func (m *BellevueActivityModel) GetAllByUser(userID int) (BellevueActivities, er
 			&ba.Coffees,
 			&ba.Saunas,
 			&ba.Lectures,
+			&ba.SnacksCHF,
 			&ba.TotalPrice,
 			&ba.Comment,
 		)
+		fmt.Println(ba.SnacksCHF)
 		if err != nil {
 			return nil, fmt.Errorf("for rows.Next(): %v", err)
 		}
