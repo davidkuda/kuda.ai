@@ -138,6 +138,8 @@ func (a *BellevueActivity) CalculatePrice() {
 		a.Coffees*prices["coffee"] +
 		a.Saunas*prices["sauna"] +
 		a.Lectures*prices["lecture"])
+
+	a.TotalPrice += a.SnacksCHF
 }
 
 type BellevueActivityModel struct {
