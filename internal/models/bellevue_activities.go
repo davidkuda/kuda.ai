@@ -102,21 +102,21 @@ func NewBellevueActivity() *BellevueActivity {
 
 func (b *BellevueActivity) PopulateItems() {
 	b.Items = make([]Item, 0)
-	b.addItem(b.Breakfasts, "Breakfast", "Breakfasts")
-	b.addItem(b.Lunches, "Lunch", "Lunches")
-	b.addItem(b.Dinners, "Dinner", "Dinners")
-	b.addItem(b.Coffees, "Coffee", "Coffees")
-	b.addItem(b.Saunas, "Sauna", "Saunas")
-	b.addItem(b.Lectures, "Lecture", "Lectures")
+	b.addItem(b.Breakfasts, "Breakfast", "Breakfasts", "8.00")
+	b.addItem(b.Lunches, "Lunch", "Lunches", "11.00")
+	b.addItem(b.Dinners, "Dinner", "Dinners", "11.00")
+	b.addItem(b.Coffees, "Coffee", "Coffees", "1.00")
+	b.addItem(b.Saunas, "Sauna", "Saunas", "7.50")
+	b.addItem(b.Lectures, "Lecture", "Lectures", "12.00")
 }
 
-func (b *BellevueActivity) addItem(count int, singular, plural string) {
+func (b *BellevueActivity) addItem(count int, singular, plural, price string) {
 	if count <= 0 {
 		return
 	} else if count == 1 {
-		b.Items = append(b.Items, Item{singular, count})
+		b.Items = append(b.Items, Item{fmt.Sprintf("%s à %s CHF", singular, price), count})
 	} else {
-		b.Items = append(b.Items, Item{plural, count})
+		b.Items = append(b.Items, Item{fmt.Sprintf("%s à %s CHF", plural, price), count})
 	}
 }
 
