@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"strconv"
 	"time"
@@ -56,7 +57,14 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 	coffees, _ := strconv.Atoi(f.Get("bellevue-activity-coffees"))
 	saunas, _ := strconv.Atoi(f.Get("bellevue-activity-saunas"))
 	lectures, _ := strconv.Atoi(f.Get("bellevue-activity-lectures"))
-	snacksCHF, _ := strconv.Atoi(f.Get("bellevue-activity-snacks"))
+
+	snackCHFString := f.Get("bellevue-activity-snacks")
+	priceFloat, err := strconv.ParseFloat(snackCHFString, 64)
+	if err != nil {
+		app.renderError(w, r, http.StatusInternalServerError)
+		return
+	}
+	snacksCHF := int(math.Round(priceFloat * 100))
 
 	form := bellevueActivityForm{
 		BellevueActivity: &models.BellevueActivity{

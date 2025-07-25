@@ -18,7 +18,7 @@
         {{ range .Items }}
         <span class="bellevue-activity">{{ .Count }} {{ .Activity }}</span>
         {{ end }} {{ if gt .SnacksCHF 0 }}
-        <span class="bellevue-activity">{{ .SnacksCHF }} CHF Snacks</span>
+        <span class="bellevue-activity">{{ .SnacksCHF | fmtCHF }} CHF Snacks</span>
         {{ end }} {{ if ne .Comment "" }} {{ end }}
         <span class="bellevue-activity stack-exception-medium"
           >{{ .Comment }}</span
