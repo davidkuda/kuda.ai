@@ -51,12 +51,45 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 	dateStr := f.Get("bellevue-activity-date")
 	date, _ := time.Parse("2006-01-02", dateStr)
 
-	breakfasts, _ := strconv.Atoi(f.Get("bellevue-activity-breakfasts"))
-	lunches, _ := strconv.Atoi(f.Get("bellevue-activity-lunches"))
-	dinners, _ := strconv.Atoi(f.Get("bellevue-activity-dinners"))
-	coffees, _ := strconv.Atoi(f.Get("bellevue-activity-coffees"))
-	saunas, _ := strconv.Atoi(f.Get("bellevue-activity-saunas"))
-	lectures, _ := strconv.Atoi(f.Get("bellevue-activity-lectures"))
+	// although the form has client side validation of integers by using
+	// <input type="number">, a malicious actor could still place a POST
+	// request not via the web form.
+	breakfasts, err := strconv.Atoi(f.Get("bellevue-activity-breakfasts"))
+	if err != nil {
+		log.Printf("form.breakfasts: stconv.Atoi: someone wants to write non-integers: value: %v, err: %v", f.Get("bellevue-activity-breakfasts"), err)
+		app.renderError(w, r, http.StatusUnprocessableEntity)
+		return
+	}
+	lunches, err := strconv.Atoi(f.Get("bellevue-activity-lunches"))
+	if err != nil {
+		log.Printf("form.lunches: stconv.Atoi: someone wants to write non-integers: value: %v, err: %v", f.Get("bellevue-activity-lunches"), err)
+		app.renderError(w, r, http.StatusUnprocessableEntity)
+		return
+	}
+	dinners, err := strconv.Atoi(f.Get("bellevue-activity-dinners"))
+	if err != nil {
+		log.Printf("form.dinners: stconv.Atoi: someone wants to write non-integers: value: %v, err: %v", f.Get("bellevue-activity-dinners"), err)
+		app.renderError(w, r, http.StatusUnprocessableEntity)
+		return
+	}
+	coffees, err := strconv.Atoi(f.Get("bellevue-activity-coffees"))
+	if err != nil {
+		log.Printf("form.coffees: stconv.Atoi: someone wants to write non-integers: value: %v, err: %v", f.Get("bellevue-activity-coffees"), err)
+		app.renderError(w, r, http.StatusUnprocessableEntity)
+		return
+	}
+	saunas, err := strconv.Atoi(f.Get("bellevue-activity-saunas"))
+	if err != nil {
+		log.Printf("form.saunas: stconv.Atoi: someone wants to write non-integers: value: %v, err: %v", f.Get("bellevue-activity-saunas"), err)
+		app.renderError(w, r, http.StatusUnprocessableEntity)
+		return
+	}
+	lectures, err := strconv.Atoi(f.Get("bellevue-activity-lectures"))
+	if err != nil {
+		log.Printf("form.lectures: stconv.Atoi: someone wants to write non-integers: value: %v, err: %v", f.Get("bellevue-activity-lectures"), err)
+		app.renderError(w, r, http.StatusUnprocessableEntity)
+		return
+	}
 
 	var snacksCHF int
 	snackCHFString := f.Get("bellevue-activity-snacks")
