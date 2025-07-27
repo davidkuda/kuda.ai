@@ -163,13 +163,19 @@ func (app *application) bellevueActivityPut(w http.ResponseWriter, r *http.Reque
 
 	err = app.models.BellevueActivities.Update(a)
 	if err != nil {
-		log.Printf("failed app.models.BellevueActivites.Update: %v\n", err)
+		err = fmt.Errorf("PUT /bellevue-activity/%d: failed app.models.BellevueActivites.Update: %v", id, err)
+		// TODO: Now with HTMX, app.serverError does no longer give feedback to the user
+		// app.clientError does not work, either. needs partials.
+		app.serverError(w, r, err)
+		return
 	}
 
 	t := app.newTemplateData(r)
 	bas, err := app.models.BellevueActivities.GetAllByUser(t.UserID)
 	if err != nil {
-		log.Println(fmt.Errorf("failed reading bellevue activities: %v", err))
+		err = fmt.Errorf("PUT /bellevue-activity/%d: failed reading bellevue activities: %v", id, err)
+		app.serverError(w, r, err)
+		return
 	}
 	t.BellevueActivityOverview.BellevueActivities = bas
 	t.BellevueActivityOverview.CalculateTotalPrice()

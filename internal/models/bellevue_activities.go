@@ -199,22 +199,24 @@ func (m *BellevueActivityModel) Update(a *BellevueActivity) error {
 	stmt := `
 	UPDATE website.bellevue_activities
 	SET
-		breakfast_count = $1,
-		lunch_count = $2,
-		dinner_count = $3,
-		coffee_count = $4,
-		sauna_count = $5,
-		lecture_count = $6,
-		snacks_chf = $7,
-		comment = $8,
-		total_price = $9
-	WHERE id = $10;
+		activity_date = $1,
+		breakfast_count = $2,
+		lunch_count = $3,
+		dinner_count = $4,
+		coffee_count = $5,
+		sauna_count = $6,
+		lecture_count = $7,
+		snacks_chf = $8,
+		comment = $9,
+		total_price = $10
+	WHERE id = $11;
 	`
 
 	a.CalculatePrice()
 
 	_, err := m.DB.Exec(
 		stmt,
+		a.Date,
 		a.Breakfasts,
 		a.Lunches,
 		a.Dinners,
