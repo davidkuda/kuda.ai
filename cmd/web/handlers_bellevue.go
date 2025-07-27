@@ -38,11 +38,6 @@ func (app *application) bellevueActivities(w http.ResponseWriter, r *http.Reques
 	app.render(w, r, http.StatusOK, "bellevue_activities.tmpl.html", &t)
 }
 
-// GET /htmx
-func (app *application) htmx(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(`<p class="fade-in">I am a paragraph</p>`))
-}
-
 // HTMX: GET /bellevue-activities/{ID}/edit
 func (app *application) bellevueActivityIDEdit(w http.ResponseWriter, r *http.Request) {
 	// NOTE: this is different then a previous edit implementation. it's done for experimenting and learning.

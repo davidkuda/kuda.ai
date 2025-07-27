@@ -53,7 +53,6 @@ func (app *application) routes() http.Handler {
 	mux.Handle("GET /admin/songbook/{song}", adminsOnly.ThenFunc(app.adminSongbookSong))
 
 	// Bellevue Activities (all protected):
-	mux.Handle("GET /htmx", usersOnly.ThenFunc(app.htmx))
 	mux.Handle("GET /admin/new-bellevue-activity", usersOnly.ThenFunc(app.adminNewBellevueActivity))
 	mux.Handle("GET /bellevue-activities", usersOnly.ThenFunc(app.bellevueActivities))
 	mux.Handle("POST /bellevue-activities", usersOnly.ThenFunc(app.bellevueActivityPost))
