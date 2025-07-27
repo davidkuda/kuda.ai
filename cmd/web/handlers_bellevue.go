@@ -57,37 +57,37 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 	breakfasts, err := strconv.Atoi(f.Get("bellevue-activity-breakfasts"))
 	if err != nil {
 		log.Printf("form.breakfasts: stconv.Atoi: someone wants to write non-integers: value: %v, err: %v", f.Get("bellevue-activity-breakfasts"), err)
-		app.renderError(w, r, http.StatusUnprocessableEntity)
+		app.renderClientError(w, r, http.StatusUnprocessableEntity)
 		return
 	}
 	lunches, err := strconv.Atoi(f.Get("bellevue-activity-lunches"))
 	if err != nil {
 		log.Printf("form.lunches: stconv.Atoi: someone wants to write non-integers: value: %v, err: %v", f.Get("bellevue-activity-lunches"), err)
-		app.renderError(w, r, http.StatusUnprocessableEntity)
+		app.renderClientError(w, r, http.StatusUnprocessableEntity)
 		return
 	}
 	dinners, err := strconv.Atoi(f.Get("bellevue-activity-dinners"))
 	if err != nil {
 		log.Printf("form.dinners: stconv.Atoi: someone wants to write non-integers: value: %v, err: %v", f.Get("bellevue-activity-dinners"), err)
-		app.renderError(w, r, http.StatusUnprocessableEntity)
+		app.renderClientError(w, r, http.StatusUnprocessableEntity)
 		return
 	}
 	coffees, err := strconv.Atoi(f.Get("bellevue-activity-coffees"))
 	if err != nil {
 		log.Printf("form.coffees: stconv.Atoi: someone wants to write non-integers: value: %v, err: %v", f.Get("bellevue-activity-coffees"), err)
-		app.renderError(w, r, http.StatusUnprocessableEntity)
+		app.renderClientError(w, r, http.StatusUnprocessableEntity)
 		return
 	}
 	saunas, err := strconv.Atoi(f.Get("bellevue-activity-saunas"))
 	if err != nil {
 		log.Printf("form.saunas: stconv.Atoi: someone wants to write non-integers: value: %v, err: %v", f.Get("bellevue-activity-saunas"), err)
-		app.renderError(w, r, http.StatusUnprocessableEntity)
+		app.renderClientError(w, r, http.StatusUnprocessableEntity)
 		return
 	}
 	lectures, err := strconv.Atoi(f.Get("bellevue-activity-lectures"))
 	if err != nil {
 		log.Printf("form.lectures: stconv.Atoi: someone wants to write non-integers: value: %v, err: %v", f.Get("bellevue-activity-lectures"), err)
-		app.renderError(w, r, http.StatusUnprocessableEntity)
+		app.renderClientError(w, r, http.StatusUnprocessableEntity)
 		return
 	}
 
@@ -97,7 +97,7 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 		priceFloat, err := strconv.ParseFloat(snackCHFString, 64)
 		if err != nil {
 			log.Printf("failed parsing string \"%s\" to float:", snackCHFString)
-			app.renderError(w, r, http.StatusInternalServerError)
+			app.renderClientError(w, r, http.StatusInternalServerError)
 			return
 		}
 		snacksCHF = int(math.Round(priceFloat * 100))

@@ -85,11 +85,11 @@ func (app *application) requireAdmin(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		isAdmin, ok := r.Context().Value("isAdmin").(bool)
 		if !ok {
-			app.renderError(w, r, http.StatusForbidden)
+			app.renderClientError(w, r, http.StatusForbidden)
 			return
 		}
 		if !isAdmin {
-			app.renderError(w, r, http.StatusForbidden)
+			app.renderClientError(w, r, http.StatusForbidden)
 			return
 		}
 		next.ServeHTTP(w, r)

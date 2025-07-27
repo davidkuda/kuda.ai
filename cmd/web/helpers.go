@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
 	"log"
@@ -12,26 +13,32 @@ import (
 	"github.com/russross/blackfriday/v2"
 )
 
-func (app *application) renderError(w http.ResponseWriter, r *http.Request, errorCode int) {
+func (app *application) renderClientError(w http.ResponseWriter, r *http.Request, errorCode int) {
 	ts, ok := app.templateCache["error.tmpl.html"]
 	if !ok {
-		err := fmt.Errorf("couldn't find template \"error\" in app.templateCache")
+		err := fmt.Errorf("couldn't find template error.tmpl.html in app.templateCache")
 		app.serverError(w, r, err)
 		return
 	}
+	
+	buf := bytes.Buffer{}
 
 	data := app.newTemplateData(r)
 	data.Error = newError(r, errorCode)
 
-	w.WriteHeader(errorCode)
-
-	err := ts.ExecuteTemplate(w, "base", data)
+	err := ts.ExecuteTemplate(&buf, "base", data)
 	if err != nil {
 		errMsg := fmt.Errorf("error executing templates: %s", err.Error())
 		app.serverError(w, r, errMsg)
 	}
+
+	w.WriteHeader(errorCode)
+	buf.WriteTo(w)
 }
 
+// The serverError helper writes a log entry at Error level (including the request
+// method and URI as attributes), then sends a generic 500 Internal Server Error
+// response to the user.
 func (app *application) serverError(w http.ResponseWriter, r *http.Request, err error) {
 	var (
 		method = r.Method
