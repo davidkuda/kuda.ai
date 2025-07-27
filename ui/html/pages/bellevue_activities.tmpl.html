@@ -44,7 +44,15 @@
             edit
           </button>
           <span> </span>
-          <button type="button" class="delete">delete</button>
+          <button
+            hx-delete="/bellevue-activities/{{.ID}}"
+            hx-target="main"
+            type="button"
+            class="delete"
+            hx-confirm="are you sure that you want to delete this activity?"
+          >
+            delete
+          </button>
         </div>
       </td>
     </tr>

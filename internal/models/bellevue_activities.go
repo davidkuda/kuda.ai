@@ -235,6 +235,20 @@ func (m *BellevueActivityModel) Update(a *BellevueActivity) error {
 	return nil
 }
 
+func (m *BellevueActivityModel) Delete(activityID int) error {
+	stmt := `
+	DELETE from website.bellevue_activities
+	WHERE id = $1;
+	`
+
+	_, err := m.DB.Exec(stmt, activityID)
+	if err != nil {
+		return fmt.Errorf("failed executing DELETE sql: %v", err)
+	}
+
+	return nil
+}
+
 func (m *BellevueActivityModel) GetAllByUser(userID int) (BellevueActivities, error) {
 	stmt := `
 	SELECT
@@ -308,7 +322,7 @@ func (m *BellevueActivityModel) ActivityOwnedByUserID(activityID, userID int) (b
 		return false, fmt.Errorf("failed fetching row; activityID=%d, userID=%d: %v", activityID, userID, err)
 	}
 
-	return idFromDB != userID, nil
+	return idFromDB == userID, nil
 }
 
 func (m *BellevueActivityModel) GetByID(activityID int) (*BellevueActivity, error) {

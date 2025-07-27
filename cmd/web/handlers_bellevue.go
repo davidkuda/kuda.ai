@@ -170,6 +170,8 @@ func (app *application) bellevueActivityPut(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	// TODO: this may need a helper, verbose and used multiple times
+	// or even an abstraction in the future with HTMX partial rendering.
 	t := app.newTemplateData(r)
 	bas, err := app.models.BellevueActivities.GetAllByUser(t.UserID)
 	if err != nil {
@@ -226,6 +228,63 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 	// TODO: send some notification (Toast) to the UI (successfully submitted)
 	http.Redirect(w, r, "/bellevue-activities", http.StatusSeeOther)
 	return
+}
+
+// DELETE /bellevue-activity/:id
+func (app *application) bellevueActivityDelete(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	// get ID from URL:
+	parts := strings.Split(r.URL.Path, "/")
+
+	// We expect: ["", "bellevue-activities", "{ID}"]
+	if len(parts) != 3 {
+		log.Println("failed splitting request URL")
+		app.renderClientError(w, r, http.StatusBadRequest)
+		return
+	}
+
+	idStr := parts[2]
+	activityID, err := strconv.Atoi(idStr)
+	if err != nil {
+		log.Printf("failed converting idStr to id (int); idStr=%s:, %v\n", idStr, err)
+		app.renderClientError(w, r, http.StatusBadRequest)
+		return
+	}
+
+	userID, ok := r.Context().Value("userID").(int)
+	if !ok {
+		err = errors.New("could not get userID from request.Context")
+		app.serverError(w, r, err)
+		return
+	}
+
+	authorized, err := app.models.BellevueActivities.ActivityOwnedByUserID(activityID, userID)
+	if err != nil {
+		log.Printf("DELETE /bellevue-activity/%d: ActivityOwnedByUserID(%d, %d) failed: %v\n", activityID, activityID, userID, err)
+		app.serverError(w, r, err)
+		return
+	}
+
+	// TODO: I really need to setup testing with all the stuff implemented...
+	if !authorized {
+		log.Printf("DELETE /bellevue-activity/%d: ActivityOwnedByUserID(%d, %d): unauthorized request\n", activityID, activityID, userID)
+		app.renderClientError(w, r, http.StatusForbidden)
+		return
+	}
+
+	err = app.models.BellevueActivities.Delete(activityID)
+
+	t := app.newTemplateData(r)
+	bas, err := app.models.BellevueActivities.GetAllByUser(t.UserID)
+	if err != nil {
+		err = fmt.Errorf("DELETE /bellevue-activity/%d: failed reading bellevue activities: %v", activityID, err)
+		app.serverError(w, r, err)
+		return
+	}
+	t.BellevueActivityOverview.BellevueActivities = bas
+	t.BellevueActivityOverview.CalculateTotalPrice()
+	app.renderHTMXPartial(w, r, http.StatusOK, "bellevue_activities.tmpl.html", &t)
 }
 
 func (app *application) newTemplateDataBellevueActivity(r *http.Request, form bellevueActivityForm) templateData {
