@@ -101,16 +101,19 @@ func (app *application) requireAdmin(next http.Handler) http.Handler {
 func commonHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
+		// JS: script-src:
 		setTheme := "'sha256-d0p7Z2OKW9F6H7+KJP42Xcw2Tb90XTuKIILK5NffXgQ='"
 		highlightJS := "'sha256-KuW8nrMYej09eTtZkBNDwTy8Yn05dABB5v2dLSEPgTY='"
-		allowedInlineJS := fmt.Sprintf("%s %s", setTheme, highlightJS)
+
+		// style-src:
+		htmx := "'sha256-bsV5JivYxvGywDAZ22EZJKBFip65Ng9xoJVLbBg7bdo='"
 
 		w.Header().Set(
 			"Content-Security-Policy",
 			"default-src 'self';"+
 				"img-src 'self' images.ctfassets.net;"+
-				"script-src 'self' cdnjs.cloudflare.com cdn.jsdelivr.net "+allowedInlineJS+";"+
-				"style-src 'self' cdnjs.cloudflare.com fonts.googleapis.com;"+
+				fmt.Sprintf("script-src 'self' cdnjs.cloudflare.com cdn.jsdelivr.net %s %s;", setTheme, highlightJS)+
+				"style-src 'self' cdnjs.cloudflare.com fonts.googleapis.com "+htmx+";"+
 				"font-src fonts.gstatic.com",
 		)
 		w.Header().Set("Referrer-Policy", "origin-when-cross-origin")

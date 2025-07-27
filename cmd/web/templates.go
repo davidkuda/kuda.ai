@@ -35,6 +35,7 @@ type templateData struct {
 	BellevueActivity         *models.BellevueActivity
 	BellevueOfferings        models.BellevueOfferings
 	Form                     any
+	Edit                     bool // used in form templates to show render a different form
 	ShowUpdatedAt            bool
 	HideNav                  bool
 	Sidebars                 bool
@@ -138,7 +139,115 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, status in
 	buf.WriteTo(w)
 }
 
+func (app *application) renderHTMXPartial(w http.ResponseWriter, r *http.Request, status int, page string, data *templateData) {
+	ts, ok := app.templateCache[page]
+	if !ok {
+		err := fmt.Errorf("couldn't find template \"%s\" in app.templateCache", page)
+		app.serverError(w, r, err)
+		return
+	}
+
+	buf := bytes.Buffer{}
+
+	err := ts.ExecuteTemplate(&buf, "main", data)
+	if err != nil {
+		errMsg := fmt.Errorf("error executing template %s: %s", page, err.Error())
+		app.serverError(w, r, errMsg)
+		return
+	}
+
+	w.WriteHeader(status)
+
+	buf.WriteTo(w)
+}
+
 func newTemplateCache() (map[string]*template.Template, error) {
+	cache := map[string]*template.Template{}
+
+	funcs := template.FuncMap{
+		"formatDate":          formatDate,
+		"formatDateFormInput": formatDateFormInput,
+		"fmtDateNiceRead":     formatDateNiceRead,
+		"fmtCHF":              formatCurrency,
+	}
+
+	pages, err := filepath.Glob("./ui/html/pages/*.tmpl.html")
+	if err != nil {
+		return nil, fmt.Errorf("failed filepath.Glob for pages: %v", err)
+	}
+
+	partials, err := filepath.Glob("./ui/html/partials/*.tmpl.html")
+	if err != nil {
+		return nil, fmt.Errorf("failed filepath.Glob for partials: %v", err)
+	}
+
+	for _, page := range pages {
+		name := filepath.Base(page)
+
+		N := 1 + len(partials) + 1
+		files := make([]string, N)
+		files[0] = "./ui/html/pages/base.tmpl.html"
+		for i, partial := range partials {
+			files[i+1] = partial
+		}
+		files[N-1] = page
+
+		tmpl := template.New("base").Funcs(funcs)
+		t, err := tmpl.ParseFiles(files...)
+		if err != nil {
+			return nil, fmt.Errorf("Error parsing template files: %s", err.Error())
+		}
+
+		cache[name] = t
+	}
+
+	return cache, nil
+}
+
+func newTemplateCacheForHTMXPartials() (map[string]*template.Template, error) {
+	cache := map[string]*template.Template{}
+
+	funcs := template.FuncMap{
+		"formatDate":          formatDate,
+		"formatDateFormInput": formatDateFormInput,
+		"fmtDateNiceRead":     formatDateNiceRead,
+		"fmtCHF":              formatCurrency,
+	}
+
+	pages, err := filepath.Glob("./ui/html/pages/*.tmpl.html")
+	if err != nil {
+		return nil, fmt.Errorf("failed filepath.Glob for pages: %v", err)
+	}
+
+	partials, err := filepath.Glob("./ui/html/partials/*.tmpl.html")
+	if err != nil {
+		return nil, fmt.Errorf("failed filepath.Glob for partials: %v", err)
+	}
+
+	for _, page := range pages {
+		name := filepath.Base(page)
+
+		N := 1 + len(partials)
+		files := make([]string, N)
+		files[0] = page
+		for i, partial := range partials {
+			files[i+1] = partial
+		}
+
+		tmpl := template.New("base").Funcs(funcs)
+		t, err := tmpl.ParseFiles(files...)
+		if err != nil {
+			return nil, fmt.Errorf("Error parsing template files: %s", err.Error())
+		}
+
+		cache[name] = t
+	}
+
+	return cache, nil
+}
+
+// This is intended to be used with HTMX. We don't need base.tmpl.html for HTMX.
+func newTemplatePartialsCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
 
 	funcs := template.FuncMap{
@@ -195,5 +304,5 @@ func formatDateNiceRead(t time.Time) string {
 
 // formatCurrency converts an integer (in Rappen) to a currency string like "22.50 CHF".
 func formatCurrency(value int) string {
-	return fmt.Sprintf("%.2f CHF", float64(value)/100)
+	return fmt.Sprintf("%.2f", float64(value)/100)
 }

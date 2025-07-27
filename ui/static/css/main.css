@@ -614,12 +614,6 @@ input[type="number"] {
 	-moz-appearance: textfield;
 }
 
-div.buttons {
-	display: flex;
-	justify-content: flex-end;
-	align-items: end;
-}
-
 button.edit {
 	font-family: inherit;
 	font-size: inherit;
@@ -650,6 +644,22 @@ button.delete {
 button.delete:hover {
 	color: var(--love);
 	transition: color 0.2s ease-in-out;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* FOOTER */
+.fade-in.htmx-added {
+	opacity: 0;
+}
+
+.fade-in {
+	opacity: 1;
+	transition: opacity 1s ease-out;
+}
+
+.fade-out.htmx-swapping {
+	opacity: 0;
+	transition: opacity 1s ease-out;
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */

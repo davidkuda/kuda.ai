@@ -1,36 +1,53 @@
-{{ define "title" }}Admin: New TIL{{ end }} {{ define "main" }}
-<form action="/bellevue-activities" method="post">
-  <h2>Bellevue Activity</h2>
- {{with .Form.FieldErrors.negatives}}
+{{ define "title" }}Admin: New Bellevue Activity{{ end }} {{ define "main" }} {{
+if .Edit }}
+<form
+  hx-put="/bellevue-activities/{{ .BellevueActivity.ID }}"
+  hx-target="main"
+  hx-push-url="/bellevue-activities"
+>
+  {{ else }}
+  <form action="/bellevue-activities" method="post">
+    {{ end }}
+    <h2>{{ if .Edit }}Edit{{else}}New{{end}} Bellevue Activity</h2>
+    {{with .Form.FieldErrors.negatives}}
     <label class="error">{{.}}</label>
-  {{end}}
- {{with .Form.FieldErrors.zeroes}}
-  <label class="error">{{.}}</label>
-  {{end}}
-  <label
-    >Date:
-    <input
-      name="bellevue-activity-date"
-      type="date"
-      value="{{ .BellevueActivity.Date | formatDateFormInput }}"
-  /></label>
-  {{ range .BellevueOfferings }} {{ template "bellevue-activity" . }} {{ end }}
-  <label
-    >Snacks & Drinks (in CHF):
-    <input name="bellevue-activity-snacks" type="number" min="0" step="0.01"
-  /></label>
-  <label
-    >Comment (max 1 Paragraph):
-    <textarea
-      name="bellevue-activity-comment"
-      rows="2"
-      aria-label="comment"
-      value="{{.BellevueActivity.Comment}}"
-    >
+    {{end}} {{with .Form.FieldErrors.zeroes}}
+    <label class="error">{{.}}</label>
+    {{end}}
+    <label
+      >Date:
+      <input
+        name="bellevue-activity-date"
+        type="date"
+        value="{{ .BellevueActivity.Date | formatDateFormInput }}"
+    /></label>
+    {{ range .BellevueOfferings }} {{ template "bellevue-activity" . }} {{ end
+    }}
+    <label
+      >Snacks & Drinks (in CHF):
+      <input
+        name="bellevue-activity-snacks"
+        type="number"
+        min="0"
+        step="0.01"
+        value="{{if .Edit }}{{ .BellevueActivity.SnacksCHF | fmtCHF }}{{else}}0{{end}}"
+    /></label>
+    <label
+      >Comment (max 1 Paragraph):
+      <textarea
+        name="bellevue-activity-comment"
+        rows="2"
+        aria-label="comment"
+        value="{{.BellevueActivity.Comment}}"
+      >
       {{- .BellevueActivity.Comment -}}
-    </textarea>
-  </label>
-  <button type="submit" class="stack-exception-large">Add</button>
+    </textarea
+      >
+    </label>
+    <button type="submit" class="stack-exception-large">
+      {{if .Edit}}Edit{{else}}Add{{end}}
+    </button>
+  </form>
+  <script defer src="/static/js/new-bellevue-activity.js"></script>
+  {{ end }}
 </form>
-<script defer src="/static/js/new-bellevue-activity.js"></script>
-{{ end }}

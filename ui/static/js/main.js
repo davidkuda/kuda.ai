@@ -15,6 +15,16 @@ themeBtn.addEventListener("click", async () => {
 	await localStorage.setItem("theme", next);
 });
 
+// document.body.addEventListener('htmx:afterSwap', () => {
+//   window.scrollTo({ top: 0});
+// });
+document.body.addEventListener("htmx:afterSwap", () => {
+	const main = document.querySelector("main");
+	if (main) {
+		main.scrollIntoView();
+	}
+});
+
 // ------------------------------------------------------------
 // functions
 // ------------------------------------------------------------

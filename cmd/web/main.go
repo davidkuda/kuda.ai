@@ -16,14 +16,15 @@ import (
 type application struct {
 	navItems []NavItem
 
-	models             models.Models
-	songs              *models.SongModel
-	users              *models.UserModel
-	til                *models.TILModel
-	pages              *models.PageModel
-	blogs              *models.BlogModel
+	models models.Models
+	songs  *models.SongModel
+	users  *models.UserModel
+	til    *models.TILModel
+	pages  *models.PageModel
+	blogs  *models.BlogModel
 
 	templateCache     map[string]*template.Template
+	templateCacheHTMX map[string]*template.Template
 	markdownHTMLCache map[string]template.HTML
 
 	JWT struct {
@@ -38,6 +39,8 @@ type NavItem struct {
 }
 
 func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
 	addr := flag.String("addr", ":8873", "HTTP network address")
 	// TODO: cookieDomain should be defined in envcfg or envcfg should be dropped. Can't decide now and want to keep focusing on other tasks (:
 	cookieDomain := flag.String("cookie-domain", os.Getenv("COOKIE_DOMAIN"), "localhost or kuda.ai")
@@ -83,6 +86,11 @@ func main() {
 		log.Fatalf("could not initialise templateCache: %v\n", err)
 	}
 	app.templateCache = templateCache
+	templateCacheHTMX, err := newTemplateCacheForHTMXPartials()
+	if err != nil {
+		log.Fatalf("could not initialise templateCache: %v\n", err)
+	}
+	app.templateCacheHTMX = templateCacheHTMX
 
 	markdownHTMLCache, err := newMarkdownHTMLCache()
 	if err != nil {

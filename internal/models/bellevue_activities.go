@@ -52,44 +52,51 @@ func NewItem(s string, n int) Item {
 type BellevueOfferings []Offer
 
 // TODO: I don't like these structs ... needs refactoring
-// TODO: Maybe combine with Item? Will see when implementing edit and open the form.
+// TODO: REFACTOR: Maybe combine with Item? Will see when implementing edit and open the form.
 type Offer struct {
 	Label string
 	Price int
 	ID    string
+	Count int
 }
 
-func NewBellevueOfferings() BellevueOfferings {
+func (b *BellevueActivity) NewBellevueOfferings() BellevueOfferings {
 	return BellevueOfferings{
 		Offer{
 			Label: "Breakfast (8.00 CHF):",
 			Price: 800,
 			ID:    "breakfasts",
+			Count: b.Breakfasts,
 		},
 		Offer{
 			Label: "Lunch (11.00 CHF):",
 			Price: 1100,
 			ID:    "lunches",
+			Count: b.Lunches,
 		},
 		Offer{
 			Label: "Dinner (11.00 CHF):",
 			Price: 1100,
 			ID:    "dinners",
+			Count: b.Dinners,
 		},
 		Offer{
 			Label: "Coffee (1.00 CHF):",
 			Price: 100,
 			ID:    "coffees",
+			Count: b.Coffees,
 		},
 		Offer{
 			Label: "Sauna (7.50 CHF):",
 			Price: 750,
 			ID:    "saunas",
+			Count: b.Saunas,
 		},
 		Offer{
 			Label: "Lectures (12.00 CHF):",
 			Price: 1200,
 			ID:    "lectures",
+			Count: b.Lectures,
 		},
 	}
 }
@@ -102,7 +109,7 @@ func NewBellevueActivity() *BellevueActivity {
 
 func (b *BellevueActivity) PopulateItems() {
 	b.Items = make([]Item, 0)
-	b.addItem(b.Breakfasts, "Breakfast", "Breakfasts", "8.00")
+	b.addItem(b.Breakfasts, "Breakfast", "Breakfasts", "8.00 ")
 	b.addItem(b.Lunches, "Lunch", "Lunches", "11.00")
 	b.addItem(b.Dinners, "Dinner", "Dinners", "11.00")
 	b.addItem(b.Coffees, "Coffee", "Coffees", "1.00")
@@ -188,6 +195,44 @@ func (m *BellevueActivityModel) Insert(a *BellevueActivity) error {
 	return nil
 }
 
+func (m *BellevueActivityModel) Update(a *BellevueActivity) error {
+	stmt := `
+	UPDATE website.bellevue_activities
+	SET
+		breakfast_count = $1,
+		lunch_count = $2,
+		dinner_count = $3,
+		coffee_count = $4,
+		sauna_count = $5,
+		lecture_count = $6,
+		snacks_chf = $7,
+		comment = $8,
+		total_price = $9
+	WHERE id = $10;
+	`
+
+	a.CalculatePrice()
+
+	_, err := m.DB.Exec(
+		stmt,
+		a.Breakfasts,
+		a.Lunches,
+		a.Dinners,
+		a.Coffees,
+		a.Saunas,
+		a.Lectures,
+		a.SnacksCHF,
+		a.Comment,
+		a.TotalPrice,
+		a.ID,
+	)
+	if err != nil {
+		return fmt.Errorf("failed executing UPDATE sql: %v", err)
+	}
+
+	return nil
+}
+
 func (m *BellevueActivityModel) GetAllByUser(userID int) (BellevueActivities, error) {
 	stmt := `
 	SELECT
@@ -243,4 +288,67 @@ func (m *BellevueActivityModel) GetAllByUser(userID int) (BellevueActivities, er
 	}
 
 	return bas, nil
+}
+
+func (m *BellevueActivityModel) ActivityOwnedByUserID(activityID, userID int) (bool, error) {
+	stmt := `
+	SELECT user_id
+	FROM website.bellevue_activities
+	WHERE id = $1
+	`
+
+	row := m.DB.QueryRow(stmt, activityID)
+
+	var idFromDB int
+
+	err := row.Scan(&idFromDB)
+	if err != nil {
+		return false, fmt.Errorf("failed fetching row; activityID=%d, userID=%d: %v", activityID, userID, err)
+	}
+
+	return idFromDB != userID, nil
+}
+
+func (m *BellevueActivityModel) GetByID(activityID int) (*BellevueActivity, error) {
+	stmt := `
+	SELECT
+		id,
+		user_id,
+		activity_date,
+		breakfast_count,
+		lunch_count,
+		dinner_count,
+		coffee_count,
+		sauna_count,
+		lecture_count,
+		snacks_chf,
+		total_price,
+		comment
+	FROM website.bellevue_activities
+	WHERE id = $1
+	`
+
+	row := m.DB.QueryRow(stmt, activityID)
+
+	var act BellevueActivity
+
+	err := row.Scan(
+		&act.ID,
+		&act.UserID,
+		&act.Date,
+		&act.Breakfasts,
+		&act.Lunches,
+		&act.Dinners,
+		&act.Coffees,
+		&act.Saunas,
+		&act.Lectures,
+		&act.SnacksCHF,
+		&act.TotalPrice,
+		&act.Comment,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("failed fetching row; activityID=%d: %v", activityID, err)
+	}
+
+	return &act, nil
 }
