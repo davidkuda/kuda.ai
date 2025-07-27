@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
 	"log"
@@ -123,14 +124,18 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, status in
 		return
 	}
 
-	// TODO: what if ts.ExecuteTemplate fails? shouldn't we return a 5xx?
+	buf := bytes.Buffer{}
+
+	err := ts.ExecuteTemplate(&buf, "base", data)
+	if err != nil {
+		errMsg := fmt.Errorf("error executing template %s: %s", page, err.Error())
+		app.serverError(w, r, errMsg)
+		return
+	}
+
 	w.WriteHeader(status)
 
-	err := ts.ExecuteTemplate(w, "base", data)
-	if err != nil {
-		errMsg := fmt.Errorf("error executing templates: %s", err.Error())
-		app.serverError(w, r, errMsg)
-	}
+	buf.WriteTo(w)
 }
 
 func newTemplateCache() (map[string]*template.Template, error) {
