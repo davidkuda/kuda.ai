@@ -1,6 +1,12 @@
 {{ define "title" }}Admin: New TIL{{ end }} {{ define "main" }}
 <form action="/bellevue-activities" method="post">
   <h2>Bellevue Activity</h2>
+ {{with .Form.FieldErrors.negatives}}
+    <label class="error">{{.}}</label>
+  {{end}}
+ {{with .Form.FieldErrors.zeroes}}
+  <label class="error">{{.}}</label>
+  {{end}}
   <label
     >Date:
     <input

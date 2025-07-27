@@ -16,6 +16,7 @@ func (app *application) adminNewBellevueActivity(w http.ResponseWriter, r *http.
 	t := app.newTemplateData(r)
 	t.Title = "New Bellevue Activity"
 	t.BellevueOfferings = models.NewBellevueOfferings()
+	t.Form = bellevueActivityForm{}
 	app.render(w, r, http.StatusOK, "admin.new_bellevue_activity.tmpl.html", &t)
 }
 
@@ -29,11 +30,6 @@ func (app *application) bellevueActivities(w http.ResponseWriter, r *http.Reques
 	t.BellevueActivityOverview.BellevueActivities = bas
 	t.BellevueActivityOverview.CalculateTotalPrice()
 	app.render(w, r, http.StatusOK, "bellevue_activities.tmpl.html", &t)
-}
-
-type bellevueActivityForm struct {
-	BellevueActivity *models.BellevueActivity
-	FieldErrors      map[string]string
 }
 
 // POST /admin/new-bellevue-activity
@@ -104,44 +100,134 @@ func (app *application) bellevueActivityPost(w http.ResponseWriter, r *http.Requ
 	}
 
 	form := bellevueActivityForm{
-		BellevueActivity: &models.BellevueActivity{
-			Date:       date,
-			Breakfasts: breakfasts,
-			Lunches:    lunches,
-			Dinners:    dinners,
-			Coffees:    coffees,
-			Saunas:     saunas,
-			Lectures:   lectures,
-			SnacksCHF:  snacksCHF,
-			Comment:    f.Get("bellevue-activity-comment"),
-		},
+		Date:        date,
+		Breakfasts:  breakfasts,
+		Lunches:     lunches,
+		Dinners:     dinners,
+		Coffees:     coffees,
+		Saunas:      saunas,
+		Lectures:    lectures,
+		SnacksCHF:   snacksCHF,
+		Comment:     f.Get("bellevue-activity-comment"),
 		FieldErrors: map[string]string{},
 	}
 
-	// TODO: FieldErrors?
-	//       - [ ] if all counts are 0
-	//       - [ ] if a count is negative
+	if form.hasNegativeNumbers() {
+		form.FieldErrors["negatives"] = "you may not send negative numbers."
+	}
+	if form.hasOnlyZeroes() {
+		form.FieldErrors["zeroes"] = "you have all 0 and therefore not any activity to upload."
+	}
 	if len(form.FieldErrors) > 0 {
 		log.Println("field errors")
+		data := app.newTemplateData(r)
+		data.BellevueActivity = form.toModel()
+		data.BellevueActivity.PopulateItems()
+		data.BellevueOfferings = models.NewBellevueOfferings()
+		data.Form = form
+		app.render(w, r, http.StatusUnprocessableEntity, "admin.new_bellevue_activity.tmpl.html", &data)
 		return
 	}
+
+	b := form.toModel()
 
 	userID, ok := r.Context().Value("userID").(int)
 	if !ok {
 		log.Println("post /bellevue-activity: could not get userID from request.Context")
-		// TODO: return 503
+		app.serverError(w, r, err)
 		return
 	}
-	form.BellevueActivity.UserID = userID
+	b.UserID = userID
 
-	err = app.models.BellevueActivities.Insert(form.BellevueActivity)
+	err = app.models.BellevueActivities.Insert(b)
 	if err != nil {
 		log.Printf("app.bellevueActivities.Insert(): %v\n", err)
-		// TODO: send some notification to the UI (failed submission)
+		app.serverError(w, r, err)
 		return
 	}
 
 	// TODO: send some notification (Toast) to the UI (successfully submitted)
 	http.Redirect(w, r, "/bellevue-activities", http.StatusSeeOther)
 	return
+}
+
+type bellevueActivityForm struct {
+	ID          int
+	UserID      int
+	Date        time.Time
+	Breakfasts  int
+	Lunches     int
+	Dinners     int
+	Coffees     int
+	Saunas      int
+	Lectures    int
+	SnacksCHF   int
+	Comment     string
+	FieldErrors map[string]string
+}
+
+func (b *bellevueActivityForm) hasNegativeNumbers() bool {
+	if b.Breakfasts < 0 {
+		return true
+	}
+	if b.Lunches < 0 {
+		return true
+	}
+	if b.Dinners < 0 {
+		return true
+	}
+	if b.Coffees < 0 {
+		return true
+	}
+	if b.Saunas < 0 {
+		return true
+	}
+	if b.Lectures < 0 {
+		return true
+	}
+	if b.SnacksCHF < 0 {
+		return true
+	}
+	return false
+}
+
+func (b *bellevueActivityForm) hasOnlyZeroes() bool {
+	if b.Breakfasts > 0 {
+		return false
+	}
+	if b.Lunches > 0 {
+		return false
+	}
+	if b.Dinners > 0 {
+		return false
+	}
+	if b.Coffees > 0 {
+		return false
+	}
+	if b.Saunas > 0 {
+		return false
+	}
+	if b.Lectures > 0 {
+		return false
+	}
+	if b.SnacksCHF > 0 {
+		return false
+	}
+	return true
+}
+
+func (b *bellevueActivityForm) toModel() *models.BellevueActivity {
+	return &models.BellevueActivity{
+		ID:         b.ID,
+		UserID:     b.UserID,
+		Date:       b.Date,
+		Breakfasts: b.Breakfasts,
+		Lunches:    b.Lunches,
+		Dinners:    b.Dinners,
+		Coffees:    b.Coffees,
+		Saunas:     b.Saunas,
+		SnacksCHF:  b.SnacksCHF,
+		Lectures:   b.Lectures,
+		Comment:    b.Comment,
+	}
 }
