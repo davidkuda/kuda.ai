@@ -281,17 +281,10 @@ func (app *application) bellevueActivityDelete(w http.ResponseWriter, r *http.Re
 	}
 
 	err = app.models.BellevueActivities.Delete(activityID)
-
-	t := app.newTemplateData(r)
-	bas, err := app.models.BellevueActivities.GetAllByUser(t.UserID)
 	if err != nil {
-		err = fmt.Errorf("DELETE /bellevue-activity/%d: failed reading bellevue activities: %v", activityID, err)
-		app.serverError(w, r, err)
-		return
+		app.serverError(w, r, fmt.Errorf("failed BellevueActivities.Delete(actiityID=%d): %v", activityID, err))
 	}
-	t.BellevueActivityOverview.BellevueActivities = bas
-	t.BellevueActivityOverview.CalculateTotalPrice()
-	app.renderHTMXPartial(w, r, http.StatusOK, "bellevue_activities.tmpl.html", &t)
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func (app *application) newTemplateDataBellevueActivity(r *http.Request, form bellevueActivityForm) templateData {

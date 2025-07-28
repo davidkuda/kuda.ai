@@ -11,7 +11,7 @@
       <th>Activities</th>
     </tr>
     {{ range .BellevueActivityOverview.BellevueActivities }}
-    <tr>
+    <tr class="fade-out">
       <td class="no-break stack-xs">
         <span class="no-break bold block">{{ .Date | fmtDateNiceRead }}</span>
         <span class="block">{{ .TotalPrice | fmtCHF }} CHF</span>
@@ -42,10 +42,11 @@
           <span> </span>
           <button
             hx-delete="/bellevue-activities/{{.ID}}"
-            hx-target="main"
+            hx-target="closest tr"
             type="button"
             class="delete"
             hx-confirm="are you sure that you want to delete this activity?"
+            hx-swap="delete swap:400ms"
           >
             delete
           </button>

@@ -15,15 +15,24 @@ themeBtn.addEventListener("click", async () => {
 	await localStorage.setItem("theme", next);
 });
 
+// HTMX Swaps:
 // document.body.addEventListener('htmx:afterSwap', () => {
 //   window.scrollTo({ top: 0});
 // });
-document.body.addEventListener("htmx:afterSwap", () => {
+// document.body.addEventListener("htmx:afterSwap", () => {
+// 	const main = document.querySelector("main");
+// 	if (main) {
+// 		main.scrollIntoView();
+// 	}
+// });
+document.body.addEventListener("htmx:afterSwap", (e) => {
 	const main = document.querySelector("main");
-	if (main) {
+	// Only scroll when the swap target is <main>
+	if (e.detail.target === main) {
 		main.scrollIntoView();
 	}
 });
+
 
 // ------------------------------------------------------------
 // functions

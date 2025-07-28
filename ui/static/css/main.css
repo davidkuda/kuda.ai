@@ -647,7 +647,7 @@ button.delete:hover {
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-/* FOOTER */
+/* HTMX Animations */
 .fade-in.htmx-added {
 	opacity: 0;
 }
@@ -659,7 +659,7 @@ button.delete:hover {
 
 .fade-out.htmx-swapping {
 	opacity: 0;
-	transition: opacity 1s ease-out;
+	transition: opacity 400ms ease-out;
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
