@@ -14,5 +14,3 @@ package-lock.json
 node_modules/
 .prettierignore
 .prettierrc
-
-htmx.min.js
