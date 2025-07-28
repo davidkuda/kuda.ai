@@ -265,7 +265,7 @@ func (m *BellevueActivityModel) GetAllByUser(userID int) (BellevueActivities, er
 		comment
 	FROM website.bellevue_activities
 	WHERE user_id = $1
-	ORDER BY created_at DESC
+	ORDER BY activity_date DESC
 	`
 
 	rows, err := m.DB.Query(stmt, userID)
