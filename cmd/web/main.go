@@ -23,6 +23,8 @@ type application struct {
 	pages  *models.PageModel
 	blogs  *models.BlogModel
 
+	idLimits map[string]int
+
 	templateCache     map[string]*template.Template
 	templateCacheHTMX map[string]*template.Template
 	markdownHTMLCache map[string]template.HTML

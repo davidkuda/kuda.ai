@@ -325,6 +325,24 @@ func (m *BellevueActivityModel) ActivityOwnedByUserID(activityID, userID int) (b
 	return idFromDB == userID, nil
 }
 
+func (m *BellevueActivityModel) MaxID() (int, error) {
+	stmt := `
+	SELECT count(id)
+	FROM website.bellevue_activities
+	`
+
+	row := m.DB.QueryRow(stmt)
+
+	var N int
+
+	err := row.Scan(&N)
+	if err != nil {
+		return 0, err
+	}
+
+	return N, nil
+}
+
 func (m *BellevueActivityModel) GetByID(activityID int) (*BellevueActivity, error) {
 	stmt := `
 	SELECT

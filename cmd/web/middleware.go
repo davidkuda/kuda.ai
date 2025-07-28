@@ -113,7 +113,7 @@ func commonHeaders(next http.Handler) http.Handler {
 			"default-src 'self';"+
 				"img-src 'self' images.ctfassets.net;"+
 				fmt.Sprintf("script-src 'self' cdnjs.cloudflare.com cdn.jsdelivr.net %s %s;", setTheme, highlightJS)+
-				"style-src 'self' cdnjs.cloudflare.com fonts.googleapis.com "+htmx+";"+
+				fmt.Sprintf("style-src 'self' cdnjs.cloudflare.com fonts.googleapis.com %s;", htmx)+
 				"font-src fonts.gstatic.com",
 		)
 		w.Header().Set("Referrer-Policy", "origin-when-cross-origin")

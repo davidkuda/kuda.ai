@@ -62,6 +62,8 @@ func (app *application) bellevueActivityIDEdit(w http.ResponseWriter, r *http.Re
 		return
 	}
 
+	// TODO: compare maxID
+
 	userID, ok := r.Context().Value("userID").(int)
 	if !ok {
 		err = errors.New("could not get userID from request.Context")
@@ -72,6 +74,8 @@ func (app *application) bellevueActivityIDEdit(w http.ResponseWriter, r *http.Re
 	activity, err := app.models.BellevueActivities.GetByID(id)
 	if err != nil {
 		err = fmt.Errorf("failed fetching activity by ID; id=%d: %v", id, err)
+		app.serverError(w, r, err)
+		return
 	}
 
 	if activity.UserID != userID {
