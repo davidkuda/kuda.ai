@@ -144,6 +144,14 @@ func (app *application) bellevueActivityPut(w http.ResponseWriter, r *http.Reque
 	
 	form.ID = id
 
+	userID, ok := r.Context().Value("userID").(int)
+	if !ok {
+		err = errors.New("could not get userID from request.Context")
+		app.serverError(w, r, err)
+		return
+	}
+	form.UserID = userID
+
 	authorized, err := app.models.BellevueActivities.ActivityOwnedByUserID(form.ID, form.UserID)
 	if err != nil {
 		log.Printf("PUT /bellevue-activity/%d: ActivityOwnedByUserID(%d, %d) failed: %v\n", id, id, form.UserID, err)
