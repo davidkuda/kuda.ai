@@ -283,8 +283,8 @@ func (app *application) bellevueActivityDelete(w http.ResponseWriter, r *http.Re
 	err = app.models.BellevueActivities.Delete(activityID)
 	if err != nil {
 		app.serverError(w, r, fmt.Errorf("failed BellevueActivities.Delete(actiityID=%d): %v", activityID, err))
+		return
 	}
-	w.WriteHeader(http.StatusNoContent)
 }
 
 func (app *application) newTemplateDataBellevueActivity(r *http.Request, form bellevueActivityForm) templateData {
