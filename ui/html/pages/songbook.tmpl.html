@@ -1,21 +1,57 @@
 {{ define "title" }}Songbook{{ end }} {{ define "main" }}
 <h2>Songs I Like To Cover</h2>
 <p>
-  I have learned a lot by covering songs and figuring out their chords by by
-  ear. Here I publish my transcriptions.
+  I have learned a lot by covering songs and figuring out their chords by ear.
+  Here, I publish my transcriptions.
 </p>
 
 <p>
   Occasionally, I find myself with a guitar in front of a group or among other
   musicians. Then we think about songs. This list is going to help future me in
-  such situations. :)
+  these situations. :)
 </p>
-
-<ul>
-  {{ range .Songs }}
-  <li>
-    <a href="/songbook/{{ .ID }}">{{ .Artist }} | {{ .Name }}</a>
-  </li>
-  {{ end }}
-</ul>
+<div class="table-container">
+  <table>
+    <tr>
+      <th>Song</th>
+      <th>Artist</th>
+      {{ if $.IsAdmin }}
+      <th>Action</th>
+      {{ end }}
+    </tr>
+    {{ range .Songs }}
+    <tr>
+      <td>
+        <a href="/songbook/{{ .ID }}">{{ .Name }}</a>
+      </td>
+      <td>{{ .Artist }}</td>
+      {{ if $.IsAdmin }}
+      <td class="stack-xs">
+        <!-- TODO: hx-get="/songbook/{{.ID}}/edit" -->
+        <button
+          hx-get="/admin/songbook/{{.ID}}"
+          hx-target="main"
+          hx-push-url="true"
+          type="button"
+          class="edit"
+        >
+          edit
+        </button>
+        <!-- TODO: Implement DELETE -->
+        <!-- <button -->
+        <!--   hx-delete="/bellevue-activities/{{.ID}}" -->
+        <!--   hx-target="closest tr" -->
+        <!--   type="button" -->
+        <!--   class="delete" -->
+        <!--   hx-confirm="are you sure that you want to delete this activity?" -->
+        <!--   hx-swap="delete swap:400ms" -->
+        <!-- > -->
+        <!--   delete -->
+        <!-- </button> -->
+      </td>
+      {{ end }}
+    </tr>
+    {{ end }}
+  </table>
+</div>
 {{ end }}
