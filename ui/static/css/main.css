@@ -182,6 +182,10 @@ div.main-layout {
 	color: var(--rose);
 }
 
+.pine {
+	color: var(--pine);
+}
+
 .error {
 	color: var(--love);
 }
@@ -224,6 +228,10 @@ div.main-layout {
 
 .stack-exception-large {
 	--space: 3rem;
+}
+
+.stack-exception-xl {
+	--space: 4.5rem;
 }
 
 main ul > li + li {
@@ -388,6 +396,17 @@ td {
 	text-align: left;
 }
 
+td.date-price {
+	width: 21ch;
+}
+
+td small.comment {
+	max-width: 21ch;
+	white-space: normal;
+	overflow-wrap: anywhere;
+	min-width: 0;
+}
+
 table {
 	/* optional: ensures scrolling if content is large */
 	width: 100%;
@@ -397,6 +416,16 @@ table {
 	border-bottom: 1px solid var(--highlight-med);
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	padding: 1rem;
+}
+
+@media (max-width: 640px) {
+	td.date-price {
+		width: 15ch;
+	}
+
+	table {
+		width: max-content;
+	}
 }
 
 th,

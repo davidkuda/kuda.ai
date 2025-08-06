@@ -3,16 +3,17 @@
 <p class="text-center">
   <a href="/admin/new-bellevue-activity">Add new activities</a>
 </p>
-<h3 class="center">July 2025</h3>
+{{ range .BellevueActivityOverviews }}
+<h3 class="center stack-exception-xl">{{.MonthYear}}</h3>
 <div class="table-container">
   <table>
     <tr>
       <th>Date & Price</th>
       <th>Activities</th>
     </tr>
-    {{ range .BellevueActivityOverview.BellevueActivities }}
+    {{ range .BellevueActivities }}
     <tr class="fade-out">
-      <td class="no-break stack-xs">
+      <td class="date-price no-break stack-xs">
         <span class="no-break bold block">{{ .Date | fmtDateNiceRead }}</span>
         <span class="block">{{ .TotalPrice | fmtCHF }} CHF</span>
       </td>
@@ -27,7 +28,7 @@
         >
         {{ end }} {{ if ne .Comment "" }} {{ end }}
         <span class="bellevue-activity stack-exception-medium"
-          ><small>{{ .Comment }}</small></span
+          ><small class="comment">{{ .Comment }}</small></span
         >
         <div class="buttons stack-exception-small">
           <button
@@ -55,15 +56,12 @@
     </tr>
     {{ end }}
     <tr>
+      <td></td>
       <td class="stack-xs">
-        <span class="bold block rose">Total Price July 2025:</span>
-      </td>
-      <td>
-        <span class="bold block"
-          >{{ .BellevueActivityOverview.TotalPrice | fmtCHF }} CHF</span
-        >
+        <span class="bold block">Total Price {{ .MonthYear }}:</span>
+        <span class="bold block">{{ .TotalPrice | fmtCHF }} CHF</span>
       </td>
     </tr>
   </table>
 </div>
-{{ end }}
+{{ end }} {{ end }}

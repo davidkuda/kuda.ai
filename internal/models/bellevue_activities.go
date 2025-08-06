@@ -13,11 +13,63 @@ type BellevueActivityModel struct {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 // - - - Template Models - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 
+// used to render tables with activities
+type BellevueActivityOverviews []BellevueActivityOverview
+
+func (m *BellevueActivityModel) NewBellevueActivityOverviews(userID int) (BellevueActivityOverviews, error) {
+
+	BAs, err := m.GetAllByUser(userID)
+	if err != nil {
+		return nil, fmt.Errorf("failed GetAllByUser(%d): %v", userID, err)
+	}
+
+	BAOs := make(BellevueActivityOverviews, 0)
+	var BAO BellevueActivityOverview // buffer
+	var monthYear, trackMonthYear string
+	var BA BellevueActivity
+
+	// commit first
+	BA = BAs[0]
+	monthYear = BA.Date.Format("January 2006")
+	trackMonthYear = monthYear
+	BAO.BellevueActivities = append(BAO.BellevueActivities, BA)
+
+	for i := 1; i < len(BAs); i++ {
+		BA = BAs[i]
+
+		monthYear = BA.Date.Format("January 2006")
+
+		// same month: add BA to buffer:
+		if monthYear == trackMonthYear {
+			BAO.BellevueActivities = append(BAO.BellevueActivities, BA)
+		}
+
+		// new month: commit buffer, reset buffer, add BA to buffer:
+		if monthYear != trackMonthYear {
+			// commit
+			BAO.CalculateTotalPrice()
+			BAO.MonthYear = trackMonthYear
+			BAOs = append(BAOs, BAO)
+
+			// reset
+			BAO = BellevueActivityOverview{}
+			trackMonthYear = monthYear
+
+			// add
+			BAO.BellevueActivities = append(BAO.BellevueActivities, BA)
+		}
+	}
+	// commit last:
+	BAO.CalculateTotalPrice()
+	BAO.MonthYear = trackMonthYear
+	BAOs = append(BAOs, BAO)
+
+	return BAOs, nil
+}
+
 type BellevueActivityOverview struct {
 	BellevueActivities []BellevueActivity
 	TotalPrice         int
-	Month              int
-	Year               int
 	MonthYear          string
 }
 

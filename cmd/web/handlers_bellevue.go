@@ -29,6 +29,15 @@ func (app *application) adminNewBellevueActivity(w http.ResponseWriter, r *http.
 // GET /bellevue-activities
 func (app *application) bellevueActivities(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
+
+	BAOs, err := app.models.BellevueActivities.NewBellevueActivityOverviews(t.UserID)
+	if err != nil {
+		app.serverError(w, r, err)
+		return
+	}
+
+	t.BellevueActivityOverviews = BAOs
+
 	bas, err := app.models.BellevueActivities.GetAllByUser(t.UserID)
 	if err != nil {
 		log.Println(fmt.Errorf("failed reading bellevue activities: %v", err))

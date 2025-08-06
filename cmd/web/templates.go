@@ -14,33 +14,34 @@ import (
 )
 
 type templateData struct {
-	LoggedIn                 bool
-	UserID                   int
-	UserEmail                string
-	IsAdmin                  bool
-	Title                    string
-	NavItems                 []NavItem
-	Path                     string
-	RootPath                 string
-	HTML                     template.HTML
-	Songs                    models.Songs
-	Song                     *models.Song
-	TILs                     models.TILs
-	TIL                      *models.TIL
-	Pages                    models.Pages
-	Page                     *models.Page
-	Blogs                    models.Blogs
-	Blog                     *models.Blog
-	BellevueActivityOverview models.BellevueActivityOverview
-	BellevueActivity         *models.BellevueActivity
-	BellevueOfferings        models.BellevueOfferings
-	Form                     any
-	Edit                     bool // used in form templates to show render a different form
-	ShowUpdatedAt            bool
-	HideNav                  bool
-	Sidebars                 bool
-	HighlightJS              bool
-	Error                    Error
+	LoggedIn                  bool
+	UserID                    int
+	UserEmail                 string
+	IsAdmin                   bool
+	Title                     string
+	NavItems                  []NavItem
+	Path                      string
+	RootPath                  string
+	HTML                      template.HTML
+	Songs                     models.Songs
+	Song                      *models.Song
+	TILs                      models.TILs
+	TIL                       *models.TIL
+	Pages                     models.Pages
+	Page                      *models.Page
+	Blogs                     models.Blogs
+	Blog                      *models.Blog
+	BellevueActivityOverviews models.BellevueActivityOverviews
+	BellevueActivityOverview  models.BellevueActivityOverview
+	BellevueActivity          *models.BellevueActivity
+	BellevueOfferings         models.BellevueOfferings
+	Form                      any
+	Edit                      bool // used in form templates to show render a different form
+	ShowUpdatedAt             bool
+	HideNav                   bool
+	Sidebars                  bool
+	HighlightJS               bool
+	Error                     Error
 }
 
 type Error struct {
