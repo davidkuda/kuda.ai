@@ -31,9 +31,8 @@
       </textarea>
     </label>
   </fieldset>
-  <button
-    class="stack-exception-large"
-    type="submit"
-  >{{if eq .Page.Version 0}}Create{{else}}Update{{end}}</button>
+  <button class="stack-exception-large" type="submit">
+    {{if eq .Page.Version 0}}Create{{else}}Update{{end}}
+  </button>
 </form>
 {{ end }}
