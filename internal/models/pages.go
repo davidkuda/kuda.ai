@@ -49,7 +49,7 @@ func (m *PageModel) Insert(page *Page) error {
 
 	stmt := `
 	INSERT INTO website.pages (name, version, content)
-	VALUES ($1, $2, $3, $4);
+	VALUES ($1, $2, $3);
 	`
 
 	_, err = m.DB.Exec(
