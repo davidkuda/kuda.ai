@@ -20,7 +20,7 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("GET /", app.home)
 
 	// simple pages:
-	mux.HandleFunc("GET /now", app.nowFromDB)
+	mux.HandleFunc("GET /now", app.now)
 	mux.HandleFunc("GET /about", app.about)
 	mux.HandleFunc("GET /bookshelf", app.bookshelf)
 	// protected:

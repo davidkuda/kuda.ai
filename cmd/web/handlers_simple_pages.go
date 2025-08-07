@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"regexp"
@@ -9,39 +10,52 @@ import (
 	"github.com/davidkuda/kudaai/internal/models"
 )
 
+// GET /
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Started-Working-On", "April-2024")
 	t := app.newTemplateData(r)
-	t.HTML = app.markdownHTMLCache["home.md"]
-	app.render(w, r, 200, "home.tmpl.html", &t)
-}
-
-func (app *application) now(w http.ResponseWriter, r *http.Request) {
-	t := app.newTemplateData(r)
-	t.HTML = app.markdownHTMLCache["now.md"]
-	app.render(w, r, 200, "simplePage.tmpl.html", &t)
-}
-
-// TODO: ponder, use this or not?
-func (app *application) nowFromDB(w http.ResponseWriter, r *http.Request) {
-	t := app.newTemplateData(r)
-	page, err := app.pages.GetByPath("now")
+	page, err := app.models.Pages.Get("home")
 	if err != nil {
-		log.Println("could not get now page from DB: ", err)
+		app.serverError(w, r, fmt.Errorf("app.models.pages.Get(\"home\"): %v", err))
+		return
 	}
 	t.HTML = page.HTMLContent
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
 
-func (app *application) about(w http.ResponseWriter, r *http.Request) {
+// GET /now
+func (app *application) now(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
-	t.HTML = app.markdownHTMLCache["about.md"]
+	page, err := app.models.Pages.Get("now")
+	if err != nil {
+		app.serverError(w, r, fmt.Errorf("app.models.pages.Get(\"now\"): %v", err))
+		return
+	}
+	t.HTML = page.HTMLContent
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
 
+// GET /about
+func (app *application) about(w http.ResponseWriter, r *http.Request) {
+	t := app.newTemplateData(r)
+	page, err := app.models.Pages.Get("about")
+	if err != nil {
+		app.serverError(w, r, fmt.Errorf("app.models.pages.Get(\"about\"): %v", err))
+		return
+	}
+	t.HTML = page.HTMLContent
+	app.render(w, r, 200, "simplePage.tmpl.html", &t)
+}
+
+// GET /bookshelf
 func (app *application) bookshelf(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
-	t.HTML = app.markdownHTMLCache["bookshelf.md"]
+	page, err := app.models.Pages.Get("bookshelf")
+	if err != nil {
+		app.serverError(w, r, fmt.Errorf("app.models.pages.Get(\"bookshelf\"): %v", err))
+		return
+	}
+	t.HTML = page.HTMLContent
 	app.render(w, r, 200, "simplePage.tmpl.html", &t)
 }
 
@@ -50,20 +64,22 @@ type pageForm struct {
 	FieldErrors map[string]string
 }
 
+// GET /admin/new-page
 func (app *application) adminNewPage(w http.ResponseWriter, r *http.Request) {
 	t := app.newTemplateData(r)
 	t.Form = pageForm{Page: t.Page}
 	app.render(w, r, http.StatusOK, "admin.new_page.tmpl.html", &t)
 }
 
+// GET /admin/pages/:page
 func (app *application) adminPagesPage(w http.ResponseWriter, r *http.Request) {
 	var err error
 
-	path := r.PathValue("page")
+	name := r.PathValue("page")
 
-	page, err := app.pages.GetByPath(path)
+	page, err := app.models.Pages.Get(name)
 	if err != nil {
-		log.Printf("app.pages.GetByPath(%v): %v", path, err)
+		log.Printf("app.pages.GetByPath(%v): %v", name, err)
 		http.NotFound(w, r)
 		return
 	}
@@ -74,6 +90,7 @@ func (app *application) adminPagesPage(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, http.StatusOK, "admin.new_page.tmpl.html", &t)
 }
 
+// POST /admin/pages
 func (app *application) pagesPost(w http.ResponseWriter, r *http.Request) {
 	var err error
 
@@ -87,7 +104,7 @@ func (app *application) pagesPost(w http.ResponseWriter, r *http.Request) {
 
 	form := pageForm{
 		Page: &models.Page{
-			Path:    f.Get("page-path"),
+			Name:    f.Get("page-path"),
 			Title:   f.Get("page-title"),
 			Content: strings.ReplaceAll(f.Get("page-content"), "\r\n", "\n"),
 		},
@@ -96,8 +113,8 @@ func (app *application) pagesPost(w http.ResponseWriter, r *http.Request) {
 
 	// TODO: This is used several times. make a function.
 	var rxPat = regexp.MustCompile(`[^a-z\-]`)
-	if rxPat.MatchString(form.Page.Path) {
-		form.FieldErrors["pathfmt"] = "path may only contain lowercase characters and hyphens"
+	if rxPat.MatchString(form.Page.Name) {
+		form.FieldErrors["pathfmt"] = "path/name may only contain lowercase characters and hyphens"
 	}
 
 	if len(form.FieldErrors) > 0 {
@@ -108,12 +125,12 @@ func (app *application) pagesPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = app.pages.Insert(form.Page)
+	err = app.models.Pages.Insert(form.Page)
 	if err != nil {
 		log.Printf("app.pages.Insert(form.Page): %v\n", err)
 		return
 	}
-	http.Redirect(w, r, "/"+form.Page.Path, http.StatusSeeOther)
+	http.Redirect(w, r, "/admin", http.StatusSeeOther)
 	return
 
 }

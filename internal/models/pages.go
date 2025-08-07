@@ -12,7 +12,8 @@ import (
 type Pages []*Page
 
 type Page struct {
-	Path        string
+	ID          int
+	Name        string
 	Version     int
 	Title       string
 	Content     string // Markdown
@@ -33,24 +34,28 @@ func (m *PageModel) Insert(page *Page) error {
 	vstmt := `
 	SELECT COALESCE(MAX(version), 0)
 	FROM website.pages
-	WHERE path = $1
+	WHERE name = $1
 	`
 
-	row := m.DB.QueryRow(vstmt, page.Path)
+	row := m.DB.QueryRow(vstmt, page.Name)
 	err = row.Scan(&version)
 	if err != nil {
-		return fmt.Errorf("row.Scan(&page.Version): %v", err)
+		if err == sql.ErrNoRows {
+			// continue
+		} else {
+			return fmt.Errorf("row.Scan(&page.Version): %v", err)
+		}
 	}
 	page.Version = version + 1
 
 	stmt := `
-	INSERT INTO website.pages (path, version, title, content)
+	INSERT INTO website.pages (name, version, title, content)
 	VALUES ($1, $2, $3, $4);
 	`
 
 	_, err = m.DB.Exec(
 		stmt,
-		page.Path,
+		page.Name,
 		page.Version,
 		page.Title,
 		page.Content,
@@ -63,23 +68,24 @@ func (m *PageModel) Insert(page *Page) error {
 	return nil
 }
 
-func (m *PageModel) GetByPath(path string) (*Page, error) {
+func (m *PageModel) Get(name string) (*Page, error) {
 	var err error
 
 	stmt := `
-	SELECT path, version, title, content, created_at
+	SELECT id, name, version, title, content, created_at
 	FROM website.pages
-	WHERE path = $1
+	WHERE name = $1
 	ORDER BY version DESC
 	LIMIT 1;
 	`
 
-	row := m.DB.QueryRow(stmt, path)
+	row := m.DB.QueryRow(stmt, name)
 
 	page := Page{}
 
 	err = row.Scan(
-		&page.Path,
+		&page.ID,
+		&page.Name,
 		&page.Version,
 		&page.Title,
 		&page.Content,

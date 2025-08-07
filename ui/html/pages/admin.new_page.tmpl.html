@@ -7,11 +7,11 @@
 <form action="/pages" method="post">
   <fieldset>
     <label
-      >Path:
+      >Name:
       <input
         type="text"
         name="page-path"
-        value="{{.Page.Path}}"
+        value="{{.Page.Name}}"
         required
         {{if
         .Form.FieldErrors.pathfmt

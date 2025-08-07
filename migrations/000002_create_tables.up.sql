@@ -99,14 +99,13 @@ CREATE TABLE website.til_tags (
 -- Pages
 
 CREATE TABLE website.pages (
-	path       TEXT NOT NULL,
+	id         SERIAL primary key,
+	name       TEXT NOT NULL,
 	version    INT  NOT NULL,
 	title      TEXT,
 	content    TEXT NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (path, version)
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -130,6 +129,7 @@ TO app;
 
 GRANT USAGE, SELECT ON SEQUENCE website.til_id_seq TO app;
 GRANT USAGE, SELECT ON SEQUENCE website.blogs_id_seq TO app;
+GRANT USAGE, SELECT ON SEQUENCE website.pages_id_seq TO app;
 
 GRANT USAGE, SELECT ON SEQUENCE auth.users_id_seq TO app;
 

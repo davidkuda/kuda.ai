@@ -20,7 +20,6 @@ type application struct {
 	songs  *models.SongModel
 	users  *models.UserModel
 	til    *models.TILModel
-	pages  *models.PageModel
 	blogs  *models.BlogModel
 
 	idLimits map[string]int
@@ -80,7 +79,6 @@ func main() {
 	app.songs = &models.SongModel{DB: db}
 	app.users = &models.UserModel{DB: db}
 	app.til = &models.TILModel{DB: db}
-	app.pages = &models.PageModel{DB: db}
 	app.blogs = &models.BlogModel{DB: db}
 
 	templateCache, err := newTemplateCache()
