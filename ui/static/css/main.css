@@ -77,6 +77,7 @@ h3 {
 
 code {
 	background-color: var(--highlight-high);
+	font-family: "JetBrains Mono", monospace;
 }
 
 p > code {
