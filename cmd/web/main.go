@@ -26,7 +26,6 @@ type application struct {
 
 	templateCache     map[string]*template.Template
 	templateCacheHTMX map[string]*template.Template
-	markdownHTMLCache map[string]template.HTML
 
 	JWT struct {
 		Secret       []byte
@@ -91,12 +90,6 @@ func main() {
 		log.Fatalf("could not initialise templateCache: %v\n", err)
 	}
 	app.templateCacheHTMX = templateCacheHTMX
-
-	markdownHTMLCache, err := newMarkdownHTMLCache()
-	if err != nil {
-		log.Fatalf("could not initialise markdownHTMLCache: %v\n", err)
-	}
-	app.markdownHTMLCache = markdownHTMLCache
 
 	log.Print("Starting web server, listening on port 8873")
 	err = http.ListenAndServe(*addr, app.routes())

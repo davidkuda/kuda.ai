@@ -3,14 +3,11 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 
-	"github.com/russross/blackfriday/v2"
 )
 
 func (app *application) renderClientError(w http.ResponseWriter, r *http.Request, errorCode int) {
@@ -65,32 +62,6 @@ func getRootPath(path string) string {
 		}
 	}
 	return path[0:i]
-}
-
-func newMarkdownHTMLCache() (map[string]template.HTML, error) {
-	pages := make(map[string]template.HTML)
-
-	files := []string{
-		"home.md",
-		"now.md",
-		"about.md",
-		"blog.md",
-		"bookshelf.md",
-	}
-
-	for _, file := range files {
-		md, err := os.ReadFile("./data/pages/" + file)
-		if err != nil {
-			return nil, fmt.Errorf("could not read file: %v", err)
-		}
-
-		htmlBytes := blackfriday.Run(md)
-		content := template.HTML(htmlBytes)
-
-		pages[file] = content
-	}
-
-	return pages, nil
 }
 
 func isSameDay(a, b time.Time) bool {
