@@ -102,7 +102,6 @@ CREATE TABLE website.pages (
 	id         SERIAL primary key,
 	name       TEXT NOT NULL,
 	version    INT  NOT NULL,
-	title      TEXT,
 	content    TEXT NOT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

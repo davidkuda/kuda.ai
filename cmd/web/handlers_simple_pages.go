@@ -105,7 +105,6 @@ func (app *application) pagesPost(w http.ResponseWriter, r *http.Request) {
 	form := pageForm{
 		Page: &models.Page{
 			Name:    f.Get("page-path"),
-			Title:   f.Get("page-title"),
 			Content: strings.ReplaceAll(f.Get("page-content"), "\r\n", "\n"),
 		},
 		FieldErrors: map[string]string{},

@@ -24,11 +24,6 @@
       <small id="invalid-page-path">{{ . }}</small>
       {{ end }}
     </label>
-
-    <label
-      >Title:
-      <input type="text" name="page-title" value="{{.Page.Title}}" required />
-    </label>
     <label
       >Content (Markdown):
       <textarea name="page-content" rows="12" required>
@@ -36,17 +31,9 @@
       </textarea>
     </label>
   </fieldset>
-  <input
+  <button
+    class="stack-exception-large"
     type="submit"
-    value="{{if eq .Page.Version 0}}Create{{else}}Update{{end}}"
-  />
+  >{{if eq .Page.Version 0}}Create{{else}}Update{{end}}</button>
 </form>
-<script>
-  window.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll("textarea").forEach((textarea) => {
-      textarea.style.height = "auto";
-      textarea.style.height = textarea.scrollHeight + "px";
-    });
-  });
-</script>
 {{ end }}

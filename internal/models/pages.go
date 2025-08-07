@@ -15,7 +15,6 @@ type Page struct {
 	ID          int
 	Name        string
 	Version     int
-	Title       string
 	Content     string // Markdown
 	HTMLContent template.HTML
 	CreatedAt   time.Time
@@ -49,7 +48,7 @@ func (m *PageModel) Insert(page *Page) error {
 	page.Version = version + 1
 
 	stmt := `
-	INSERT INTO website.pages (name, version, title, content)
+	INSERT INTO website.pages (name, version, content)
 	VALUES ($1, $2, $3, $4);
 	`
 
@@ -57,7 +56,6 @@ func (m *PageModel) Insert(page *Page) error {
 		stmt,
 		page.Name,
 		page.Version,
-		page.Title,
 		page.Content,
 	)
 
@@ -72,7 +70,7 @@ func (m *PageModel) Get(name string) (*Page, error) {
 	var err error
 
 	stmt := `
-	SELECT id, name, version, title, content, created_at
+	SELECT id, name, version, content, created_at
 	FROM website.pages
 	WHERE name = $1
 	ORDER BY version DESC
@@ -87,7 +85,6 @@ func (m *PageModel) Get(name string) (*Page, error) {
 		&page.ID,
 		&page.Name,
 		&page.Version,
-		&page.Title,
 		&page.Content,
 		&page.CreatedAt,
 	)
