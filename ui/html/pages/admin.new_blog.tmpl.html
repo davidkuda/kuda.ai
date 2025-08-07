@@ -114,12 +114,4 @@
     value="{{if eq .Blog.ID 0}}Create{{else}}Update{{end}}"
   />
 </form>
-<script>
-  window.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll("textarea").forEach((textarea) => {
-      textarea.style.height = "auto";
-      textarea.style.height = textarea.scrollHeight + "px";
-    });
-  });
-</script>
 {{ end }}

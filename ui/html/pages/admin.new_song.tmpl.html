@@ -56,12 +56,4 @@
     {{if .Form.Song.ID}}Update{{else}}Create{{end}}
   </button>
 </form>
-<script>
-  window.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll("textarea").forEach((textarea) => {
-      textarea.style.height = "auto";
-      textarea.style.height = textarea.scrollHeight + "px";
-    });
-  });
-</script>
 {{ end }}
