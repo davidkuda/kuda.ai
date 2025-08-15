@@ -32,7 +32,7 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		log.Printf("Failed parsing form: %v", err)
-		http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		w.Write([]byte("Login failed, incorrect credentials. Please try again."))
 		return
 	}
 	form := userLoginForm{
@@ -58,7 +58,7 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 	jwtBytes, err := claims.HMACSign(jwt.HS256, []byte(app.JWT.Secret))
 	if err != nil {
 		log.Printf("error signing jwt: %v\n", err)
-		http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		w.Write([]byte("Login failed, incorrect credentials. Please try again."))
 		return
 	}
 
@@ -73,7 +73,9 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 		SameSite: http.SameSiteStrictMode,
 	})
 
-	http.Redirect(w, r, "/admin", http.StatusSeeOther)
+	w.Header().Set("HX-Redirect", "/admin")
+	w.WriteHeader(http.StatusOK)
+
 }
 
 func (app *application) adminLogoutPost(w http.ResponseWriter, r *http.Request) {
