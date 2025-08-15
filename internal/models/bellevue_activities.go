@@ -23,6 +23,10 @@ func (m *BellevueActivityModel) NewBellevueActivityOverviews(userID int) (Bellev
 		return nil, fmt.Errorf("failed GetAllByUser(%d): %v", userID, err)
 	}
 
+	if len(BAs) == 0 {
+		return BellevueActivityOverviews{}, nil
+	}
+
 	BAOs := make(BellevueActivityOverviews, 0)
 	var BAO BellevueActivityOverview // buffer
 	var monthYear, trackMonthYear string
