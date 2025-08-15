@@ -43,7 +43,7 @@ func (app *application) adminLoginPost(w http.ResponseWriter, r *http.Request) {
 	err = app.users.Authenticate(form.email, form.password)
 	if err != nil {
 		log.Printf("error authenticating user with username %s and password %s: %v\n", form.email, form.password, err)
-		http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		w.Write([]byte("Login failed, incorrect credentials. Please try again."))
 		return
 	}
 
