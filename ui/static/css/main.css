@@ -623,12 +623,14 @@ fieldset.number-picker button {
 .number-picker button.minus {
 	border-radius: 0.5rem 0 0 0.5rem;
 	color: var(--text);
+	touch-action: manipulation;
 }
 
 /* Rounded right corners */
 .number-picker button.plus {
 	border-radius: 0 0.5rem 0.5rem 0;
 	color: var(--text);
+	touch-action: manipulation;
 }
 
 /* remove browser input up arrow and down arrow */
