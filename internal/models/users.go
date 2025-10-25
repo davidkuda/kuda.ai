@@ -37,6 +37,25 @@ func (m *UserModel) Insert(email, password string) error {
 	return nil
 }
 
+// Creates a new user in the database
+func (m *UserModel) UpdatePassword(email, password string) error {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), 15)
+	if err != nil {
+		return err
+	}
+
+	stmt := `UPDATE auth.users SET hashed_password = $1 WHERE email = $2;`
+
+	result, err := m.DB.Exec(stmt, email, string(hashedPassword))
+	if err != nil {
+		return err
+	}
+	result.RowsAffected()
+
+	return nil
+}
+
+
 func (m *UserModel) Authenticate(email, password string) error {
 	var hashedPassword []byte
 
