@@ -46,11 +46,17 @@ func (m *UserModel) UpdatePassword(email, password string) error {
 
 	stmt := `UPDATE auth.users SET hashed_password = $1 WHERE email = $2;`
 
-	result, err := m.DB.Exec(stmt, email, string(hashedPassword))
+	result, err := m.DB.Exec(stmt, string(hashedPassword), email)
 	if err != nil {
 		return err
 	}
-	result.RowsAffected()
+	r, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if r != 1 {
+		return fmt.Errorf("rows affected: %d", r)
+	}
 
 	return nil
 }
