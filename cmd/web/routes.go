@@ -17,7 +17,7 @@ func (app *application) routes() http.Handler {
 	usersOnly := alice.New(app.requireAuthentication)
 	adminsOnly := alice.New(app.requireAuthentication, app.requireAdmin)
 
-	mux.HandleFunc("GET /", app.home)
+	mux.HandleFunc("GET /{$}", app.home)
 
 	// simple pages:
 	mux.HandleFunc("GET /now", app.now)
@@ -37,6 +37,8 @@ func (app *application) routes() http.Handler {
 	mux.Handle("GET /admin/blog/{path}", adminsOnly.ThenFunc(app.adminBlogPath))
 
 	// til:
+	mux.HandleFunc("GET /til", app.todayILearned)
+	mux.HandleFunc("GET /til/{path}", app.todayILearnedPath)
 	mux.HandleFunc("GET /today-i-learned", app.todayILearned)
 	mux.HandleFunc("GET /today-i-learned/{path}", app.todayILearnedPath)
 	// protected:
