@@ -41,7 +41,7 @@ type NavItem struct {
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	addr := flag.String("addr", ":8873", "HTTP network address")
+	addr := flag.String("addr", "localhost:8873", "HTTP network address")
 	// TODO: cookieDomain should be defined in envcfg or envcfg should be dropped. Can't decide now and want to keep focusing on other tasks (:
 	cookieDomain := flag.String("cookie-domain", os.Getenv("COOKIE_DOMAIN"), "localhost or kuda.ai")
 	if *cookieDomain == "" {
